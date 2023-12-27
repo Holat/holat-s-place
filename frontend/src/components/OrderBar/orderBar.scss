@@ -1,0 +1,169 @@
+.orderCont {
+    // min-width: 232px; 328
+    width: 396px;
+    height: 100vh;
+    background-color: #f0f0f0;
+    position: fixed;
+    right: 0;
+    padding: 18px;
+    padding-left: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: scroll;
+    z-index: 999;
+    // display: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    .details {
+        margin-top: 20px;
+        position: sticky;
+    }
+
+    .orderItems {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-top: 24px;
+        flex: 1;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .itemContainer {
+            background-color: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 20px;
+
+            .imageCont {
+                width: 72px;
+                height: 72px;
+                border-radius: 12px;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .select {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                justify-content: space-between;
+                gap: 5px;
+
+                .price {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+
+                    div {
+                        text-wrap: nowrap;
+                        text-overflow: clip;
+                        text-overflow: ellipsis ellipsis;
+                        text-overflow: ellipsis " [..]";
+                    }
+
+                    span {
+                        font-weight: 900;
+                    }
+
+                }
+
+                .select-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    select {
+                        border-radius: 5px;
+                        border: 1px solid #ffe9d9;
+                        border: 1px solid #FA6400;
+                        background-color: #f5f5f5;
+                        font-weight: 500;
+                        padding-inline: 8px;
+                        height: 32px;
+
+                    }
+
+                    button {
+                        border: none;
+                        height: 20px;
+                        width: 20px;
+                        background: transparent;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    .btnCont {
+        position: sticky;
+        bottom: 0;
+        border-top: 2px solid rgb(198, 198, 198);
+        padding-top: 20px;
+
+
+        .total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+
+            p {
+                font-weight: 600;
+                opacity: 0.5;
+            }
+
+            span {
+                font-weight: 900;
+                font-size: 20px;
+            }
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            background-color: #FA6400;
+            opacity: .85;
+            border-radius: 5px;
+            padding: 12px 16px;
+            color: white;
+            font-weight: 600;
+            transition: opacity 0.5s ease;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+}
+
+.isClosed {
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(100%);
+}
