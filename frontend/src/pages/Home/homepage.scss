@@ -1,0 +1,20 @@
+.homeContainer {
+    padding: 18px;
+    padding-left: 84px;
+    margin-right: 396px;
+    display: flex;
+    flex-direction: column;
+
+    .foodItems {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-block: 16px;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
