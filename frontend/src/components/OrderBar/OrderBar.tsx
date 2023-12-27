@@ -4,8 +4,10 @@ import Price from "../Price/Price";
 import { useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart";
 import { NotFound } from "..";
+import useAuth from "../../hooks/useAuth";
 
 export default function OrderBar({ isOpen }: { isOpen: boolean }) {
+  const { user } = useAuth();
   const { cart, removeFromCart, changeQuantity } = useCart();
   const { items: orderItems } = cart;
 
@@ -15,13 +17,17 @@ export default function OrderBar({ isOpen }: { isOpen: boolean }) {
     <div className={`orderCont ${isOpen ? "" : "isClosed"}`}>
       <Title title="Cart Items" fontSize="24px" fontWeight={600} />
       <div className="details">
-        <Title
-          title="Delivery Address"
-          fontSize={"12px"}
-          fontWeight={500}
-          opacity={0.8}
-        />
-        <Title title="Holat Street" fontSize="24px" fontWeight={700} />
+        {user && (
+          <div>
+            <Title
+              title="Delivery Address"
+              fontSize={"12px"}
+              fontWeight={500}
+              opacity={0.8}
+            />
+            <Title title="Holat Street" fontSize="24px" fontWeight={700} />
+          </div>
+        )}
       </div>
       {orderItems.length === 0 ? (
         <NotFound title="No Food Selected Yet" showBtn={false} />

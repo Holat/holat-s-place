@@ -54,7 +54,7 @@ function HomePage() {
       <SearchBar tags={tags} />
 
       {!foodItems || foodItems.length === 0 ? (
-        <NotFound title="Food Not Found" />
+        <NotFound title="Food Not Found" showBtn />
       ) : (
         <div className="foodItems">
           {foodItems.map((item) => (

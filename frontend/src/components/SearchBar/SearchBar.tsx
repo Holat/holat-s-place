@@ -4,11 +4,13 @@ import { TagTypes } from "../../types/types";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
 
 export default function SearchBar({ tags }: { tags: TagTypes[] }) {
   const { tag: currentTag, searchTerm } = useParams();
   const [inputSearchTerm, setInputSearchTerm] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     setInputSearchTerm(searchTerm ?? "");
@@ -33,7 +35,11 @@ export default function SearchBar({ tags }: { tags: TagTypes[] }) {
           <button onClick={search}>Search</button>
         </div>
         <div className="profile">
-          <Title title="Holat" fontSize="20px" fontWeight={600} />
+          <Title
+            title={`${user ? user.name : "Hello!"}`}
+            fontSize="20px"
+            fontWeight={600}
+          />
           <div className="img">
             <img src="/icon.jpeg" alt="profile picture" />
           </div>

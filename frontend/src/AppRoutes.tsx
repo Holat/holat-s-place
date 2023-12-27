@@ -1,5 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import { HomePage, CartPage, ProfilePage, FoodDetailsPage } from "./pages";
+import {
+  HomePage,
+  CartPage,
+  ProfilePage,
+  FoodDetailsPage,
+  LoginPage,
+  RegisterPage,
+} from "./pages";
 
 const AppRoutes = () => {
   return (
@@ -11,6 +18,8 @@ const AppRoutes = () => {
       <Route path="/food/:foodId" element={<FoodDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 };

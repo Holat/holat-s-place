@@ -7,6 +7,7 @@ import Title from "./Title/Title";
 Title;
 import FoodItem from "./FoodItem/FoodItem";
 import StarRating from "./Star/Star";
+import Input from "./Input/Input";
 
 export {
   SideBar,
@@ -17,4 +18,5 @@ export {
   NotFound,
   FoodItem,
   StarRating,
+  Input,
 };

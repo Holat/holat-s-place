@@ -13,7 +13,7 @@ export default function NotFound({
     <div className="notFoundCont">
       <Title title={title} fontWeight={500} fontSize="20px" />
       <img src="/icons/notFound.svg" alt="notFound" />
-      <Link style={{ display: showBtn ? "" : "noneda" }} to={"/"}>
+      <Link style={{ display: showBtn ? "" : "none" }} to={"/"}>
         Go Back To HomePage
       </Link>
     </div>

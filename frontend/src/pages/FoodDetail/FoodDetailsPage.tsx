@@ -6,8 +6,6 @@ import { getById } from "../../services/foodService";
 import { NotFound, Price, StarRating, Title } from "../../components";
 import useCart from "../../hooks/useCart";
 
-// const EMPTY_FOOD;
-
 export default function FoodDetailsPage() {
   const { foodId } = useParams();
   const [food, setFood] = useState<FoodItemType>();
@@ -22,11 +20,11 @@ export default function FoodDetailsPage() {
   };
 
   return (
-    <div>
+    <div className="foodDetailsCont">
       {!food ? (
-        <NotFound title="Food Item not Found" />
+        <NotFound title="Food Item not Found" showBtn />
       ) : (
-        <div className="foodDetailsCont">
+        <div>
           <div className="imgCont">
             <img src={`/foods/${food.imageUrl}`} alt={food.name} />
             <div className="txt">
@@ -43,14 +41,14 @@ export default function FoodDetailsPage() {
               <p>{food.desc}</p>
             </div>
             <div className="details">
+              <div className={"tags"}>
+                {food.tags &&
+                  food.tags.map((tag) => <div key={tag}>{tag}</div>)}
+              </div>
               <div className={"origins"}>
                 {food.origins?.map((origin) => (
                   <span key={origin}>{origin}</span>
                 ))}
-              </div>
-              <div className={"tags"}>
-                {food.tags &&
-                  food.tags.map((tag) => <div key={tag}>{tag}</div>)}
               </div>
               <div className={"cook_time"}>
                 <span>
