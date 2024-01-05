@@ -1,3 +1,5 @@
+import { CartType } from "./cartTypes";
+
 export type LinkType = {
   name: string;
   linkUrl: string;
@@ -7,7 +9,7 @@ export type LinkType = {
 };
 
 export type FoodType = {
-  foods: OrderItemType[];
+  foods: FoodItemType[];
   tags: TagTypes[];
 };
 
@@ -37,19 +39,21 @@ export type FoodItemProp = {
   id: string | number;
 };
 
-export type OrderItemType = {
-  id: number | string;
-  name: string;
-  cookTime: number;
-  price: number;
-  favorite: boolean;
-  origins: string[];
-  stars: number;
-  imageUrl: string;
-  tags: string[];
-};
-
 export interface TagTypes {
   name: string;
   // count: number;
 }
+
+export type LocationType = {
+  currentAddress: string;
+  lat: number;
+  lng: number;
+};
+
+export type OrderType = {
+  name?: string;
+  address?: string;
+  lat: number;
+  lng: number;
+  status?: string;
+} & CartType;

@@ -4,13 +4,14 @@ export default function Title({
   fontWeight,
   opacity,
 }: {
-  title: string;
+  title?: string;
   fontSize?: string | "16px";
   fontWeight?: number | 600;
   opacity?: number;
 }) {
   return (
     <div
+      className="title"
       style={{
         fontWeight,
         fontSize,

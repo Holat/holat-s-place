@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import "./register.scss";
 import { Input, Title } from "../../components";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { RegisterValues } from "../../types/logTypes";
+import useAuth from "../../hooks/useAuth";
 
 export default function RegisterPage() {
   const {
@@ -11,11 +13,19 @@ export default function RegisterPage() {
     getValues,
     formState: { errors },
   } = useForm<RegisterValues>();
+  const navigate = useNavigate();
+  const auth = useAuth();
+  const { user } = useAuth();
   const [params] = useSearchParams();
   const returnUrl = params.get("returnUrl");
 
+  useEffect(() => {
+    if (!user) return;
+    returnUrl ? navigate(returnUrl) : navigate("/");
+  }, [navigate, returnUrl, user]);
+
   const submit = async (data: RegisterValues) => {
-    console.log("");
+    auth.register(data);
   };
 
   return (

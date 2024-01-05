@@ -62,10 +62,12 @@
             position: absolute;
             right: 16px;
             bottom: 28px;
-            width: 16px;
-            height: 16px;
+            min-width: 16px;
+            min-height: 16px;
+            max-width: 24px;
+            max-height: 24px;
             aspect-ratio: 1;
-            padding: 2px;
+            padding: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
