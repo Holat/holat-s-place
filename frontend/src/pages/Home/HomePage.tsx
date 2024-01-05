@@ -50,7 +50,7 @@ function HomePage() {
   }, [tag, searchTerm]);
 
   return (
-    <div className="homeContainer">
+    <div className="homeCont">
       <SearchBar tags={tags} />
 
       {!foodItems || foodItems.length === 0 ? (
@@ -58,15 +58,7 @@ function HomePage() {
       ) : (
         <div className="foodItems">
           {foodItems.map((item) => (
-            <FoodItem
-              key={item.id}
-              favorite={item.favorite}
-              name={item.name}
-              stars={item.stars}
-              price={item.price}
-              imageUrl={`/foods/${item.imageUrl}`}
-              id={item.id}
-            />
+            <FoodItem key={item.id} food={item} />
           ))}
         </div>
       )}

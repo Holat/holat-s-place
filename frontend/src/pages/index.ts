@@ -4,6 +4,8 @@ import ProfilePage from "./Profile/ProfilePage";
 import FoodDetailsPage from "./FoodDetail/FoodDetailsPage";
 import LoginPage from "./Login/LoginPage";
 import RegisterPage from "./Register/RegisterPage";
+import CheckoutPage from "./Checkout/CheckoutPage";
+import TrackPage from "./Track/TrackPage";
 
 export {
   HomePage,
@@ -12,4 +14,6 @@ export {
   FoodDetailsPage,
   LoginPage,
   RegisterPage,
+  CheckoutPage,
+  TrackPage,
 };

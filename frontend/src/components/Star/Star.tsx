@@ -5,24 +5,26 @@ const StarRating = ({ stars, size }: { stars: number; size: number }) => {
     marginRight: size / 6 + "px",
   };
 
-  function Star({ number }: { number: number }) {
+  const renderStar = (number: number) => {
     const halfNumber = number - 0.5;
-    return stars >= number ? (
-      <img src="/star-full.svg" alt={`${number}`} style={styles} />
-    ) : stars >= halfNumber ? (
-      <img src="/star-half.svg" alt={`${number}`} style={styles} />
-    ) : (
-      <img src="/star-empty.svg" alt={`${number}`} style={styles} />
-    );
-  }
+    const starType =
+      stars >= number
+        ? "star-full"
+        : stars >= halfNumber
+        ? "star-half"
+        : "star-empty";
 
-  return (
-    <div className="stars">
-      {[1, 2, 3, 4, 5].map((number) => (
-        <Star number={number} key={number} />
-      ))}
-    </div>
-  );
+    return (
+      <img
+        key={number}
+        src={`/${starType}.svg`}
+        alt={starType}
+        style={styles}
+      />
+    );
+  };
+
+  return <div className="stars">{[1, 2, 3, 4, 5].map(renderStar)}</div>;
 };
 
 StarRating.defaultProps = {

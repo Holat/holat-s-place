@@ -26,12 +26,12 @@ export default function FoodDetailsPage() {
       ) : (
         <div>
           <div className="imgCont">
-            <img src={`/foods/${food.imageUrl}`} alt={food.name} />
+            <img src={`${food.imageUrl}`} alt={food.name} loading="lazy" />
             <div className="txt">
               <h1>{food.name}</h1>
             </div>
             <div className="mainImg">
-              <img src={`/foods/${food.imageUrl}`} alt={food.name} />
+              <img src={`${food.imageUrl}`} alt={food.name} loading="lazy" />
             </div>
           </div>
           <div className="detailsCont">
