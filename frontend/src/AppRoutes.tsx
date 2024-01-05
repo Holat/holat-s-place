@@ -6,7 +6,11 @@ import {
   FoodDetailsPage,
   LoginPage,
   RegisterPage,
+  CheckoutPage,
+  TrackPage,
 } from "./pages";
+import { AuthRoute } from "./components";
+import PaymentPage from "./pages/Payment/PaymentPage";
 
 const AppRoutes = () => {
   return (
@@ -17,9 +21,40 @@ const AppRoutes = () => {
       </Route>
       <Route path="/food/:foodId" element={<FoodDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route
+        path="/profile"
+        element={
+          <AuthRoute>
+            <ProfilePage />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <AuthRoute>
+            <CheckoutPage />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/payment"
+        element={
+          <AuthRoute>
+            <PaymentPage />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/track/:orderId"
+        element={
+          <AuthRoute>
+            <TrackPage />
+          </AuthRoute>
+        }
+      />
     </Routes>
   );
 };

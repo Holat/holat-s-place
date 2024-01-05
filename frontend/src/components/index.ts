@@ -8,6 +8,9 @@ Title;
 import FoodItem from "./FoodItem/FoodItem";
 import StarRating from "./Star/Star";
 import Input from "./Input/Input";
+import AuthRoute from "./AuthRoute/AuthRoute";
+import OrderItem from "./OrderItem/OrderItem";
+import FlutterBtn from "./FlutterBtn/FlutterBtn";
 
 export {
   SideBar,
@@ -19,4 +22,7 @@ export {
   FoodItem,
   StarRating,
   Input,
+  AuthRoute,
+  OrderItem,
+  FlutterBtn,
 };

@@ -13,6 +13,8 @@ function App() {
     location.pathname === "/cart" ||
     location.pathname === "/login" ||
     location.pathname === "/register" ||
+    location.pathname === "/checkout" ||
+    location.pathname === "/payment" ||
     location.pathname === "/logout"
       ? setOrderBarIsOpen(false)
       : setOrderBarIsOpen(true);

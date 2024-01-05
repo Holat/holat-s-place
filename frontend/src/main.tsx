@@ -7,6 +7,7 @@ import CartProvider from "./context/CartProvider.tsx";
 import { ToastContainer } from "react-toastify";
 import AuthProvider from "./context/AuthProvider.tsx";
 import "react-toastify/dist/ReactToastify.css";
+import "./interceptors/authInterceptors.ts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
