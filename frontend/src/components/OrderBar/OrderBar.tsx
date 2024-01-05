@@ -3,7 +3,7 @@ import "./orderBar.scss";
 import Price from "../Price/Price";
 import { useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart";
-import { NotFound } from "..";
+import { NotFound, OrderItem } from "..";
 import useAuth from "../../hooks/useAuth";
 
 export default function OrderBar({ isOpen }: { isOpen: boolean }) {
@@ -34,48 +34,13 @@ export default function OrderBar({ isOpen }: { isOpen: boolean }) {
       ) : (
         <div className="orderItems">
           {orderItems?.map((item) => (
-            <div key={item.food.id} className="itemContainer">
-              <div className="imageCont">
-                <img
-                  src={`/foods/${item.food.imageUrl}`}
-                  alt={item.food.name}
-                  loading="lazy"
-                />
-              </div>
-              <div className="select">
-                <div className="price">
-                  <Title
-                    title={item.food.name}
-                    fontWeight={500}
-                    fontSize={"16px"}
-                  />
-                  <Price price={item.price} />
-                </div>
-                <div className="select-wrapper">
-                  <select
-                    name="amount"
-                    value={item.quantity}
-                    onChange={(e) =>
-                      changeQuantity(item, Number(e.target.value))
-                    }
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                  </select>
-                  <button onClick={() => removeFromCart(item.food.id)}>
-                    <img src="/icons/delete.svg" alt="delete" />
-                  </button>
-                </div>
-              </div>
-            </div>
+            <OrderItem
+              key={item.food.id}
+              show={true}
+              item={item}
+              changeQuantity={changeQuantity}
+              removeFromCart={removeFromCart}
+            />
           ))}
         </div>
       )}

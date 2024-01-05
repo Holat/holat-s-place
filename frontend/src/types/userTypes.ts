@@ -9,6 +9,7 @@ export type NewUserType = {
 };
 
 export type UserType = NewUserType & {
+  id: string | number;
   token: string;
 };
 
@@ -17,6 +18,6 @@ export type AuthContextType = {
   login: (email: string, password: string) => void;
   register: (user: RegisterValues) => void;
   logout: () => void;
-  //   updateProfile: (user: UserType) => void;
-  //   changePassword: (password: string) => void;
+  updateProfile: (user: UserType) => void;
+  changePassword: (passwords: string[]) => void;
 };

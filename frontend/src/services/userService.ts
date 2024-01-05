@@ -1,4 +1,6 @@
+import axios from "axios";
 import { RegisterValues } from "../types/logTypes";
+import { UserType } from "../types/userTypes";
 
 const USER = "holatPlaceUser";
 
@@ -8,32 +10,25 @@ export const getUser = () => {
 };
 
 export const login = async (email: string, password: string) => {
-  if (email === "holat@gmail.com" && password === "12345") {
-    return {
-      name: "Holat",
-      email: "holat@gmail.com",
-      password: "12345",
-      address: "Holat Str",
-      phone: "+234 701 756 2322",
-      token: "errgerg",
-    };
-  } else return;
+  const { data } = await axios.post("/api/user/login", { email, password });
+  localStorage.setItem(USER, JSON.stringify(data));
+  return data;
 };
 
 export const register = async (registerData: RegisterValues) => {
-  const { lastName, firstName, email, password, address, mobileNumber } =
-    registerData;
+  const { data } = await axios.post("/api/user/register", registerData);
+  localStorage.setItem(USER, JSON.stringify(data));
+  return data;
+};
 
-  const newData = {
-    name: firstName + lastName,
-    email,
-    password,
-    address,
-    phone: mobileNumber,
-    token: "2489r24rf23rf",
-  };
-  localStorage.setItem(USER, JSON.stringify(newData));
-  return newData;
+export const updateProfile = async (user: UserType) => {
+  const { data } = await axios.put("/api/user/updateProfile", user);
+  localStorage.setItem(USER, JSON.stringify(data));
+  return data;
+};
+
+export const changePassword = async (passwords: string[]) => {
+  await axios.put("/api/user/changePassword", passwords);
 };
 
 export const logout = () => {
