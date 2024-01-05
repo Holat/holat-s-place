@@ -163,6 +163,7 @@ export const sample_users = [
     email: "john@gmail.com",
     password: "12345",
     address: "Toronto On",
+    phone: "+234 701 756 2321",
     isAdmin: false,
   },
   {
@@ -171,6 +172,16 @@ export const sample_users = [
     email: "jane@gmail.com",
     password: "12345",
     address: "Shanghai",
+    phone: "+234 701 756 2322",
+    isAdmin: true,
+  },
+  {
+    id: 3,
+    name: "Holat",
+    email: "holat@gmail.com",
+    password: "12345",
+    address: "Holat Str",
+    phone: "+234 701 756 2323",
     isAdmin: true,
   },
 ];

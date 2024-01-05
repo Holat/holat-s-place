@@ -1,34 +1,82 @@
 import { Router } from "express";
-import { sample_foods, sample_tags } from "../data.js";
+import handler from "express-async-handler";
+import { FoodModel } from "../model/food.model.js";
 
 const router = Router();
 
-router.get("/", (_, res) => {
-  res.send(sample_foods);
-});
+router.get(
+  "/",
+  handler(async (_, res) => {
+    const foods = await FoodModel.find({});
+    res.send(foods);
+  })
+);
 
-router.get("/tags", (_, res) => {
-  res.send(sample_tags);
-});
+router.get(
+  "/tags",
+  handler(async (_, res) => {
+    const aggregationPipeline = [
+      {
+        $unwind: "$tags",
+      },
+      {
+        $group: {
+          _id: "$tags",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          name: "$_id",
+          count: 1,
+        },
+      },
+      {
+        $sort: {
+          count: -1,
+        },
+      },
+    ];
 
-router.get("/search/:searchTerm", (req, res) => {
-  const { searchTerm } = req.params;
-  const data = sample_foods.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  res.send(data);
-});
+    const tags = await FoodModel.aggregate(aggregationPipeline);
 
-router.get("/tag/:tag", (req, res) => {
-  const { tag } = req.params;
-  const data = sample_foods.filter((item) => item.tags.includes(tag));
-  res.send(data);
-});
+    const all = {
+      name: "All",
+      count: await FoodModel.countDocuments(),
+    };
 
-router.get("/:foodId", (req, res) => {
-  const { foodId } = req.params;
-  const data = sample_foods.find((item) => item.id.toString() === foodId);
-  res.send(data);
-});
+    tags.unshift(all);
+    res.send(tags);
+  })
+);
+
+router.get(
+  "/search/:searchTerm",
+  handler(async (req, res) => {
+    const { searchTerm } = req.params;
+    const searchR = new RegExp(searchTerm, "i");
+    const data = await FoodModel.find({ name: { $regex: searchR } });
+    res.send(data);
+  })
+);
+
+router.get(
+  "/tag/:tag",
+  handler(async (req, res) => {
+    const { tag } = req.params;
+    const data = await FoodModel.find({ tags: tag });
+    res.send(data);
+  })
+);
+
+router.get(
+  "/:foodId",
+  handler(async (req, res) => {
+    const { foodId } = req.params;
+    const data = await FoodModel.findById(foodId);
+    res.send(data);
+  })
+);
 
 export default router;
