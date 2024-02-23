@@ -9,7 +9,11 @@ export default (req, res, next) => {
     const decoded = verify(token, process.env.JWT_TOKEN);
     req.user = decoded;
   } catch (error) {
-    res.status(401).send("This is from here");
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).send("Token expired");
+    } else {
+      return res.status(401).send("Invalid token");
+    }
   }
 
   return next();

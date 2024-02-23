@@ -5,11 +5,11 @@ import {
   search,
   getAllTags,
 } from "../../services/foodService";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { FoodType, IAction } from "../../types/types";
 import FoodItem from "../../components/FoodItem/FoodItem";
 import { useParams } from "react-router-dom";
-import { NotFound, SearchBar } from "../../components";
+import { NotFound, OrderBar, SearchBar } from "../../components";
 
 const FOODS_LOADED = "FOODS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";
@@ -32,8 +32,13 @@ const reducer = (state: FoodType, action: IAction) => {
 function HomePage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { foods: foodItems, tags } = state;
+  const [isOpen, setIsOpen] = useState(false);
 
   const { searchTerm, tag } = useParams();
+
+  const toggleOrderBar = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     getAllTags().then((tags) => dispatch({ type: TAGS_LOADED, payload: tags }));
@@ -51,7 +56,8 @@ function HomePage() {
 
   return (
     <div className="homeCont">
-      <SearchBar tags={tags} />
+      <SearchBar tags={tags} toggleOrderBar={toggleOrderBar} />
+      <OrderBar isOpen={isOpen} toggleOrderBar={toggleOrderBar} />
 
       {!foodItems || foodItems.length === 0 ? (
         <NotFound title="Food Not Found" showBtn />

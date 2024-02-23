@@ -31,7 +31,7 @@ export default function FoodItem({ food }: { food: FoodItemType }) {
           </button>
         </div>
         <div className="details">
-          <Title title={food.name} fontSize="16px" fontWeight={200} />
+          <Title title={food.name} fontWeight={200} />
           <Price price={food.price} />
         </div>
         <div>

@@ -38,8 +38,6 @@ export default function CheckoutPage() {
     });
   };
 
-  console.log(cart.totalCount);
-
   const onSubmit = async () => {
     if (order.lat === 0 && order.lng === 0) {
       toast.warning("Please select your location on the map", {

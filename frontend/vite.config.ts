@@ -5,18 +5,19 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   server: {
+    port: 5173,
     proxy: {
       "/api": {
         target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
-        ws: true,
+        ws: true, // Enable WebSocket proxying
         configure: (proxy) => {
           proxy.on("error", (err) => {
             console.log("proxy error", err);
           });
           proxy.on("proxyReq", (req) => {
-            console.log("Sending Request to the Target:", req.method, req.url);
+            console.log("Sending Request to the Target:", req.method);
           });
           proxy.on("proxyRes", (proxyRes, req) => {
             console.log(

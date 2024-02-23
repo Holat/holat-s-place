@@ -3,7 +3,7 @@ import "./foodDetailsPage.scss";
 import { useEffect, useState } from "react";
 import { FoodItemType } from "../../types/types";
 import { getById } from "../../services/foodService";
-import { NotFound, Price, StarRating, Title } from "../../components";
+import { NotFound, Price, StarRating } from "../../components";
 import useCart from "../../hooks/useCart";
 
 export default function FoodDetailsPage() {
@@ -36,7 +36,7 @@ export default function FoodDetailsPage() {
           </div>
           <div className="detailsCont">
             <div className="description">
-              <Title title={food.name} fontSize="32px" fontWeight={600} />
+              <div className="title">{food.name}</div>
               <StarRating stars={food.stars} />
               <p>{food.desc}</p>
             </div>

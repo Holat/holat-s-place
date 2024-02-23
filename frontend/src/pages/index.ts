@@ -6,6 +6,7 @@ import LoginPage from "./Login/LoginPage";
 import RegisterPage from "./Register/RegisterPage";
 import CheckoutPage from "./Checkout/CheckoutPage";
 import TrackPage from "./Track/TrackPage";
+import OrdersPage from "./Orders/OrdersPage";
 
 export {
   HomePage,
@@ -16,4 +17,5 @@ export {
   RegisterPage,
   CheckoutPage,
   TrackPage,
+  OrdersPage,
 };

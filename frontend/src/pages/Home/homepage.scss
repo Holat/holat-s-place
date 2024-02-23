@@ -1,17 +1,31 @@
+@import "../../app.scss";
+
 .homeCont {
-    padding: 18px;
     padding-left: 84px;
-    margin-right: 396px;
+    padding-right: 18px;
     display: flex;
     flex-direction: column;
 
+    @include mobile {
+        padding-left: 64px;
+    }
+
     .foodItems {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 32px;
         overflow-y: auto;
         overflow-x: hidden;
         padding-block: 16px;
+
+        @include tablet {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @include mobile {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
 
         &::-webkit-scrollbar {
             display: none;

@@ -8,6 +8,7 @@ import {
   RegisterPage,
   CheckoutPage,
   TrackPage,
+  OrdersPage,
 } from "./pages";
 import { AuthRoute } from "./components";
 import PaymentPage from "./pages/Payment/PaymentPage";
@@ -52,6 +53,14 @@ const AppRoutes = () => {
         element={
           <AuthRoute>
             <TrackPage />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <AuthRoute>
+            <OrdersPage />
           </AuthRoute>
         }
       />

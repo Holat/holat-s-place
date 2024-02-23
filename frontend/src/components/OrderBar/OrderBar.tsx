@@ -6,7 +6,13 @@ import useCart from "../../hooks/useCart";
 import { NotFound, OrderItem } from "..";
 import useAuth from "../../hooks/useAuth";
 
-export default function OrderBar({ isOpen }: { isOpen: boolean }) {
+export default function OrderBar({
+  isOpen,
+  toggleOrderBar,
+}: {
+  isOpen: boolean;
+  toggleOrderBar: () => void;
+}) {
   const { user } = useAuth();
   const { cart, removeFromCart, changeQuantity } = useCart();
   const { items: orderItems } = cart;
@@ -15,7 +21,12 @@ export default function OrderBar({ isOpen }: { isOpen: boolean }) {
 
   return (
     <div className={`orderCont ${isOpen ? "" : "isClosed"}`}>
-      <Title title="Cart Items" fontSize="24px" fontWeight={600} />
+      <div className="orderHeader">
+        <Title title="Cart Items" fontSize="24px" fontWeight={600} />
+        <button onClick={toggleOrderBar}>
+          <img src="/icons/close.svg" alt="close" />
+        </button>
+      </div>
       <div className="details">
         {user && (
           <div>

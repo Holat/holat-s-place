@@ -12,8 +12,6 @@ router.post(
   handler(async (req, res) => {
     const order = req.body;
 
-    // console.log(order.items);
-
     if (order.items.length <= 0) res.status(400).send("Cart Is Empty");
 
     await OrderModel.deleteOne({
@@ -83,7 +81,7 @@ router.get(
 router.get(
   "/allStatus",
   handler(async (_, res) => {
-    const allStatus = Object.values(OrderStatus);
+    const allStatus = Object.values(Ord);
     res.send(allStatus);
   })
 );
@@ -96,14 +94,14 @@ router.get(
     const filter = {};
 
     if (!user.isAdmin) filter.user = user._id;
-    if (status) filter.status = status;
+    if (status) filter.status = { $regex: new RegExp(status, "i") };
 
     const orders = await OrderModel.find(filter).sort("-createdAt");
     res.send(orders);
   })
 );
 
-const getCurrentUserOrder = async (req) =>
+const getCurrentUserOrder = async (req, _) =>
   await OrderModel.findOne({
     user: req.user.id,
     status: "NEW",
