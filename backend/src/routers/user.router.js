@@ -97,7 +97,7 @@ const generateTokenResponse = (user) => {
     },
     "HOLATSPLACEWEBTOKEN3784",
     {
-      expiresIn: "3m",
+      expiresIn: "1m",
     }
   );
 

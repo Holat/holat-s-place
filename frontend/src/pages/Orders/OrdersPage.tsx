@@ -35,7 +35,7 @@ export default function OrdersPage() {
               backgroundColor: item === currentStatus ? "#ffe9d9" : "",
             }}
           >
-            {item}
+            {item.toLowerCase()}
             {!item && "All"}
           </button>
         ))}

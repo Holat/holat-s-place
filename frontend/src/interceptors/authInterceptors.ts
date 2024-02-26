@@ -8,10 +8,10 @@ axios.interceptors.request.use(
     if (token) {
       req.headers["access_token"] = token;
     }
-
     return req;
   },
   (error) => {
+    console.log(error);
     return Promise.reject(error);
   }
 );

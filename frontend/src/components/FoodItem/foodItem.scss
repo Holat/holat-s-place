@@ -52,6 +52,15 @@
             align-items: baseline;
             justify-content: space-between;
             margin-top: 8px;
+            flex-wrap: wrap;
+
+            .title {
+                margin-right: 16px;
+
+                @include mobile {
+                    margin-right: 0;
+                }
+            }
 
             span {
                 font-weight: 700;
@@ -83,6 +92,7 @@
 
         .details {
             flex-direction: column;
+            gap: 0;
 
             .title {
                 font-size: 12px;
@@ -91,6 +101,12 @@
             span {
                 font-size: 12px;
             }
+        }
+    }
+
+    @include tablet {
+        .details {
+            flex-direction: column;
         }
     }
 }

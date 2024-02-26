@@ -24,7 +24,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (!user) return;
     returnUrl ? navigate(returnUrl) : navigate("/");
-  }, [user]);
+  }, [navigate, returnUrl, user]);
 
   const submit = async ({ email, password }: FormValues) => {
     login(email, password);
@@ -34,7 +34,7 @@ export default function LoginPage() {
     <div className="loginCont">
       <div className="formCont">
         <Title title="Login" fontSize="32px" fontWeight={700} />
-        <form onSubmit={handleSubmit(submit)} noValidate>
+        <form onSubmit={handleSubmit(submit)} noValidate name="login">
           <Input
             type="text"
             label="Email"

@@ -9,9 +9,9 @@ import {
   CheckoutPage,
   TrackPage,
   OrdersPage,
+  PaymentPage,
 } from "./pages";
 import { AuthRoute } from "./components";
-import PaymentPage from "./pages/Payment/PaymentPage";
 
 const AppRoutes = () => {
   return (

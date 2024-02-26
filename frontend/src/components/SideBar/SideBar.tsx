@@ -14,7 +14,7 @@ export default function SideBar() {
       </div>
       <div>
         {user ? (
-          <button onClick={() => logout()} className="link">
+          <button onClick={() => logout("n")} className="link">
             <img src="/icons/logout.svg" alt="logout" />
           </button>
         ) : (

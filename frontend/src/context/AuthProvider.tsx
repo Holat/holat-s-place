@@ -34,10 +34,17 @@ export default function AuthProvider({
     }
   };
 
-  const logout = () => {
+  /**
+   *
+   * @param type n: normal logout | t: token exp logout
+   */
+  const logout = (type: "n" | "t") => {
     userService.logout();
     setUser(null);
-    toast.success("Logout Successful");
+
+    type === "n"
+      ? toast.success("Logout Successful")
+      : toast.error("Session expired");
   };
 
   const updateProfile = async (user: UserType) => {
@@ -48,7 +55,7 @@ export default function AuthProvider({
 
   const changePassword = async (passwords: string[]) => {
     await userService.changePassword(passwords);
-    logout();
+    logout("n");
     toast.success("Password Changed!");
   };
 

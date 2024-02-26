@@ -17,7 +17,7 @@ export type AuthContextType = {
   user: UserType | null;
   login: (email: string, password: string) => void;
   register: (user: RegisterValues) => void;
-  logout: () => void;
+  logout: (type: "n" | "t") => void;
   updateProfile: (user: UserType) => void;
   changePassword: (passwords: string[]) => void;
 };
