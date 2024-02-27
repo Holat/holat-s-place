@@ -1,10 +1,6 @@
 import axios from "axios";
 import { OrderType } from "../types/types";
 
-// type Type =  OrderType && {
-//   name: string;
-// }
-
 export const createOrder = async (order: OrderType & { name?: string }) => {
   try {
     const { data } = await axios.post("/api/orders/create ", order);

@@ -7,11 +7,13 @@ export default function OrderItem({
   changeQuantity,
   removeFromCart,
   show,
-}: {
+}: // style,
+{
   item: CartItemType;
   removeFromCart?: (foodId: number | string) => void;
   changeQuantity?: (cartItem: CartItemType, newQuantity: number) => void;
   show: boolean;
+  // style?: React.CSSProperties;
 }) {
   return (
     <div key={item.food.id} className="itemContainer">

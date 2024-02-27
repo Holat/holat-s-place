@@ -14,9 +14,11 @@ export default function OrderBar({
   toggleOrderBar: () => void;
 }) {
   const { user } = useAuth();
-  const { cart, removeFromCart, changeQuantity } = useCart();
-  const { items: orderItems } = cart;
-
+  const {
+    cart: { items, totalPrice },
+    removeFromCart,
+    changeQuantity,
+  } = useCart();
   const navigate = useNavigate();
 
   return (
@@ -40,11 +42,11 @@ export default function OrderBar({
           </div>
         )}
       </div>
-      {orderItems.length === 0 ? (
+      {items.length === 0 ? (
         <NotFound title="No Food Selected Yet" showBtn={false} />
       ) : (
         <div className="orderItems">
-          {orderItems?.map((item) => (
+          {items?.map((item) => (
             <OrderItem
               key={item.food.id}
               show={true}
@@ -55,11 +57,11 @@ export default function OrderBar({
           ))}
         </div>
       )}
-      {orderItems.length !== 0 && (
+      {items.length !== 0 && (
         <div className="btnCont">
           <div className="total">
             <p>Total</p>
-            <Price price={cart.totalPrice} />
+            <Price price={totalPrice} />
           </div>
           <button onClick={() => navigate("/checkout")}>Check Out</button>
         </div>

@@ -44,7 +44,9 @@ export default function AuthProvider({
 
     type === "n"
       ? toast.success("Logout Successful")
-      : toast.error("Session expired");
+      : type === "t"
+      ? toast.error("Session expired")
+      : null;
   };
 
   const updateProfile = async (user: UserType) => {

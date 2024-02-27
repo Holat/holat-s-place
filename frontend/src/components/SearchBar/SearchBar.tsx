@@ -5,13 +5,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
-// import { useMediaQuery } from "react-responsive";
 
 export default function SearchBar({
   tags,
   toggleOrderBar,
 }: {
-  tags: TagTypes[];
+  tags?: TagTypes[];
   toggleOrderBar: () => void;
 }) {
   const { tag: currentTag, searchTerm } = useParams();
@@ -46,7 +45,13 @@ export default function SearchBar({
               <img src="/icons/lens.svg" alt="search" />
             </button>
           </div>
-          <button type="button" className="filter">
+          <button
+            type="button"
+            className="filter"
+            style={{
+              display: tags ? "block" : "none",
+            }}
+          >
             <img src="/icons/filter.svg" alt="filter" />
             <div className="tags">
               {tags?.map((tag) => (
