@@ -3,7 +3,6 @@ import "./orders.scss";
 import { getAll } from "../../services/orderService";
 import { Price, Title } from "../../components";
 import { CartItemType } from "../../types/cartTypes";
-import { Link } from "react-router-dom";
 
 type orderHistoryType = {
   _id: string;
@@ -20,7 +19,11 @@ export default function OrdersPage() {
   const [currentStatus, setCurrentStatus] = useState("");
 
   useEffect(() => {
-    getAll(currentStatus).then(setOrders);
+    getAll(currentStatus)
+      .then(setOrders)
+      .catch((error) => {
+        console.log(error);
+      });
   }, [currentStatus]);
 
   return (
@@ -62,18 +65,12 @@ export default function OrdersPage() {
               ))}
             </div>
             {/* <div className="details"> */}
-            <Link to={`/track/${order._id}`}>
-              <Title
-                title={`#${order._id}`}
-                fontWeight={700}
-                fontSize={"16px"}
-              />
-            </Link>
-            <Title
-              title={`${order.totalCount}`}
-              fontWeight={700}
-              fontSize={"16px"}
-            />
+            {/* <Link to={`/track/${order._id}`}> */}
+            <div className="orderId">
+              <Title title={`#${order._id}`} fontSize={"16px"} />
+            </div>
+            {/* </Link> */}
+            <Title title={`${order.totalCount}`} fontSize={"16px"} />
             <Price price={order.totalPrice} />
           </div>
           // </div>

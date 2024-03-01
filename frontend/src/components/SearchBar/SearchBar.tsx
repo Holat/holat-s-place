@@ -89,9 +89,11 @@ export default function SearchBar({
               <img src="/icons/cart.svg" alt="cart" />
             </button>
             <button onClick={() => navigate("/cart")} id="mpbtn">
-              <div className="item">
-                {totalCount > 0 && <p>{totalCount}</p>}
-              </div>
+              {totalCount > 0 && (
+                <div className="item">
+                  <p>{totalCount}</p>
+                </div>
+              )}
               <img src="/icons/cart.svg" alt="cart" />
             </button>
           </div>

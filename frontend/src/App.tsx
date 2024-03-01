@@ -1,6 +1,5 @@
 import AppRoutes from "./AppRoutes";
 import { SideBar } from "./components";
-// import useTokenExpiration from "./hooks/useTokenExpiration";
 
 function App() {
   return (

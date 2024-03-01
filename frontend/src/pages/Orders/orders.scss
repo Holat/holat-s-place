@@ -1,8 +1,12 @@
+@import "../../app.scss";
+
 .ordersPageCont {
     margin-left: 72px;
     padding: 16px;
 
-
+    @include mobile {
+        margin-left: 52px;
+    }
 
     .btnCont {
         display: flex;
@@ -37,12 +41,59 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #f0f0f0;
+            background-color: #f5f5f5;
             padding: 12px 16px;
             border-radius: 8px;
 
+            &:nth-child(even) {
+                background-color: rgba(250, 100, 0, 0.15);
+            }
+
+            @include mobile {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
             span {
                 font-weight: 700;
+
+                @include mobile {
+                    font-weight: 500;
+
+                    &::before {
+                        font-weight: 700;
+                        content: "Total Price - ";
+                    }
+                }
+            }
+
+            .title {
+                font-weight: 700;
+
+                @include mobile {
+                    font-weight: 500;
+
+                    &::before {
+                        font-weight: 700;
+                        content: "No. Of Items - ";
+                    }
+                }
+            }
+
+            .orderId {
+                font-weight: 700;
+
+                .title {
+                    @include mobile {
+                        font-weight: 500;
+
+                        &::before {
+                            font-weight: 700;
+                            content: "Id - ";
+                        }
+                    }
+                }
             }
 
             .imgsCont {

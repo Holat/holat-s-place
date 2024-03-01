@@ -24,10 +24,10 @@ export const pay = async (paymentId: string | number) => {
   }
 };
 
-export const trackOrderById = async (orderId: string) => {
-  const { data } = await axios.get("/api/orders/track/" + orderId);
-  return data;
-};
+// export const trackOrderById = async (orderId: string) => {
+//   const { data } = await axios.get("/api/orders/track/" + orderId);
+//   return data;
+// };
 
 export const getAll = async (state: string) => {
   const { data } = await axios.get(`/api/orders/${state ?? ""}`);

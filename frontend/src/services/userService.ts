@@ -1,6 +1,9 @@
-import axios from "axios";
-import { RegisterValues } from "../types/logTypes";
-import { UserType } from "../types/userTypes";
+import axios, { AxiosError } from "axios";
+import {
+  ChangePassFormType,
+  FormDetails,
+  RegisterValues,
+} from "../types/logTypes";
 
 const USER = "holatPlaceUser";
 
@@ -21,13 +24,28 @@ export const register = async (registerData: RegisterValues) => {
   return data;
 };
 
-export const updateProfile = async (user: UserType) => {
-  const { data } = await axios.put("/api/user/updateProfile", user);
-  localStorage.setItem(USER, JSON.stringify(data));
-  return data;
+export const updateProfile = async (user: FormDetails) => {
+  try {
+    const { data } = await axios.put("/api/user/updateProfile", user);
+    localStorage.setItem(USER, JSON.stringify(data));
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 409) {
+        throw new Error("Email or Phone number already exists");
+      } else {
+        throw new Error("Failed to update profile. Please try again later.");
+      }
+    } else {
+      throw new Error(
+        "Failed to update profile. Please check your internet connection."
+      );
+    }
+  }
 };
 
-export const changePassword = async (passwords: string[]) => {
+export const changePassword = async (passwords: ChangePassFormType) => {
   await axios.put("/api/user/changePassword", passwords);
 };
 

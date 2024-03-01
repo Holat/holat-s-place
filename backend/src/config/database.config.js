@@ -12,7 +12,7 @@ export const dbconnect = async () => {
     connect("mongodb://127.0.0.1:27017/holatsPlace");
     await seedFoods();
     await seedUsers();
-    console.log("connection successful");
+    console.log("db connected");
   } catch (error) {
     console.log(error);
   }

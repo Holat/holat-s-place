@@ -11,6 +11,19 @@ export type RegisterValues = {
   confirmPassword: string;
 };
 
+export interface FormDetails {
+  name: string;
+  address: string;
+  email: string;
+  mobileNumber: string;
+}
+
+export interface ChangePassFormType {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 export type LoginInputType = {
   label: string;
   type: string;

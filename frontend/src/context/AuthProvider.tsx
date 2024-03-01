@@ -2,7 +2,11 @@ import { createContext, useState } from "react";
 import * as userService from "../services/userService";
 import { AuthContextType, UserType } from "../types/userTypes";
 import { toast } from "react-toastify";
-import { RegisterValues } from "../types/logTypes";
+import {
+  RegisterValues,
+  FormDetails,
+  ChangePassFormType,
+} from "../types/logTypes";
 import { AxiosError } from "axios";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -43,19 +47,25 @@ export default function AuthProvider({
     setUser(null);
 
     type === "n"
-      ? toast.success("Logout Successful")
+      ? toast.success("Logout Successful", { toastId: type })
       : type === "t"
-      ? toast.error("Session expired")
+      ? toast.error("Session expired", { toastId: type })
       : null;
   };
 
-  const updateProfile = async (user: UserType) => {
-    const updatedUser = await userService.updateProfile(user);
-    toast.success("Profile Updated");
-    if (updatedUser) setUser(updatedUser);
+  const updateProfile = async (user: FormDetails) => {
+    try {
+      const updatedUser = await userService.updateProfile(user);
+      toast.success("Profile Updated");
+      if (updatedUser) setUser(updatedUser);
+    } catch (error) {
+      error instanceof Error
+        ? toast.error(error.message)
+        : toast.error("An Error occurred");
+    }
   };
 
-  const changePassword = async (passwords: string[]) => {
+  const changePassword = async (passwords: ChangePassFormType) => {
     await userService.changePassword(passwords);
     logout("n");
     toast.success("Password Changed!");

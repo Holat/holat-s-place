@@ -1,4 +1,4 @@
-import { RegisterValues } from "./logTypes";
+import { ChangePassFormType, FormDetails, RegisterValues } from "./logTypes";
 
 export type NewUserType = {
   name: string;
@@ -18,6 +18,6 @@ export type AuthContextType = {
   login: (email: string, password: string) => void;
   register: (user: RegisterValues) => void;
   logout: (type: "n" | "t") => void;
-  updateProfile: (user: UserType) => void;
-  changePassword: (passwords: string[]) => void;
+  updateProfile: (user: FormDetails) => void;
+  changePassword: (passwords: ChangePassFormType) => void;
 };

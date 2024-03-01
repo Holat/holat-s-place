@@ -52,14 +52,23 @@ router.put(
   "/updateProfile",
   auth,
   handler(async (req, res) => {
-    const { name, address } = req.body;
-    const user = await UserModel.findByIdAndUpdate(
-      req.user.id,
-      { name, address },
-      { new: true }
-    );
-
-    res.send(generateTokenResponse(user));
+    const { name, address, email, mobileNumber: phone } = req.body;
+    try {
+      const user = await UserModel.findByIdAndUpdate(
+        req.user.id,
+        { name, address, email, phone },
+        { new: true }
+      );
+      res.send(generateTokenResponse(user));
+    } catch (error) {
+      if (error.code === 11000) {
+        if (error.keyValue.email)
+          return res.status(409).send("Email already exists.");
+        if (error.keyValue.phone)
+          return res.status(409).send("Phone number already exists.");
+      }
+      res.status(500).send("Internal server error.");
+    }
   })
 );
 
@@ -97,7 +106,7 @@ const generateTokenResponse = (user) => {
     },
     "HOLATSPLACEWEBTOKEN3784",
     {
-      expiresIn: "1m",
+      expiresIn: "2d",
     }
   );
 
