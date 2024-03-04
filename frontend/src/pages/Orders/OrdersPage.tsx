@@ -3,6 +3,8 @@ import "./orders.scss";
 import { getAll } from "../../services/orderService";
 import { Price, Title } from "../../components";
 import { CartItemType } from "../../types/cartTypes";
+import connectSocket from "../../services/socketServices";
+import useAuth from "../../hooks/useAuth";
 
 type orderHistoryType = {
   _id: string;
@@ -17,6 +19,8 @@ const status = ["", "NEW", "PAYED"];
 export default function OrdersPage() {
   const [orders, setOrders] = useState<orderHistoryType[]>();
   const [currentStatus, setCurrentStatus] = useState("");
+  const { user } = useAuth();
+  const socket = connectSocket(user?.token);
 
   useEffect(() => {
     getAll(currentStatus)
@@ -25,6 +29,22 @@ export default function OrdersPage() {
         console.log(error);
       });
   }, [currentStatus]);
+
+  useEffect(() => {
+    socket.on("orderUpdate", (e: string) => {
+      if (e === "updated") {
+        getAll(currentStatus)
+          .then(setOrders)
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
+
+    return () => {
+      socket.off("orderUpdate");
+    };
+  }, [socket, currentStatus]);
 
   return (
     <div className="ordersPageCont">

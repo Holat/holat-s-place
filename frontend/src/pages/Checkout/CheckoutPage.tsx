@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { LocationType, OrderType } from "../../types/types";
 import { toast } from "react-toastify";
 import { createOrder } from "../../services/orderService";
+import connectSocket from "../../services/socketServices";
 
 type CheckoutType = {
   name: string;
@@ -19,6 +20,8 @@ type CheckoutType = {
 export default function CheckoutPage() {
   const { cart, changeQuantity, removeFromCart } = useCart();
   const { user } = useAuth();
+  const socket = connectSocket(user?.token);
+
   const [order, setOrder] = useState<OrderType>({
     ...cart,
     address: user?.address,
@@ -47,6 +50,7 @@ export default function CheckoutPage() {
     }
 
     await createOrder({ ...order, name: user?.name });
+    socket.emit("click", user?.name);
     navigate("/payment");
   };
 

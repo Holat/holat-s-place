@@ -1,16 +1,14 @@
 import {
   GoogleMap,
-  MarkerF,
   StandaloneSearchBox,
   Libraries,
-  useLoadScript,
+  useJsApiLoader,
 } from "@react-google-maps/api";
-import { useCallback, useState } from "react";
+import { useState, useCallback } from "react";
 import "./map.scss";
 import { LocationType } from "../../types/types";
-// import { LocationType } from "../../types/types";
 
-const libraries: Libraries = ["places"];
+const libraries: Libraries = ["places", "geometry"];
 const mapContainerStyle = {
   width: "100%",
   height: "100%",
@@ -31,7 +29,7 @@ export default function Map({
 }: {
   handleSetLocation: (place: LocationType) => void;
 }) {
-  const { isLoaded, loadError } = useLoadScript({
+  const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAKKj0qdxXVnidSbvBEBZC5aQEcxciRJOs",
     libraries,
   });
@@ -50,7 +48,7 @@ export default function Map({
           };
 
           handleSetLocation({
-            currentAddress: "Adg",
+            currentAddress: "Current Location",
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
@@ -73,36 +71,38 @@ export default function Map({
     }
   };
 
-  const handleLoad = (map: google.maps.Map | null) => {
+  const handleLoad = useCallback((map: google.maps.Map | null) => {
     setMap(map);
 
-    if (isLoaded) {
-      const input = document.getElementById(
-        "search-box-input"
-      ) as HTMLInputElement;
-      const searchBox = new window.google.maps.places.SearchBox(input);
-      setSearchBox(searchBox);
+    const input = document.getElementById(
+      "search-box-input"
+    ) as HTMLInputElement;
+    const searchBox = new window.google.maps.places.SearchBox(input);
+    setSearchBox(searchBox);
 
-      searchBox.addListener("place_changed", () => {
-        const places = searchBox.getPlaces();
+    searchBox.addListener("place_changed", () => {
+      const places = searchBox.getPlaces();
 
-        if (places && places.length > 0) {
-          const selectedPlace = places[0];
-          const newCenter = {
-            lat: selectedPlace?.geometry?.location?.lat() || defaultCenter.lat,
-            lng: selectedPlace?.geometry?.location?.lng() || defaultCenter.lng,
-          };
+      if (places && places.length > 0) {
+        const selectedPlace = places[0];
+        const newCenter = {
+          lat: selectedPlace?.geometry?.location?.lat() || defaultCenter.lat,
+          lng: selectedPlace?.geometry?.location?.lng() || defaultCenter.lng,
+        };
 
-          setUserPosition(newCenter);
+        setUserPosition(newCenter);
 
-          if (map) {
-            map.panTo(newCenter);
-            map.setZoom(15);
-          }
+        if (map) {
+          map.panTo(newCenter);
+          map.setZoom(15);
         }
-      });
-    }
-  };
+      }
+    });
+  }, []);
+
+  const onUnmount = useCallback(() => {
+    setMap(null);
+  }, []);
 
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
@@ -162,17 +162,18 @@ export default function Map({
       <button className="locateBtn" onClick={handleLocateUser} title="locate">
         <img src="/icons/locate.svg" alt="locate" />
       </button>
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        zoom={10}
-        center={userPosition}
-        onLoad={(map) => handleLoad(map)}
-        options={{
-          disableDefaultUI: true,
-        }}
-      >
-        {userPosition && <MarkerF position={userPosition} />}
-      </GoogleMap>
+      {isLoaded && (
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          zoom={10}
+          center={userPosition}
+          onLoad={handleLoad}
+          onUnmount={onUnmount}
+          options={{
+            disableDefaultUI: true,
+          }}
+        ></GoogleMap>
+      )}
     </div>
   );
 }
