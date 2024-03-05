@@ -1,25 +1,31 @@
-import {
-  GoogleMap,
-  StandaloneSearchBox,
-  Libraries,
-  useJsApiLoader,
-} from "@react-google-maps/api";
-import { useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import "./map.scss";
+import {
+  Map as GoogleMap,
+  Pin,
+  AdvancedMarker,
+  APIProvider,
+} from "@vis.gl/react-google-maps";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
 import { LocationType } from "../../types/types";
-
-const libraries: Libraries = ["places", "geometry"];
-const mapContainerStyle = {
-  width: "100%",
-  height: "100%",
-};
 
 interface UserPosition {
   lat: number;
   lng: number;
 }
 
-const defaultCenter: UserPosition = {
+const defaultCenter = {
   lat: 6.5244,
   lng: 3.3792,
 };
@@ -29,151 +35,101 @@ export default function Map({
 }: {
   handleSetLocation: (place: LocationType) => void;
 }) {
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAKKj0qdxXVnidSbvBEBZC5aQEcxciRJOs",
-    libraries,
-  });
-  const [userPosition, setUserPosition] = useState<UserPosition>(defaultCenter);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [searchBox, setSearchBox] =
-    useState<google.maps.places.SearchBox | null>(null);
+  const [selected, setSelected] = useState<UserPosition | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [mapCenter, setMapCenter] = useState(defaultCenter);
 
-  const handleLocateUser = () => {
-    if (navigator.geolocation && isLoaded) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const newUserPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-
-          handleSetLocation({
-            currentAddress: "Current Location",
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-
-          setUserPosition(newUserPosition);
-
-          if (map) {
-            map.panTo(newUserPosition);
-            map.setZoom(15);
-          }
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
-        }
-      );
-    } else {
-      console.error(
-        "Geolocation is not supported by this browser or the Google Maps API failed to load."
-      );
+  useEffect(() => {
+    if (selected) {
+      setMapCenter(selected);
     }
-  };
-
-  const handleLoad = useCallback((map: google.maps.Map | null) => {
-    setMap(map);
-
-    const input = document.getElementById(
-      "search-box-input"
-    ) as HTMLInputElement;
-    const searchBox = new window.google.maps.places.SearchBox(input);
-    setSearchBox(searchBox);
-
-    searchBox.addListener("place_changed", () => {
-      const places = searchBox.getPlaces();
-
-      if (places && places.length > 0) {
-        const selectedPlace = places[0];
-        const newCenter = {
-          lat: selectedPlace?.geometry?.location?.lat() || defaultCenter.lat,
-          lng: selectedPlace?.geometry?.location?.lng() || defaultCenter.lng,
-        };
-
-        setUserPosition(newCenter);
-
-        if (map) {
-          map.panTo(newCenter);
-          map.setZoom(15);
-        }
-      }
-    });
-  }, []);
-
-  const onUnmount = useCallback(() => {
-    setMap(null);
-  }, []);
-
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  const handleOnPlaceChange = useCallback(async () => {
-    await delay(100);
-    if (searchBox) {
-      const places = searchBox.getPlaces();
-
-      if (places && places.length > 0) {
-        const selectedPlace = places[0];
-        const newCenter = {
-          lat: selectedPlace?.geometry?.location?.lat() || defaultCenter.lat,
-          lng: selectedPlace?.geometry?.location?.lng() || defaultCenter.lng,
-        };
-
-        handleSetLocation({
-          currentAddress: selectedPlace.formatted_address || "Adg",
-          lat: selectedPlace.geometry?.location?.lat() || defaultCenter.lat,
-          lng: selectedPlace.geometry?.location?.lng() || defaultCenter.lng,
-        });
-
-        setUserPosition(newCenter);
-
-        if (map) {
-          map.panTo(newCenter);
-          map.setZoom(15);
-        }
-      }
-    } else {
-      console.log("error loading");
-    }
-  }, [searchBox, handleSetLocation, map]);
-
-  if (loadError) {
-    return <div>Error loading maps</div>;
-  }
-
-  if (!isLoaded) {
-    return <div>Loading maps</div>;
-  }
+  }, [selected]);
 
   return (
     <div className="rMap">
       <div className="input">
         {isLoaded && (
-          <StandaloneSearchBox onPlacesChanged={handleOnPlaceChange}>
-            <input
-              type="text"
-              id="search-box-input"
-              placeholder="Search for a location"
-              onLoad={() => {}}
-            />
-          </StandaloneSearchBox>
+          <PlacesAutocomplete
+            setSelected={setSelected}
+            handleSetLocation={handleSetLocation}
+          />
         )}
       </div>
-      <button className="locateBtn" onClick={handleLocateUser} title="locate">
+      {/* onClick={handleLocateUser} */}
+      <button className="locateBtn" title="locate">
         <img src="/icons/locate.svg" alt="locate" />
       </button>
-      {isLoaded && (
+      <APIProvider
+        apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+        libraries={["places"]}
+        onLoad={() => setIsLoaded(true)}
+      >
         <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          zoom={10}
-          center={userPosition}
-          onLoad={handleLoad}
-          onUnmount={onUnmount}
-          options={{
-            disableDefaultUI: true,
-          }}
-        ></GoogleMap>
-      )}
+          disableDefaultUI={true}
+          defaultZoom={20}
+          center={mapCenter}
+          mapId={import.meta.env.VITE_MAP_ID}
+        >
+          {selected && (
+            <AdvancedMarker position={selected}>
+              <Pin
+                background={"white"}
+                borderColor={"#FA6400"}
+                glyphColor={"#FA6400"}
+              />
+            </AdvancedMarker>
+          )}
+        </GoogleMap>
+      </APIProvider>
     </div>
   );
 }
+
+const PlacesAutocomplete = ({
+  setSelected,
+  handleSetLocation,
+}: {
+  setSelected: React.Dispatch<React.SetStateAction<null | UserPosition>>;
+  handleSetLocation: (place: LocationType) => void;
+}) => {
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  const handleSelect = async (address: string) => {
+    setValue(address, false);
+    clearSuggestions();
+
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    setSelected({ lat, lng });
+    handleSetLocation({
+      lat,
+      lng,
+      currentAddress: results[0].formatted_address,
+    });
+  };
+
+  return (
+    <Combobox onSelect={handleSelect}>
+      <ComboboxInput
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        disabled={!ready}
+        placeholder="Search an address"
+      />
+      <ComboboxPopover>
+        <ComboboxList>
+          {status === "OK" &&
+            data.map(({ place_id, description }) => (
+              <ComboboxOption key={place_id} value={description} />
+            ))}
+        </ComboboxList>
+      </ComboboxPopover>
+    </Combobox>
+  );
+};
