@@ -28,6 +28,11 @@ export default function SearchBar({
     inputSearchTerm ? navigate("/search/" + inputSearchTerm) : navigate("/");
   };
 
+  const handleOpen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsOpen(false);
+  };
+
   return (
     <div className="header">
       <div className="searchContainer">
@@ -58,11 +63,12 @@ export default function SearchBar({
             <div className={`tags ${isOpen ? "isOpen" : ""}`}>
               <div
                 className="mClBtn"
-                onClick={() => setIsOpen(false)}
+                onClick={handleOpen}
                 style={{
                   width: "100%",
                   textAlign: "start",
                   border: "none",
+                  zIndex: 1009,
                 }}
               >
                 <p
@@ -86,6 +92,7 @@ export default function SearchBar({
                       tag.name === currentTag ? "1px solid #FA6400" : "none",
                     backgroundColor: tag.name === currentTag ? "#ffe9d9" : "",
                   }}
+                  onClick={handleOpen}
                 >
                   {tag.name}
                 </Link>
