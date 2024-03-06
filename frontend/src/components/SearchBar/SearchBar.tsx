@@ -18,6 +18,7 @@ export default function SearchBar({
   const navigate = useNavigate();
   const { user } = useAuth();
   const { totalCount } = useCart().cart;
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setInputSearchTerm(searchTerm ?? "");
@@ -48,12 +49,34 @@ export default function SearchBar({
           <button
             type="button"
             className="filter"
+            onClick={() => setIsOpen((prev) => !prev)}
             style={{
               display: tags ? "block" : "none",
             }}
           >
             <img src="/icons/filter.svg" alt="filter" />
-            <div className="tags">
+            <div className={`tags ${isOpen ? "isOpen" : ""}`}>
+              <div
+                className="mClBtn"
+                onClick={() => setIsOpen(false)}
+                style={{
+                  width: "100%",
+                  textAlign: "start",
+                  border: "none",
+                }}
+              >
+                <p
+                  style={{
+                    padding: "4px",
+                    backgroundColor: "#f0f0f0",
+                    width: "50px",
+                    textAlign: "center",
+                    borderRadius: "4px",
+                  }}
+                >
+                  Close
+                </p>
+              </div>
               {tags?.map((tag) => (
                 <Link
                   key={tag.name}

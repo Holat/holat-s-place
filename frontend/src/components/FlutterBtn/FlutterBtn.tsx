@@ -18,7 +18,7 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
   const { cart } = useCart();
 
   const config: FlutterwaveConfig = {
-    public_key: "FLWPUBK_TEST-da1d63d048b80ff95f0ce22da86fdd21-X",
+    public_key: `${import.meta.env.VITE_FLUTTERWAVE_KEY}`,
     tx_ref: `${Date.now()}_PMCK`,
     amount: cart.totalPrice,
     currency: "NGN",
@@ -59,8 +59,7 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
 
   return (
     <FlutterWaveButton className="flutterBtn" {...fwConfig}>
-      <Price price={order?.totalPrice || 0} />
-      Pay
+      Pay <Price price={order?.totalPrice} showP />
     </FlutterWaveButton>
   );
 }

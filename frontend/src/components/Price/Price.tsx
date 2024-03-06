@@ -2,10 +2,12 @@ const Price = ({
   locale,
   price,
   currency,
+  showP,
 }: {
   locale?: string;
   price: number;
   currency?: string;
+  showP?: boolean;
 }) => {
   const formatPrice = () =>
     new Intl.NumberFormat(locale, {
@@ -13,7 +15,7 @@ const Price = ({
       currency,
     }).format(price);
 
-  return <span>{formatPrice()}</span>;
+  return showP ? <span>({formatPrice()})</span> : <span>{formatPrice()}</span>;
 };
 
 Price.defaultProps = {

@@ -27,6 +27,7 @@
                 background-color: transparent;
                 cursor: pointer;
 
+
                 img {
                     width: 100%;
                     height: 100%;
@@ -40,14 +41,25 @@
                     position: absolute;
                     background-color: white;
                     padding: 12px;
-                    display: flex;
                     opacity: 0;
                     display: none;
-                    top: 100%;
+                    top: 70%;
                     right: 0;
                     transition: transform 0.5s ease;
                     border-radius: 10px;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                    .mClBtn {
+                        display: none;
+
+                        @include mobile {
+                            display: block;
+                        }
+                    }
+
+                    @include mobile {
+                        top: 90%
+                    }
 
                     a {
                         cursor: pointer;
@@ -60,15 +72,21 @@
                         text-align: center;
                         font-size: 12px;
                     }
+
                 }
 
-                &:hover {
-                    .tags {
-                        display: flex;
-                        opacity: 1;
-                    }
+                &:hover>.tags {
+                    display: flex;
+                    opacity: 1;
                 }
+
+                .isOpen {
+                    display: flex;
+                    opacity: 1;
+                }
+
             }
+
 
             .inputCont {
                 padding-left: 12px;
