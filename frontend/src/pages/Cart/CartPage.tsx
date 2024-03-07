@@ -1,4 +1,4 @@
-import "./CartPage.scss";
+import "./cartPage.scss";
 import { useNavigate } from "react-router-dom";
 import { NotFound, OrderItem, Price, SearchBar, Title } from "../../components";
 import useCart from "../../hooks/useCart";

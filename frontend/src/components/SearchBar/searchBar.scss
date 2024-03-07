@@ -75,9 +75,11 @@
 
                 }
 
-                &:hover>.tags {
-                    display: flex;
-                    opacity: 1;
+                @include hover {
+                    &:hover>.tags {
+                        display: flex;
+                        opacity: 1;
+                    }
                 }
 
                 .isOpen {

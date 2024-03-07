@@ -54,20 +54,6 @@ function HomePage() {
     );
   }, [tag, searchTerm]);
 
-  // useEffect(() => {
-  //   socket.on("adminEvent", (click: number | string) => {
-  //     click && console.log(click);
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [socket]);
-
-  // const handleClick = () => {
-  //   socket.emit("click");
-  // };
-
   return (
     <div className="homeCont">
       <SearchBar tags={tags} toggleOrderBar={toggleOrderBar} />

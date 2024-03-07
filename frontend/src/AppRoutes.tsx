@@ -7,7 +7,6 @@ import {
   LoginPage,
   RegisterPage,
   CheckoutPage,
-  TrackPage,
   OrdersPage,
   PaymentPage,
 } from "./pages";
@@ -48,14 +47,14 @@ const AppRoutes = () => {
           </AuthRoute>
         }
       />
-      <Route
+      {/* <Route
         path="/track/:orderId"
         element={
           <AuthRoute>
             <TrackPage />
           </AuthRoute>
         }
-      />
+      /> */}
       <Route
         path="/orders"
         element={

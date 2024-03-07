@@ -8,8 +8,12 @@ const PASSWORD_HASH_SALT_ROUNDS = 10;
 set("strictQuery", true);
 
 export const dbconnect = async () => {
+  const uri =
+    process.env.NODE_ENV === "dev"
+      ? "mongodb://127.0.0.1:27017/holatsPlace"
+      : process.env.MONGO_URI;
   try {
-    connect("mongodb://127.0.0.1:27017/holatsPlace");
+    connect(uri);
     await seedFoods();
     await seedUsers();
     console.log("db connected");
