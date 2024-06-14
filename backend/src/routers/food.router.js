@@ -13,6 +13,18 @@ router.get(
 );
 
 router.get(
+  "/topRatedFoods",
+  handler(async (_, res) => {
+    const foods = await FoodModel.find({ stars: { $gt: 4.5 } }).limit(6);
+    res.send(foods);
+  })
+);
+
+router.get("/demo", (req, res) => {
+  res.send("it got to here");
+});
+
+router.get(
   "/tags",
   handler(async (_, res) => {
     const aggregationPipeline = [

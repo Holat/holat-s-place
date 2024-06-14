@@ -3,10 +3,12 @@ import { FoodModel } from "../model/food.model.js";
 import bcrypt from "bcryptjs";
 import { sample_foods, sample_users } from "../data.js";
 import { UserModel } from "../model/user.model.js";
+import dotenv from "dotenv";
 
 const PASSWORD_HASH_SALT_ROUNDS = 10;
 set("strictQuery", true);
 
+dotenv.config();
 export const dbconnect = async () => {
   const uri =
     process.env.NODE_ENV === "dev"
@@ -18,7 +20,7 @@ export const dbconnect = async () => {
     await seedUsers();
     console.log("db connected");
   } catch (error) {
-    console.log(error);
+    console.log("Error connecting to the database", error);
   }
 };
 
@@ -45,7 +47,7 @@ async function seedFoods() {
   }
 
   for (const food of sample_foods) {
-    food.imageUrl = `/foods/${food.imageUrl}`;
+    food.imageUrl = `${food.imageUrl}`;
     await FoodModel.create(food);
   }
 
