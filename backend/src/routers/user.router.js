@@ -23,6 +23,21 @@ router.post(
 );
 
 router.post(
+  "/authenticate",
+  auth,
+  handler(async (req, res) => {
+    const {email, password } = req.body;
+    const user = await UserModel.findOne({ email });
+
+    if (user && (await bcrypt.compare(password, user.password))){
+      res.send({ success: true });
+      return;
+    } 
+    res.status(400).send({ success: false })
+  })
+);
+
+router.post(
   "/register",
   handler(async (req, res) => {
     const { firstName, lastName, email, password, address, mobileNumber } =
