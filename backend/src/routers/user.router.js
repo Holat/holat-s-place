@@ -13,9 +13,12 @@ router.post(
   handler(async (req, res) => {
     const { email, password } = req.body;
     const user = await UserModel.findOne({ email });
-
+    
+    const clientType = req.headers['x-client-type'] === 'app';
     if (user && (await bcrypt.compare(password, user.password))) {
-      res.send(generateTokenResponse(user));
+      clientType ? 
+        res.send(generateTokenResponse(user, {isApp: clientType})) : 
+        res.send(generateTokenResponse(user));
       return;
     }
     res.status(400).send("Username Or Password Is Incorrect");
@@ -112,7 +115,9 @@ router.put(
   })
 );
 
-const generateTokenResponse = (user) => {
+const generateTokenResponse = (user, options = {}) => {
+  const isApp = options.isApp || false;
+  const expiresIn = isApp ? "1y" : "2d";
   const token = jwt.sign(
     {
       id: user.id,
@@ -121,7 +126,7 @@ const generateTokenResponse = (user) => {
     },
     "HOLATSPLACEWEBTOKEN3784",
     {
-      expiresIn: "2d",
+      expiresIn,
     }
   );
 
@@ -135,5 +140,4 @@ const generateTokenResponse = (user) => {
     token,
   };
 };
-
 export default router;
