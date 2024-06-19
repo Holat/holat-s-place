@@ -46,6 +46,7 @@ router.post(
     const { firstName, lastName, email, password, address, mobileNumber } =
       req.body;
     const user = await UserModel.findOne({ email });
+    const clientType = req.headers['x-client-type'] === 'app';
 
     if (user) {
       res.status(400).send("User already exists, please login!");
@@ -62,7 +63,9 @@ router.post(
     };
 
     const result = await UserModel.create(newUser);
-    res.send(generateTokenResponse(result));
+    res.send(clientType ? 
+             generateTokenResponse(result, {isApp: clientType}) : 
+             generateTokenResponse(result));
   })
 );
 
@@ -77,7 +80,9 @@ router.put(
         { name, address, email, phone },
         { new: true }
       );
-      res.send(generateTokenResponse(user));
+      res.send(clientType ? 
+             generateTokenResponse(result, {isApp: clientType}) : 
+             generateTokenResponse(result));
     } catch (error) {
       if (error.code === 11000) {
         if (error.keyValue.email)
