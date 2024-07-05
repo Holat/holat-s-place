@@ -15,7 +15,8 @@ router.get(
 router.get(
   "/topRatedFoods",
   handler(async (_, res) => {
-    const foods = await FoodModel.find({ stars: { $gt: 4.5 } }).limit(6);
+    const foods = await FoodModel.find({ stars: { $gt: 4.5 } }).project({
+      id: 1,name: 1, price: 1, stars: 1, imageUrl: 1}).limit(6);
     res.send(foods);
   })
 );

@@ -41,7 +41,7 @@ router.put(
     }
 
     order.paymentId = paymentId;
-    order.status = "PAYED";
+    order.status = "PENDING";
     await order.save();
 
     res.send(order._id);

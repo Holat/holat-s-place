@@ -5,6 +5,7 @@ dotenv.config();
 import foodRouter from "../src/routers/food.router.js";
 import userRouter from "../src/routers/user.router.js";
 import orderRouter from "../src/routers/order.router.js";
+import hookRouter from "../src/routers/hook.router.js";
 import { dbconnect } from "./config/database.config.js";
 import { createServer } from "http";
 import socketInit from "./controllers/socket.js";
@@ -23,6 +24,7 @@ socketInit(httpServer);
 app.use("/api/foods", foodRouter);
 app.use("/api/user/", userRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/hook", hookRouter);
 
 console.log(process.env.NODE_ENV);
 
