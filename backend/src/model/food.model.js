@@ -1,4 +1,4 @@
-eimport { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export const FoodSchema = new Schema(
   {
