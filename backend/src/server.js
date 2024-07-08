@@ -23,6 +23,7 @@ app.use("/api/foods", foodRouter);
 app.use("/api/user/", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/hook", hookRouter);
+app.use("/api/favourites", favouriteRouter);
 
 if (process.env.NODE_ENV !== "dev") {
   const publicFolder = path.join(__dirname, "public");
