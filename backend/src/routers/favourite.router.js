@@ -15,7 +15,7 @@ router.post(
       user.favourites.push(foodId);
       await user.save();
     }
-    res.status(200).send(user);
+    res.status(200).send(user.favourites);
   })
 );
 
@@ -27,7 +27,7 @@ router.delete(
 
     user.favourites.pull(foodId);
     await user.save();
-    res.status(200).send(user);
+    res.status(200).send(user.favourites);
   })
 );
 

@@ -4,6 +4,7 @@ import foodRouter from "../src/routers/food.router.js";
 import userRouter from "../src/routers/user.router.js";
 import orderRouter from "../src/routers/order.router.js";
 import hookRouter from "./routers/hook.router.js";
+import favouriteRouter from "./routers/favourite.router.js";
 import { dbconnect } from "./config/database.config.js";
 import { createServer } from "http";
 import socketInit from "./controllers/socket.js";
