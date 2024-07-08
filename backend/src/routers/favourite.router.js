@@ -1,6 +1,7 @@
 import { Router } from "express";
 import auth from "../middleware/authMiddleware.js";
 import handler from "express-async-handler";
+import { UserModel } from "../model/user.model.js";
 
 const router = Router();
 router.use(auth);
@@ -15,7 +16,7 @@ router.post(
       user.favourites.push(foodId);
       await user.save();
     }
-    res.status(200).send(user);
+    res.status(200).send(user.favourites);
   })
 );
 
@@ -27,14 +28,22 @@ router.delete(
 
     user.favourites.pull(foodId);
     await user.save();
-    res.status(200).send(user);
+    res.status(200).send(user.favourites);
+  })
+);
+
+router.get(
+  "/id",
+  handler(async (req, res) => {
+    const user = await UserModel.findById(req.user.id);
+    res.status(200).send(user.favourites);
   })
 );
 
 router.get(
   "/",
   handler(async (req, res) => {
-    const user = await UserModel.findById(req.user.id).populate("favorites");
+    const user = await UserModel.findById(req.user.id).populate("favourites");
     res.status(200).send(user.favourites);
   })
 );
