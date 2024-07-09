@@ -28,15 +28,7 @@ router.delete(
 
     user.favourites.pull(foodId);
     await user.save();
-    res.status(200).send(user.favourites);
-  })
-);
-
-router.get(
-  "/id",
-  handler(async (req, res) => {
-    const user = await UserModel.findById(req.user.id);
-    res.status(200).send(user.favourites);
+    res.status(200).send(user);
   })
 );
 
