@@ -33,6 +33,14 @@ router.delete(
 );
 
 router.get(
+  "/id",
+  handler(async (req, res) => {
+    const user = await UserModel.findById(req.user.id).populate("favourites");
+    res.status(200).send(user.favourites);
+  })
+);
+
+router.get(
   "/",
   handler(async (req, res) => {
     const user = await UserModel.findById(req.user.id).populate("favourites");
