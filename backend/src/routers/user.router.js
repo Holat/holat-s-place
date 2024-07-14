@@ -13,12 +13,12 @@ router.post(
   handler(async (req, res) => {
     const { email, password } = req.body;
     const user = await UserModel.findOne({ email });
-    
-    const clientType = req.headers['x-client-type'] === 'app';
+
+    const clientType = req.headers["x-client-type"] === "app";
     if (user && (await bcrypt.compare(password, user.password))) {
-      clientType ? 
-        res.send(generateTokenResponse(user, {isApp: clientType})) : 
-        res.send(generateTokenResponse(user));
+      clientType
+        ? res.send(generateTokenResponse(user, { isApp: clientType }))
+        : res.send(generateTokenResponse(user));
       return;
     }
     res.status(400).send("Username Or Password Is Incorrect");
@@ -43,8 +43,15 @@ router.post(
 router.post(
   "/register",
   handler(async (req, res) => {
-    const { firstName, lastName, email, password, address, mobileNumber } =
-      req.body;
+    const {
+      firstName,
+      lastName,
+      name,
+      email,
+      password,
+      address,
+      mobileNumber,
+    } = req.body;
     const user = await UserModel.findOne({ email });
 
     if (user) {
@@ -53,8 +60,9 @@ router.post(
     }
 
     const hashedPass = await bcrypt.hash(password, PASSWORD_HASH_SALT_ROUNDS);
+    const uName = name ? name : `${firstName} ${lastName}`;
     const newUser = {
-      name: `${firstName} ${lastName}`,
+      name: uName,
       email: email.toLowerCase(),
       password: hashedPass,
       address,
