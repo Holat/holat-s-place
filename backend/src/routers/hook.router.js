@@ -4,7 +4,6 @@ import handler from "express-async-handler";
 import log from "../logs/log.js";
 
 const router = Router();
-console.log(process.env.FLW_HOOK_HASH);
 router.post(
   "/confirmPayment-flw",
   handler(async (req, res) => {

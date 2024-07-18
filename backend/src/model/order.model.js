@@ -1,15 +1,23 @@
 import { Schema, model } from "mongoose";
-import { FoodModel } from "./food.model.js";
+
+const FoodSubSchema = new Schema(
+  {
+    id: { type: Schema.Types.ObjectId, required: true },
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    stars: { type: Number, default: 1 },
+    imageUrl: { type: String, required: true },
+  },
+  { _id: false }
+);
 
 export const OrderItemSchema = new Schema(
   {
-    food: { type: FoodModel.schema, required: true },
+    food: { type: FoodSubSchema.schema, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
   },
-  {
-    _id: false,
-  }
+  { _id: false }
 );
 
 OrderItemSchema.pre("validate", function (next) {

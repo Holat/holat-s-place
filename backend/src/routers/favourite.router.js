@@ -21,6 +21,16 @@ router.post(
 );
 
 router.delete(
+  "/clear",
+  handler(async (req, res) => {
+    const user = await UserModel.findById(req.user.id);
+    user.favourites = [];
+    await user.save();
+    res.status(200).send(user.favourites);
+  })
+);
+
+router.delete(
   "/:foodId",
   handler(async (req, res) => {
     const { foodId } = req.params;
@@ -28,7 +38,7 @@ router.delete(
 
     user.favourites.pull(foodId);
     await user.save();
-    res.status(200).send(user);
+    res.status(200).send(user.favourites);
   })
 );
 
