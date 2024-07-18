@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-export const FoodSubSchema = new Schema(
+const FoodSubSchema = new Schema(
   {
     id: { type: Schema.Types.ObjectId, required: true },
     name: { type: String, required: true },
@@ -11,9 +11,9 @@ export const FoodSubSchema = new Schema(
   { _id: false }
 );
 
-export const OrderItemSchema = new Schema(
+const OrderItemSchema = new Schema(
   {
-    food: { type: FoodSubSchema.schema, required: true },
+    food: { type: FoodSubSchema, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
   },
