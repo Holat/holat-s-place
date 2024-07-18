@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const FoodSubSchema = new Schema(
+export const FoodSubSchema = new Schema(
   {
     id: { type: Schema.Types.ObjectId, required: true },
     name: { type: String, required: true },
