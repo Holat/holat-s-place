@@ -9,7 +9,6 @@ router.post(
   handler(async (req, res) => {
     const secretHash = process.env.FLW_HOOK_HASH;
     const signature = req.headers["verif-hash"];
-    console.log(signature === secretHash, signature, secretHash);
     if (!signature || signature !== secretHash) {
       res.status(401).end();
       return;
@@ -18,7 +17,7 @@ router.post(
     const { event, data } = req.body;
     const { status, id, customer } = data;
 
-    log("../logs/orderLog.txt", `${JSON.stringify(req.body)}`);
+    log("orderLog.txt", `${JSON.stringify(req.body)}`);
     const order = await OrderModel.findOne({
       paymentId: id,
       email: customer.email,

@@ -18,7 +18,6 @@ router.get(
     const foods = await FoodModel.find(
       { stars: { $gt: 4.5 } },
       {
-        id: 1,
         imageUrl: 1,
         stars: 1,
         price: 1,
