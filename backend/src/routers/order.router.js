@@ -41,7 +41,13 @@ router.put(
     }
 
     order.paymentId = paymentId;
-    order.status = "PAYED";
+
+    if (order.status === "PAYED") {
+      res.send(order._id);
+      return;
+    }
+
+    order.status = "PENDING";
     await order.save();
 
     res.send(order._id);
