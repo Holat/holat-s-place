@@ -81,7 +81,15 @@ router.get(
   "/tag/:tag",
   handler(async (req, res) => {
     const { tag } = req.params;
-    const data = await FoodModel.find({ tags: tag });
+    const data = await FoodModel.find(
+      { tags: tag },
+      {
+        imageUrl: 1,
+        stars: 1,
+        price: 1,
+        name: 1,
+      }
+    );
     res.send(data);
   })
 );
