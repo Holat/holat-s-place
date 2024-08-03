@@ -13,8 +13,8 @@ router.post(
   handler(async (req, res) => {
     const { email, password } = req.body;
     const user = await UserModel.findOne({ email });
-    const clientType = req.headers['X-Client-Type'] === 'app';
-    
+    const clientType = req.headers["X-Client-Type"] === "app";
+
     if (user && (await bcrypt.compare(password, user.password))) {
       clientType
         ? res.send(generateTokenResponse(user, { isApp: clientType }))
@@ -30,9 +30,7 @@ router.post(
   auth,
   handler(async (req, res) => {
     const { email } = req.body;
-    const user = await UserModel.findOne({ email });
-
-    if (user) {
+    if (req.user.email === email) {
       res.send({ success: true });
       return;
     }
@@ -53,7 +51,7 @@ router.post(
       mobileNumber,
     } = req.body;
     const user = await UserModel.findOne({ email });
-    const clientType = req.headers['X-Client-Type'] === 'app';
+    const clientType = req.headers["X-Client-Type"] === "app";
 
     if (user) {
       res.status(400).send("User already exists, please login!");
@@ -71,9 +69,11 @@ router.post(
     };
 
     const result = await UserModel.create(newUser);
-    res.send(clientType ? 
-             generateTokenResponse(result, {isApp: clientType}) : 
-             generateTokenResponse(result));
+    res.send(
+      clientType
+        ? generateTokenResponse(result, { isApp: clientType })
+        : generateTokenResponse(result)
+    );
   })
 );
 
@@ -82,16 +82,18 @@ router.put(
   auth,
   handler(async (req, res) => {
     const { name, address, email, mobileNumber: phone } = req.body;
-    const clientType = req.headers['X-Client-Type'] === 'app';
+    const clientType = req.headers["X-Client-Type"] === "app";
     try {
       const user = await UserModel.findByIdAndUpdate(
         req.user.id,
         { name, address, email, phone },
         { new: true }
       );
-      res.send(clientType ? 
-             generateTokenResponse(result, {isApp: clientType}) : 
-             generateTokenResponse(result));
+      res.send(
+        clientType
+          ? generateTokenResponse(user, { isApp: clientType })
+          : generateTokenResponse(user)
+      );
     } catch (error) {
       if (error.code === 11000) {
         if (error.keyValue.email)

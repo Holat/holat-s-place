@@ -15,11 +15,11 @@ router.post(
     }
 
     const { event, data } = req.body;
-    const { status, id, customer } = data;
+    const { status, customer, tx_ref } = data;
 
     log("orderLog.txt", `${JSON.stringify(req.body)}`);
     const order = await OrderModel.findOne({
-      paymentId: id,
+      tx_ref,
       email: customer.email,
     });
 
