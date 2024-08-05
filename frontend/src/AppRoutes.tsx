@@ -9,8 +9,9 @@ import {
   CheckoutPage,
   OrdersPage,
   PaymentPage,
+  AdminPage,
 } from "./pages";
-import { AuthRoute } from "./components";
+import { AuthRoute, ProtectedRouteAdmin } from "./components";
 
 const AppRoutes = () => {
   return (
@@ -61,6 +62,14 @@ const AppRoutes = () => {
           <AuthRoute>
             <OrdersPage />
           </AuthRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRouteAdmin>
+            <AdminPage />
+          </ProtectedRouteAdmin>
         }
       />
     </Routes>

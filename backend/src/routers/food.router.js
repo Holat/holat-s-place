@@ -1,6 +1,7 @@
 import { Router } from "express";
 import handler from "express-async-handler";
 import { FoodModel } from "../model/food.model.js";
+import auth from "../middleware/authMiddleware.js";
 
 const router = Router();
 
@@ -103,4 +104,35 @@ router.get(
   })
 );
 
+router.post(
+  "/create",
+  auth,
+  handler(async (req, res) => {
+    const item = req.body;
+    if (!req.user.isAdmin) {
+      res.status(401).send("Only Admins can create food Items");
+      return;
+    }
+
+    const newItem = new FoodModel({ ...item });
+    await newItem.save();
+    res.send({ success: true });
+  })
+);
+
+//  {
+//     name: { type: String, required: true },
+//     price: { type: Number, required: true },
+//     tags: { type: [String] },
+//     favorite: { type: Boolean, default: false },
+//     stars: { type: Number, default: 1 },
+//     imageUrl: { type: String, required: true },
+//     origins: { type: [String], required: true },
+//     cookTime: { type: String, required: true },
+//     desc: {
+//       type: String,
+//       default:
+//         "Delicious meal with a perfect blend of flavors to satisfy your taste buds.",
+//     },
+//   },
 export default router;
