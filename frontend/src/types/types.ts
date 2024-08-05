@@ -56,4 +56,15 @@ export type OrderType = {
   lat: number;
   lng: number;
   status?: string;
+  tx_ref?: string;
 } & CartType;
+
+type ItemCreateType = {
+  name: string;
+  price: number;
+  tags: string[];
+  imageUrl: string;
+  origins: string[];
+  cookTime: string;
+  desc: string;
+};
