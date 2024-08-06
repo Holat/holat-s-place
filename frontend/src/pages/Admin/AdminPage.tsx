@@ -7,19 +7,30 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const uploadImage = async (file) => {
+const uploadImage = async (file: File) => {
   if (!file) return;
 
-  const { data, error } = await supabase.storage
-    .from("hp.foods") // replace with your bucket name
-    .upload(`${file.name}`, file);
+  if (file.size > 5242880) {
+    toast.error("Image size should not be more than 5MB");
+    return;
+  }
+  const filename = file.name;
+
+  const { error } = await supabase.storage
+    .from("hp.foods")
+    .upload(`${filename}`, file);
 
   if (error) {
-    toast.error("Error uploading image:");
+    toast.error("Error uploading image!");
     return;
   }
 
+  const { data } = await supabase.storage
+    .from("hp.foods")
+    .getPublicUrl(filename);
+
   toast.log("Image uploaded successfully:", data);
+  return data.publicUrl;
 };
 
 const ImageUpload = () => {
@@ -43,20 +54,31 @@ const ImageUpload = () => {
 
 export default ImageUpload;
 
-const AdminPage = () => {
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<ItemCreateType>();
-
-  return <div>AdminPage</div>;
-};
-
 const ItemForm = () => {
   return <div></div>;
 };
 
+const AdminPage = () => {
+  return <div>AdminPage</div>;
+};
 export default AdminPage;
 // npm install @supabase/supabase-js
+
+// {
+//   "data": {
+//     "path": "public/avatar1.png",
+//     "fullPath": "avatars/public/avatar1.png"
+//   },
+//   "error": null
+// }
+
+// const { data } = supabase
+//   .storage
+//   .from('public-bucket')
+//   .getPublicUrl('folder/avatar1.png')
+
+// {
+//   "data": {
+//     "publicUrl": "https://example.supabase.co/storage/v1/object/public/public-bucket/folder/avatar1.png"
+//   }
+// }
