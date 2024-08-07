@@ -1,14 +1,18 @@
+import "./adminPage.scss";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ItemCreateType } from "../../types/types";
-r;
+import { createItem } from "../../services/foodService";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const uploadImage = async (file: File) => {
-  if (!file) return;
+  if (!file) {
+    toast.error("Food Image is Required");
+    return;
+  }
 
   if (file.size > 5242880) {
     toast.error("Image size should not be more than 5MB");
@@ -33,52 +37,86 @@ const uploadImage = async (file: File) => {
   return data.publicUrl;
 };
 
-const ImageUpload = () => {
-  const [file, setFile] = useState(null);
+const ItemForm = () => {
+  const [file, setFile] = useState<File | null>();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<ItemCreateType>();
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+  const handleChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
-  const handleUpload = async () => {
-    await uploadImage(file);
+  const submit = async (data: ItemCreateType) => {
+    let imageUrl = "";
+    uploadImage()
+      .then((res) => {
+        imageUrl = res;
+      })
+      .catch(() => {
+        toast.error("Error uploading image!");
+        return;
+      });
+
+    const foodData = { ...data, imageUrl };
+    try {
+      const success = await createItem(foodData);
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   };
+
+  // tags: string[];
+  // origins: string[];
 
   return (
-    <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
+    <div className="">
+      <form onSubmit={handleSubmit(submit)}>
+        <input type="file" onChange={handleChange} accept="image/*" />
+        <div>
+          <input
+            type="text"
+            {...register("name", {
+              required: true,
+            })}
+          />
+        </div>
+        <div>
+          <input
+            type="number"
+            {...register("price", {
+              required: true,
+            })}
+          />
+        </div>
+        <div>
+          <input
+            type="number"
+            {...register("cookTime", {
+              required: true,
+            })}
+          />
+        </div>
+        <div>
+          <input
+            type="number"
+            {...register("desc", {
+              required: true,
+            })}
+          />
+        </div>
+        <input type="submit" value={"Upload"} />
+      </form>
     </div>
   );
 };
 
-export default ImageUpload;
-
-const ItemForm = () => {
-  return <div></div>;
-};
-
 const AdminPage = () => {
-  return <div>AdminPage</div>;
+  return <div className="adminPage">AdminPage</div>;
 };
 export default AdminPage;
 // npm install @supabase/supabase-js
-
-// {
-//   "data": {
-//     "path": "public/avatar1.png",
-//     "fullPath": "avatars/public/avatar1.png"
-//   },
-//   "error": null
-// }
-
-// const { data } = supabase
-//   .storage
-//   .from('public-bucket')
-//   .getPublicUrl('folder/avatar1.png')
-
-// {
-//   "data": {
-//     "publicUrl": "https://example.supabase.co/storage/v1/object/public/public-bucket/folder/avatar1.png"
-//   }
-// }
