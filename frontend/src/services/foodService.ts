@@ -25,8 +25,3 @@ export const getById = async (foodId: string | number | undefined) => {
   const { data } = await axios.get("/api/foods/" + foodId);
   return data;
 };
-
-export const createItem = async (item: ItemCreateType) => {
-  const { data } = await axios.post("/api/foods/create", item);
-  return data.success;
-};

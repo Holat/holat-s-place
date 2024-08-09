@@ -3,7 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ItemCreateType } from "../../types/types";
-import { createItem } from "../../services/foodService";
+import { createItem } from "../../services/adminServices";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(supabaseUrl, supabaseKey);

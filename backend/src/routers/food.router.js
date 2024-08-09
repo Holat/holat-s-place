@@ -1,10 +1,8 @@
 import { Router } from "express";
 import handler from "express-async-handler";
 import { FoodModel } from "../model/food.model.js";
-import auth from "../middleware/authMiddleware.js";
 
 const router = Router();
-
 router.get(
   "/",
   handler(async (_, res) => {
@@ -101,22 +99,6 @@ router.get(
     const { foodId } = req.params;
     const data = await FoodModel.findById(foodId);
     res.send(data);
-  })
-);
-
-router.post(
-  "/create",
-  auth,
-  handler(async (req, res) => {
-    const item = req.body;
-    if (!req.user.isAdmin) {
-      res.status(401).send("Only Admins can create food Items");
-      return;
-    }
-
-    const newItem = new FoodModel({ ...item });
-    await newItem.save();
-    res.send({ success: true });
   })
 );
 
