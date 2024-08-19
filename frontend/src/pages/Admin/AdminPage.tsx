@@ -5,19 +5,13 @@ import { toast } from "react-toastify";
 import { ItemCreateType } from "../../types/types";
 import { createItem } from "../../services/adminServices";
 import { createClient } from "@supabase/supabase-js";
+import { getAllTags } from "../../services/foodService";
+import Select from "react-select";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const uploadImage = async (file: File) => {
-  if (!file) {
-    toast.error("Food Image is Required");
-    return;
-  }
-
-  if (file.size > 5242880) {
-    toast.error("Image size should not be more than 5MB");
-    return;
-  }
+  if (!file) return;
   const filename = file.name;
 
   const { error } = await supabase.storage
@@ -39,6 +33,7 @@ const uploadImage = async (file: File) => {
 
 const ItemForm = () => {
   const [file, setFile] = useState<File | null>();
+  const [img, setImg] = useState(null);
   const {
     register,
     handleSubmit,
@@ -48,10 +43,21 @@ const ItemForm = () => {
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
+    setImg(URL.createObjectURL(e.target.files[0]));
   };
 
   const submit = async (data: ItemCreateType) => {
     let imageUrl = "";
+    if (!file) {
+      toast.error("Food Image is Required");
+      return;
+    }
+
+    if (file.size > 5242880) {
+      toast.error("Image size should not be more than 5MB");
+      return;
+    }
+
     uploadImage()
       .then((res) => {
         imageUrl = res;
@@ -70,13 +76,19 @@ const ItemForm = () => {
     }
   };
 
-  // tags: string[];
-  // origins: string[];
-
   return (
     <div className="">
       <form onSubmit={handleSubmit(submit)}>
-        <input type="file" onChange={handleChange} accept="image/*" />
+        {img ? (
+          <img src={img} alt="Item Image" />
+        ) : (
+          <input
+            type="file"
+            onChange={handleChange}
+            accept="image/*"
+            multiple="false"
+          />
+        )}
         <div>
           <input
             type="text"
@@ -84,6 +96,7 @@ const ItemForm = () => {
               required: true,
             })}
           />
+          {errors.name && <div className="error">This field is required</div>}
         </div>
         <div>
           <input
@@ -92,7 +105,25 @@ const ItemForm = () => {
               required: true,
             })}
           />
+          {errors.price && <div className="error">This field is required</div>}
         </div>
+        <Controller
+          control={control}
+          name="tags"
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            <Select
+              options={options}
+              isLoading={isLoading}
+              onChange={onChange}
+              isMulti={true}
+              onBlur={onBlur}
+              value={value}
+              name={name}
+              ref={ref}
+            />
+          )}
+        />
+        ;
         <div>
           <input
             type="number"
@@ -100,14 +131,35 @@ const ItemForm = () => {
               required: true,
             })}
           />
+          {errors.cookTime && (
+            <div className="error">This field is required</div>
+          )}
         </div>
+        <Controller
+          control={control}
+          name="origins"
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            <Select
+              options={options}
+              isLoading={isLoading}
+              onChange={onChange}
+              isMulti={true}
+              onBlur={onBlur}
+              value={value}
+              name={name}
+              ref={ref}
+            />
+          )}
+        />
+        ;
         <div>
           <input
-            type="number"
+            type="text"
             {...register("desc", {
               required: true,
             })}
           />
+          {errors.desc && <div className="error">This field is required</div>}
         </div>
         <input type="submit" value={"Upload"} />
       </form>
@@ -119,4 +171,6 @@ const AdminPage = () => {
   return <div className="adminPage">AdminPage</div>;
 };
 export default AdminPage;
+
 // npm install @supabase/supabase-js
+// react-select
