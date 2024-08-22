@@ -1,37 +1,14 @@
 import "./adminPage.scss";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { ItemCreateType } from "../../types/types";
 import { createItem } from "../../services/adminServices";
-import { createClient } from "@supabase/supabase-js";
 import { getAllTags } from "../../services/foodService";
 import Select from "react-select";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-const uploadImage = async (file: File) => {
-  if (!file) return;
-  const filename = file.name;
-
-  const { error } = await supabase.storage
-    .from("hp.foods")
-    .upload(`${filename}`, file);
-
-  if (error) {
-    toast.error("Error uploading image!");
-    return;
-  }
-
-  const { data } = await supabase.storage
-    .from("hp.foods")
-    .getPublicUrl(filename);
-
-  toast.log("Image uploaded successfully:", data);
-  return data.publicUrl;
-};
+import { uploadImage } from "../../utils/adminForm";
 
 const ItemForm = () => {
+  const [tags, setTags] = useState<string[]>();
   const [file, setFile] = useState<File | null>();
   const [img, setImg] = useState(null);
   const {
@@ -112,8 +89,8 @@ const ItemForm = () => {
           name="tags"
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
-              options={options}
-              isLoading={isLoading}
+              options={tags}
+              // isLoading={isLoading}
               onChange={onChange}
               isMulti={true}
               onBlur={onBlur}
