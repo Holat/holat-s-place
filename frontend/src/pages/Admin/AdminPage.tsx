@@ -1,16 +1,34 @@
 import "./adminPage.scss";
-import React from "react";
+import React, { useState, useReducer } from "react";
 import { useForm } from "react-hook-form";
 import { ItemCreateType } from "../../types/types";
-import { createItem } from "../../services/adminServices";
+import { createItem, getCountries } from "../../services/adminServices";
 import { getAllTags } from "../../services/foodService";
 import Select from "react-select";
-import { uploadImage } from "../../utils/adminForm";
+import { mapSelectData, uploadImage } from "../../utils/adminForm";
+import FoodImg from "./FoodImg";
+
+const ORIGINS_LOADED = "ORIGINS_LOADED";
+const TAGS_LOADED = "TAGS_LOADED";
+const initialState = {
+  tags: [],
+  origins: [],
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case TAGS_LOADED:
+      return { ...state, tags: action.payload };
+    case ORIGINS_LOADED:
+      return { ...state, origins: action.payload };
+    default:
+      return state;
+  }
+};
 
 const ItemForm = () => {
-  const [tags, setTags] = useState<string[]>();
-  const [file, setFile] = useState<File | null>();
-  const [img, setImg] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { origins, tags } = state;
   const {
     register,
     handleSubmit,
@@ -18,22 +36,40 @@ const ItemForm = () => {
     formState: { errors },
   } = useForm<ItemCreateType>();
 
+  useEffect(() => {
+    getCountries().then((item) =>
+      dispatch({ type: ORIGIN_LOADED, payload: item })
+    );
+
+    getAllTags().then((item) => dispatch({ type: TAGS_LOADED, payload: item }));
+  }, []);
+
   const handleChange = (e) => {
     setFile(e.target.files[0]);
     setImg(URL.createObjectURL(e.target.files[0]));
   };
 
   const submit = async (data: ItemCreateType) => {
-    let imageUrl = "";
-    if (!file) {
-      toast.error("Food Image is Required");
+    const { imageUrl } = data;
+    const file = imageUrl[0];
+
+    if (file.type != "image/*") {
+      setError("imageUrl", {
+        type: "filetype",
+        message: "Only images are valid.",
+      });
+      return;
+    }
+    if (file.size > 5242880) {
+      setError("imageUrl", {
+        type: "filesize",
+        message: "Image size should not be more than 5MB.",
+      });
       return;
     }
 
-    if (file.size > 5242880) {
-      toast.error("Image size should not be more than 5MB");
-      return;
-    }
+    console.log(data);
+    return;
 
     uploadImage()
       .then((res) => {
@@ -56,25 +92,7 @@ const ItemForm = () => {
   return (
     <div className="">
       <form onSubmit={handleSubmit(submit)}>
-        {img ? (
-          <img src={img} alt="Item Image" />
-        ) : (
-          <input
-            type="file"
-            onChange={handleChange}
-            accept="image/*"
-            multiple="false"
-          />
-        )}
-        <div>
-          <input
-            type="text"
-            {...register("name", {
-              required: true,
-            })}
-          />
-          {errors.name && <div className="error">This field is required</div>}
-        </div>
+        <FormImg register={register} />
         <div>
           <input
             type="number"
@@ -89,7 +107,7 @@ const ItemForm = () => {
           name="tags"
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
-              options={tags}
+              options={mapSelectData(tags)}
               // isLoading={isLoading}
               onChange={onChange}
               isMulti={true}
@@ -117,8 +135,8 @@ const ItemForm = () => {
           name="origins"
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
-              options={options}
-              isLoading={isLoading}
+              options={mapSelectData(origins)}
+              // isLoading={isLoading}
               onChange={onChange}
               isMulti={true}
               onBlur={onBlur}

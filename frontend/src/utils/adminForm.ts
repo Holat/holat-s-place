@@ -23,9 +23,10 @@ export const uploadImage = async (file: File) => {
   return data.publicUrl;
 };
 
-// export const mapSelectData = (apiData: string[]) => {
-//   const data = [{ value: "", label: "" }];
+export const mapSelectData = (apiData: string[]) => {
+  const data = [{ value: "", label: "" }];
+  if (apiData) data = apiData.map((item) => ({ value: item, label: item }));
+  else return null;
 
-//   if (apiData)
-//     data = apiData.map((item))
-// };
+  return data;
+};
