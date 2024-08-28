@@ -14,6 +14,10 @@ router.post(
       return;
     }
 
+    if (!req.body.data || !req.body.event){
+      res.status(405).json({message: "Request rejected"}).end();
+      return;
+    }
     const { event, data } = req.body;
     const { status, id, customer } = data;
 
@@ -23,7 +27,11 @@ router.post(
       email: customer.email,
     });
 
-    if (!order) return;
+    if (!order){
+      res.status(405).end();
+      return
+    };
+    
     if (status === "successful" && event === "charge.completed") {
       order.status = "PAYED";
     } else {
