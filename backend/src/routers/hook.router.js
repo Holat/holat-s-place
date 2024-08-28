@@ -22,12 +22,19 @@ router.post(
     const { status, id, customer } = data;
 
     log("orderLog.txt", `${JSON.stringify(req.body)}`);
+    // const order = await OrderModel.findOne({
+    //   paymentId: id, replace with tx_ref
+    //   email: customer.email,
+    // });
     const order = await OrderModel.findOne({
-      paymentId: id,
-      email: customer.email,
+       paymentId: id
+    }).populate({
+      path: 'user', 
+      match: { email: customer.email },
+      select: 'email', 
     });
 
-    if (!order){
+    if (!order || order.length !== 1){
       res.status(405).end();
       return
     };
