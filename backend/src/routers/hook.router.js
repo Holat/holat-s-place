@@ -34,8 +34,8 @@ router.post(
       select: 'email', 
     });
 
-    if (!order || order.length !== 1){
-      res.status(405).end();
+    if (!order){
+      res.status(405).json({message: "Order not found"}).end();
       return
     };
     
