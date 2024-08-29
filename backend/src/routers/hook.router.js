@@ -20,16 +20,23 @@ router.post(
     log("orderLog.txt", `${JSON.stringify(req.body)}`);
     const order = await OrderModel.findOne({
       tx_ref,
-      email: customer.email,
+      status: "PENDING",
     });
 
-    if (!order) return;
-    if (status === "successful" && event === "charge.completed") {
-      order.status = "PAYED";
-    } else {
-      order.status = "FAILED";
+    if (order) {
+      if (status === "successful" && event === "charge.completed") {
+        order.status = "PAYED";
+      } else {
+        order.status = "FAILED";
+      }
+      await order.save();
     }
-    await order.save();
+
+    // .populate({
+    //   path: 'user',
+    //   match: { email: customer.email },
+    //   select: 'email',
+    // });
     res.status(200).end();
   })
 );
