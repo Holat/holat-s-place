@@ -22,10 +22,6 @@ router.post(
     const { status, id, customer } = data;
 
     log("orderLog.txt", `${JSON.stringify(req.body)}`);
-    // const order = await OrderModel.findOne({
-    //   paymentId: id, replace with tx_ref
-    //   email: customer.email,
-    // });
     const order = await OrderModel.findOne({
        paymentId: id
     }).populate({
@@ -34,17 +30,14 @@ router.post(
       select: 'email', 
     });
 
-    if (!order){
-      res.status(405).json({message: "Order not found"}).end();
-      return
-    };
-    
-    if (status === "successful" && event === "charge.completed") {
-      order.status = "PAYED";
-    } else {
-      order.status = "FAILED";
+     if (order) {
+      if (status === "successful" && event === "charge.completed") {
+        order.status = "PAYED";
+      } else {
+        order.status = "FAILED";
+      }
+      await order.save();
     }
-    await order.save();
     res.status(200).end();
   })
 );
