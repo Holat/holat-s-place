@@ -21,6 +21,10 @@ router.post(
     const order = await OrderModel.findOne({
       tx_ref,
       status: "PENDING",
+    }).populate({
+      path: "user",
+      match: { email: customer.email },
+      select: "email",
     });
 
     if (order) {
@@ -32,11 +36,6 @@ router.post(
       await order.save();
     }
 
-    // .populate({
-    //   path: 'user',
-    //   match: { email: customer.email },
-    //   select: 'email',
-    // });
     res.status(200).end();
   })
 );
