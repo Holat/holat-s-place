@@ -1,4 +1,5 @@
 import "./adminPage.scss";
+import "./foodForm.scss";
 import React, { useState, useReducer } from "react";
 import { useForm } from "react-hook-form";
 import { ItemCreateType } from "../../types/types";
@@ -90,7 +91,7 @@ const ItemForm = () => {
   };
 
   return (
-    <div className="">
+    <div className="form-container">
       <form onSubmit={handleSubmit(submit)}>
         <FormImg register={register} />
         <div>
@@ -99,6 +100,7 @@ const ItemForm = () => {
             {...register("price", {
               required: true,
             })}
+            className="text-input"
           />
           {errors.price && <div className="error">This field is required</div>}
         </div>
@@ -125,6 +127,7 @@ const ItemForm = () => {
             {...register("cookTime", {
               required: true,
             })}
+            className="text-input"
           />
           {errors.cookTime && (
             <div className="error">This field is required</div>
@@ -137,6 +140,8 @@ const ItemForm = () => {
             <Select
               options={mapSelectData(origins)}
               // isLoading={isLoading}
+              // isOptionDisabled={() => selectedOptions.length >= 3}
+              isSearchable={true}
               onChange={onChange}
               isMulti={true}
               onBlur={onBlur}
@@ -153,10 +158,11 @@ const ItemForm = () => {
             {...register("desc", {
               required: true,
             })}
+            className="text-input description-input"
           />
           {errors.desc && <div className="error">This field is required</div>}
         </div>
-        <input type="submit" value={"Upload"} />
+        <input className="form-submit-button" type="submit" value={"Upload"} />
       </form>
     </div>
   );

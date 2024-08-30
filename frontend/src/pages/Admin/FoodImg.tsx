@@ -35,9 +35,7 @@ const FoodImg = ({ register }) => {
         multiple="false"
       />
       <img src={preview ? preview : ""} alt="Item Image" />
-      <button variant="text" onClick={onUpload}>
-        {uploadButtonLabel}
-      </button>
+      <button variant="text" onClick={onUpload}></button>
     </div>
   );
 };
