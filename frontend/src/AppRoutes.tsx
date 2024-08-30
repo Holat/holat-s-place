@@ -9,6 +9,7 @@ import {
   CheckoutPage,
   OrdersPage,
   PaymentPage,
+  NotFoundPage,
 } from "./pages";
 import { AuthRoute } from "./components";
 
@@ -63,6 +64,7 @@ const AppRoutes = () => {
           </AuthRoute>
         }
       />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
