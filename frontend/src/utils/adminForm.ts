@@ -8,7 +8,9 @@ export const uploadImage = async (file: File) => {
 
   const { error } = await supabase.storage
     .from("hp.foods")
-    .upload(`${filename}`, file);
+    .upload(`${filename}`, file, {
+      upsert: true,
+    });
 
   if (error) {
     toast.error("Error uploading image!");

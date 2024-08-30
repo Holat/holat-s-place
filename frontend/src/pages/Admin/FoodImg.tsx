@@ -15,27 +15,36 @@ const FoodImg = ({ register }) => {
     hiddenInputRef.current.click();
   };
 
-  const uploadButtonLabel = preview ? "Change image" : "Upload image";
-
   return (
     <div>
-      <label>Profile picture</label>
-
-      <input
-        type="file"
-        name="foodImg"
-        // className="hidden"
-        {...rest}
-        onChange={handleUploadedFile}
-        ref={(e: React.FormEvent<HTMLInputElement>) => {
-          registerRef(e);
-          hiddenInputRef.current = e;
-        }}
-        accept="image/*"
-        multiple="false"
-      />
-      <img src={preview ? preview : ""} alt="Item Image" />
-      <button variant="text" onClick={onUpload}></button>
+      <label>Add an image</label>
+      <div className="image-input">
+        <input
+          type="file"
+          name="foodImg"
+          // className="hidden"
+          {...rest}
+          onChange={handleUploadedFile}
+          ref={(e: React.FormEvent<HTMLInputElement>) => {
+            registerRef(e);
+            hiddenInputRef.current = e;
+          }}
+          accept="image/*"
+          multiple="false"
+        />
+        {preview ? (
+          <img src={preview} alt="Item Image" className="preview" />
+        ) : (
+          <button variant="text" onClick={onUpload}>
+            <img src="../../../public/icons/addImg.svg" alt="Add image" />
+          </button>
+        )}
+      </div>
+      {preview && (
+        <button style="background-color:#fa6400;border:none;border-radius:4px;padding: 4px">
+          Change Image
+        </button>
+      )}
     </div>
   );
 };

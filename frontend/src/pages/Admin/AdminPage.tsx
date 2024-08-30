@@ -111,6 +111,8 @@ const ItemForm = () => {
             <Select
               options={mapSelectData(tags)}
               // isLoading={isLoading}
+              className="select-input"
+              classNamePrefix="react-select"
               onChange={onChange}
               isMulti={true}
               onBlur={onBlur}
@@ -141,6 +143,8 @@ const ItemForm = () => {
               options={mapSelectData(origins)}
               // isLoading={isLoading}
               // isOptionDisabled={() => selectedOptions.length >= 3}
+              className="select-input"
+              classNamePrefix="react-select"
               isSearchable={true}
               onChange={onChange}
               isMulti={true}
