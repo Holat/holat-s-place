@@ -23,6 +23,11 @@ const links = [
     linkUrl: "/orders",
     iconUrl: "/icons/order.svg",
   },
+  {
+    name: "Admin",
+    linkUrl: "/admin",
+    iconUrl: "/icons/admin.svg",
+  },
 ];
 
 export default function Links() {

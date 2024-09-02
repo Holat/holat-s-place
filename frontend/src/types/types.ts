@@ -59,12 +59,26 @@ export type OrderType = {
   tx_ref?: string;
 } & CartType;
 
-type ItemCreateType = {
+export type ItemCreateType = {
   name: string;
   price: number;
   tags: string[];
-  imageUrl: string;
+  imageUrl: File | string;
   origins: string[];
-  cookTime: string;
+  cookTime: number;
   desc: string;
 };
+
+export type SelectType = {
+  label: "";
+  value: "";
+};
+
+export type AdminD = {
+  origins: SelectType[];
+  tags: SelectType[];
+};
+
+export type IAAction =
+  | { type: "ORIGINS_LOADED"; payload: SelectType[] }
+  | { type: "TAGS_LOADED"; payload: SelectType[] };

@@ -1,22 +1,28 @@
 import "./adminPage.scss";
 import "./foodForm.scss";
-import React, { useState, useReducer } from "react";
-import { useForm } from "react-hook-form";
-import { ItemCreateType } from "../../types/types";
+import { useReducer, useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import {
+  ItemCreateType,
+  IAAction,
+  AdminD,
+  SelectType,
+} from "../../types/types";
 import { createItem, getCountries } from "../../services/adminServices";
 import { getAllTags } from "../../services/foodService";
-import Select from "react-select";
-import { mapSelectData, uploadImage } from "../../utils/adminForm";
+import Select, { GroupBase, OnChangeValue } from "react-select";
+import { uploadImage } from "../../utils/adminForm";
 import FoodImg from "./FoodImg";
+import { toast } from "react-toastify";
 
 const ORIGINS_LOADED = "ORIGINS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";
-const initialState = {
+const initialState: AdminD = {
   tags: [],
   origins: [],
 };
 
-const reducer = (state, action) => {
+const reducer = (state: AdminD, action: IAAction) => {
   switch (action.type) {
     case TAGS_LOADED:
       return { ...state, tags: action.payload };
@@ -27,32 +33,45 @@ const reducer = (state, action) => {
   }
 };
 
+const defaultValues = {
+  name: "",
+  price: 0.0,
+  tags: [],
+  imageUrl: "",
+  origins: [],
+  cookTime: 1,
+  desc: "",
+};
 const ItemForm = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { origins, tags } = state;
   const {
     register,
     handleSubmit,
-    getValues,
+    control,
+    setError,
     formState: { errors },
-  } = useForm<ItemCreateType>();
+  } = useForm<ItemCreateType>({ defaultValues });
 
   useEffect(() => {
     getCountries().then((item) =>
-      dispatch({ type: ORIGIN_LOADED, payload: item })
+      dispatch({ type: ORIGINS_LOADED, payload: item })
     );
 
     getAllTags().then((item) => dispatch({ type: TAGS_LOADED, payload: item }));
   }, []);
 
-  const handleChange = (e) => {
-    setFile(e.target.files[0]);
-    setImg(URL.createObjectURL(e.target.files[0]));
-  };
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
 
   const submit = async (data: ItemCreateType) => {
     const { imageUrl } = data;
-    const file = imageUrl[0];
+    if (!(imageUrl instanceof File)) return;
+    const file = imageUrl;
+    let imgUrl = "";
 
     if (file.type != "image/*") {
       setError("imageUrl", {
@@ -70,20 +89,20 @@ const ItemForm = () => {
     }
 
     console.log(data);
-    return;
 
-    uploadImage()
+    uploadImage(imageUrl)
       .then((res) => {
-        imageUrl = res;
+        imgUrl = res;
       })
       .catch(() => {
         toast.error("Error uploading image!");
         return;
       });
 
-    const foodData = { ...data, imageUrl };
+    const foodData = { ...data, imageUrl: imgUrl };
     try {
       const success = await createItem(foodData);
+      toast.success(success);
     } catch (error) {
       console.log(error);
       return;
@@ -91,14 +110,28 @@ const ItemForm = () => {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit(submit)}>
-        <FormImg register={register} />
+    <div>
+      <form onSubmit={handleSubmit(submit)} className="form-container">
+        <FoodImg register={register} />
+        <div>
+          <input
+            type="text"
+            placeholder="Name"
+            {...register("name", {
+              required: true,
+            })}
+            className="text-input"
+          />
+          {errors.name && <div className="error">This field is required</div>}
+        </div>
         <div>
           <input
             type="number"
+            placeholder="Price"
             {...register("price", {
               required: true,
+              valueAsNumber: true,
+              min: 1,
             })}
             className="text-input"
           />
@@ -109,7 +142,7 @@ const ItemForm = () => {
           name="tags"
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
-              options={mapSelectData(tags)}
+              options={options}
               // isLoading={isLoading}
               className="select-input"
               classNamePrefix="react-select"
@@ -119,15 +152,18 @@ const ItemForm = () => {
               value={value}
               name={name}
               ref={ref}
+              placeholder="Tags"
             />
           )}
         />
-        ;
         <div>
           <input
             type="number"
+            placeholder="Cook Time"
             {...register("cookTime", {
               required: true,
+              valueAsNumber: true,
+              min: 1,
             })}
             className="text-input"
           />
@@ -140,7 +176,7 @@ const ItemForm = () => {
           name="origins"
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
-              options={mapSelectData(origins)}
+              options={options}
               // isLoading={isLoading}
               // isOptionDisabled={() => selectedOptions.length >= 3}
               className="select-input"
@@ -152,13 +188,14 @@ const ItemForm = () => {
               value={value}
               name={name}
               ref={ref}
+              placeholder="Origin"
             />
           )}
         />
-        ;
         <div>
           <input
             type="text"
+            placeholder="Description"
             {...register("desc", {
               required: true,
             })}
@@ -173,7 +210,11 @@ const ItemForm = () => {
 };
 
 const AdminPage = () => {
-  return <div className="adminPage">AdminPage</div>;
+  return (
+    <div className="adminPage">
+      <ItemForm />
+    </div>
+  );
 };
 export default AdminPage;
 

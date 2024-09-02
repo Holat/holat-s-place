@@ -32,6 +32,7 @@ router.get(
   })
 );
 
+export default router;
 // router.get('/monthly-sales', async (req, res) => {
 //   try {
 //     const currentYear = new Date().getFullYear();

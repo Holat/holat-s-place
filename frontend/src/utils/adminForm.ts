@@ -1,9 +1,18 @@
 import { createClient } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
+// const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(
+  "https://drmakcnqbxnllugyswjm.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRybWFrY25xYnhubGx1Z3lzd2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjEyMDQ3NTksImV4cCI6MjAzNjc4MDc1OX0.CPrzfWbfggShXw7-MJpdB1jd1S1cQvQ7jBgVgEvREUg"
+);
 export const uploadImage = async (file: File) => {
-  if (!file) return;
+  if (!file) return "";
   const filename = file.name;
 
   const { error } = await supabase.storage
@@ -14,21 +23,17 @@ export const uploadImage = async (file: File) => {
 
   if (error) {
     toast.error("Error uploading image!");
-    return;
+    return "";
   }
 
   const { data } = await supabase.storage
     .from("hp.foods")
     .getPublicUrl(filename);
 
-  toast.log("Image uploaded successfully:", data);
-  return data.publicUrl;
+  toast.success("Image uploaded successfully");
+  return data.publicUrl ? data.publicUrl : "";
 };
 
-export const mapSelectData = (apiData: string[]) => {
-  const data = [{ value: "", label: "" }];
-  if (apiData) data = apiData.map((item) => ({ value: item, label: item }));
-  else return null;
-
-  return data;
+export const mapSelectData = (apiData: string[]): SelectOption[] => {
+  return apiData.map((item: string) => ({ value: item, label: item }));
 };

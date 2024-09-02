@@ -1,50 +1,53 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { UseFormRegister } from "react-hook-form";
+import { ItemCreateType } from "../../types/types";
 
-const FoodImg = ({ register }) => {
-  const hiddenInputRef = useRef();
-  const [preview, setPreview] = useState();
-  const { ref: registerRef, ...rest } = register("profilePicture");
+const FoodImg = ({
+  register,
+}: {
+  register: UseFormRegister<ItemCreateType>;
+}) => {
+  const hiddenInputRef = useRef<HTMLInputElement | null>();
+  const [preview, setPreview] = useState<string | null>(null);
+  const { ref: registerRef, ...rest } = register("imageUrl");
 
-  const handleUploadedFile = (event: React.FormEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
-    const urlImage = URL.createObjectURL(file);
-    setPreview(urlImage);
+  const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files;
+
+    if (file) {
+      const urlImage = URL.createObjectURL(file[0]);
+      setPreview(urlImage);
+    }
   };
 
   const onUpload = () => {
-    hiddenInputRef.current.click();
+    hiddenInputRef.current?.click();
   };
 
   return (
-    <div>
+    <div className="imgCont">
       <label>Add an image</label>
       <div className="image-input">
         <input
           type="file"
-          name="foodImg"
-          // className="hidden"
           {...rest}
           onChange={handleUploadedFile}
-          ref={(e: React.FormEvent<HTMLInputElement>) => {
+          ref={(e) => {
             registerRef(e);
             hiddenInputRef.current = e;
           }}
           accept="image/*"
-          multiple="false"
+          multiple={false}
         />
         {preview ? (
           <img src={preview} alt="Item Image" className="preview" />
         ) : (
-          <button variant="text" onClick={onUpload}>
-            <img src="../../../public/icons/addImg.svg" alt="Add image" />
+          <button className="addBtn" onClick={onUpload}>
+            <img src="/icons/addImg.svg" alt="Add image" />
           </button>
         )}
       </div>
-      {preview && (
-        <button style="background-color:#fa6400;border:none;border-radius:4px;padding: 4px">
-          Change Image
-        </button>
-      )}
+      {preview && <button className="cBtn">Change Image</button>}
     </div>
   );
 };

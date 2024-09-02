@@ -11,9 +11,6 @@ export default function SideBar() {
           <LinkComp name="Holat's Place" linkUrl="/" iconUrl="/logo.png" />
         </div>
         <Links />
-        {user?.isAdmin && (
-          <LinkComp name="Admin" linkUrl="/admin" iconUrl="/icon/admin.svg" />
-        )}
       </div>
       <div>
         {user ? (

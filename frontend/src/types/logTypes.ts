@@ -32,5 +32,4 @@ export type LoginInputType = {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   error?: FieldError;
-  clas;
 };

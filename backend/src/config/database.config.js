@@ -8,12 +8,13 @@ import dotenv from "dotenv";
 const PASSWORD_HASH_SALT_ROUNDS = 10;
 set("strictQuery", true);
 
+//: process.env.MONGO_URI;
 dotenv.config();
 export const dbconnect = async () => {
   const uri =
     process.env.NODE_ENV === "dev"
       ? "mongodb://127.0.0.1:27017/holatsPlace"
-      : process.env.MONGO_URI;
+      : "mongodb+srv://Holat:mMDAPFzfEV5eoVzn@cluster1.x5ks8va.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
   try {
     connect(uri);
     await seedFoods();
