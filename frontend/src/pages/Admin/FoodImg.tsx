@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { ItemCreateType } from "../../types/types";
 
 const FoodImg = ({
   register,
+  setValue,
 }: {
   register: UseFormRegister<ItemCreateType>;
+  setValue: UseFormSetValue<ItemCreateType>;
 }) => {
   const hiddenInputRef = useRef<HTMLInputElement | null>();
   const [preview, setPreview] = useState<string | null>(null);
@@ -17,6 +19,7 @@ const FoodImg = ({
     if (file) {
       const urlImage = URL.createObjectURL(file[0]);
       setPreview(urlImage);
+      setValue("imageUrl", file[0]);
     }
   };
 
@@ -42,12 +45,16 @@ const FoodImg = ({
         {preview ? (
           <img src={preview} alt="Item Image" className="preview" />
         ) : (
-          <button className="addBtn" onClick={onUpload}>
+          <button type="button" className="addBtn" onClick={onUpload}>
             <img src="/icons/addImg.svg" alt="Add image" />
           </button>
         )}
       </div>
-      {preview && <button className="cBtn">Change Image</button>}
+      {preview && (
+        <button type="button" onClick={onUpload} className="cBtn">
+          Change Image
+        </button>
+      )}
     </div>
   );
 };

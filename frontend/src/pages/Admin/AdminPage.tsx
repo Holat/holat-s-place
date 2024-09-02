@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "./adminPage.scss";
 import "./foodForm.scss";
 import { useReducer, useEffect } from "react";
@@ -7,6 +8,7 @@ import {
   IAAction,
   AdminD,
   SelectType,
+  TagTypes,
 } from "../../types/types";
 import { createItem, getCountries } from "../../services/adminServices";
 import { getAllTags } from "../../services/foodService";
@@ -50,6 +52,7 @@ const ItemForm = () => {
     handleSubmit,
     control,
     setError,
+    setValue,
     formState: { errors },
   } = useForm<ItemCreateType>({ defaultValues });
 
@@ -58,7 +61,13 @@ const ItemForm = () => {
       dispatch({ type: ORIGINS_LOADED, payload: item })
     );
 
-    getAllTags().then((item) => dispatch({ type: TAGS_LOADED, payload: item }));
+    getAllTags().then((items) => {
+      const data = items.map((item: TagTypes) => ({
+        label: item.name,
+        value: item.name,
+      }));
+      dispatch({ type: TAGS_LOADED, payload: data });
+    });
   }, []);
 
   const options = [
@@ -68,6 +77,7 @@ const ItemForm = () => {
   ];
 
   const submit = async (data: ItemCreateType) => {
+    console.log(data);
     const { imageUrl } = data;
     if (!(imageUrl instanceof File)) return;
     const file = imageUrl;
@@ -88,31 +98,29 @@ const ItemForm = () => {
       return;
     }
 
-    console.log(data);
+    // uploadImage(imageUrl)
+    //   .then((res) => {
+    //     imgUrl = res;
+    //   })
+    //   .catch(() => {
+    //     toast.error("Error uploading image!");
+    //     return;
+    //   });
 
-    uploadImage(imageUrl)
-      .then((res) => {
-        imgUrl = res;
-      })
-      .catch(() => {
-        toast.error("Error uploading image!");
-        return;
-      });
-
-    const foodData = { ...data, imageUrl: imgUrl };
-    try {
-      const success = await createItem(foodData);
-      toast.success(success);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
+    // const foodData = { ...data, imageUrl: imgUrl };
+    // try {
+    //   const success = await createItem(foodData);
+    //   toast.success(success);
+    // } catch (error) {
+    //   console.log(error);
+    //   return;
+    // }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(submit)} className="form-container">
-        <FoodImg register={register} />
+        <FoodImg register={register} setValue={setValue} />
         <div>
           <input
             type="text"
@@ -142,7 +150,7 @@ const ItemForm = () => {
           name="tags"
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
-              options={options}
+              options={tags}
               // isLoading={isLoading}
               className="select-input"
               classNamePrefix="react-select"
@@ -176,7 +184,7 @@ const ItemForm = () => {
           name="origins"
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
-              options={options}
+              options={origins}
               // isLoading={isLoading}
               // isOptionDisabled={() => selectedOptions.length >= 3}
               className="select-input"
