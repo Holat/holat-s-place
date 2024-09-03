@@ -2,18 +2,45 @@ $form-primary-color: #fa6400;
 $form-background-color: #ffffff;
 $form-border-radius: 8px; // Adjust this for the desired level of roundness
 $form-border-color: #f0f0f0;
+$placeholder-color: #ececec;
 
 .form-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     background-color: $form-background-color;
     border-radius: $form-border-radius;
 
+    .flex-row-cont{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .error{
+        text-align: right;
+        color: red;
+        font-size: 12px;
+        margin-top: 2px;
+    }
+
+    .inputCont{
+        display: flex;
+        flex-direction: column;
+
+        label{
+            font-size: 16px;
+            font-weight: 500;
+            margin-left: 2px;
+            margin-bottom: 4px;
+        }
+    }
+
     .imgCont{
+        position: relative;
         .image-input {
             position: relative;
             width: 200px;
@@ -24,7 +51,6 @@ $form-border-color: #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
             overflow: hidden;
     
             input[type="file"] {
@@ -37,24 +63,36 @@ $form-border-color: #f0f0f0;
             }
     
             .addBtn {
-                height: 60px;
-                width: 60px;
+                height: 52px;
+                width: 52px;
                 border-radius: 50%;
                 border: none;
                 background-color: transparent;
+
+                
     
                 img {
                     width: 100%;
                     height: 100%;
+
+                    &:hover{
+                        cursor: pointer;
+                    }
                 }
             }
         }
 
         .cBtn{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            transform: translateX(102%);
             background-color: $form-primary-color;
             border:none;
             border-radius:4px;
-            padding: 4px
+            padding: 4px 6px;
+            align-self: flex-start;
+            color: white
         }
     }
 
@@ -68,7 +106,18 @@ $form-border-color: #f0f0f0;
                 border-color: $form-primary-color;
             }
         }
+
+        .react-select__option{
+            font-size: 12px;
+        }
+
+        .react-select__placeholder{
+            font-size: 16px;
+            color: $placeholder-color
+        }
     }
+
+
 
     .text-input,
     .description-input {
@@ -77,6 +126,11 @@ $form-border-color: #f0f0f0;
         border-radius: $form-border-radius;
         border: 1px solid lighten($form-primary-color, 40%);
         transition: border-color 0.3s;
+
+        &::placeholder{
+            font-size: 16px;
+            color: $placeholder-color;
+        }
         // -moz-appearance: textfield;
 
         &:focus {
@@ -93,7 +147,7 @@ $form-border-color: #f0f0f0;
 
     .description-input {
         min-height: 100px;
-        resize: vertical;
+        resize: horizontal;
     }
 
     // .text-input {

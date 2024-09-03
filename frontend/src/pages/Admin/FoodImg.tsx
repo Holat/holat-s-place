@@ -28,7 +28,7 @@ const FoodImg = ({
   };
 
   return (
-    <div className="imgCont">
+    <div className="inputCont imgCont">
       <label>Add an image</label>
       <div className="image-input">
         <input
@@ -52,7 +52,7 @@ const FoodImg = ({
       </div>
       {preview && (
         <button type="button" onClick={onUpload} className="cBtn">
-          Change Image
+          Change
         </button>
       )}
     </div>
