@@ -7,7 +7,6 @@ axios.interceptors.request.use(
     const token = user && JSON.parse(user).token;
 
     if (token) {
-      console.log(token);
       req.headers["authorization"] = token;
     }
     return req;

@@ -7,6 +7,7 @@ export const FoodSchema = new Schema(
     tags: { type: [String] },
     favorite: { type: Boolean, default: false },
     stars: { type: Number, default: 1 },
+    imgName: { type: String, required: true },
     imageUrl: { type: String, required: true },
     origins: { type: [String], required: true },
     cookTime: { type: String, required: true },

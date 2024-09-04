@@ -1,4 +1,4 @@
-import { CartType } from "./cartTypes";
+import { CartType, CartItemType } from "./cartTypes";
 
 export type LinkType = {
   name: string;
@@ -58,6 +58,16 @@ export type OrderType = {
   status?: string;
   tx_ref?: string;
 } & CartType;
+
+export type OrderHistoryType = {
+  id: string;
+  address: string;
+  totalPrice: number;
+  totalCount: number;
+  createdAt: string;
+  status: string;
+  items: CartItemType[];
+};
 
 export type ItemCreateType = {
   name: string;

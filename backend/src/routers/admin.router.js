@@ -12,8 +12,12 @@ router.post(
   "/createItem",
   handler(async (req, res) => {
     const item = req.body;
+    const mapItems = (items) => items?.map((item) => item.value);
+    const tags = mapItems(item.tags) || [""];
+    const origins = mapItems(item.origins) || [""];
+    const data = { ...item, tags, origins };
 
-    const newItem = new FoodModel({ ...item });
+    const newItem = new FoodModel(data);
     await newItem.save();
     res.send({ success: true });
   })
@@ -23,14 +27,16 @@ router.get(
   "/revDetails",
   handler(async (req, res) => {
     const orders = await OrderModel.find({ status: "PAYED" });
+    const pending = await OrderModel.find({ status: "PENDING" });
+
+    const getTotal = (orders) =>
+      orders.reduce((total, order) => total + order.totalPrice, 0);
 
     const count = orders.length;
-    const totalRev = orders.reduce(
-      (total, order) => total + order.totalPrice,
-      0
-    );
+    const totalRev = getTotal(orders);
+    const totalPending = getTotal(pending);
 
-    res.send({ count, totalRev });
+    res.send({ count, totalRev, totalPending });
   })
 );
 

@@ -1,5 +1,157 @@
 @import "../../app.scss";
+$primary-color: #fa6400; // Use your primary color or modify as needed
+$card-bg: #ffffff;
+$card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$table-header-bg: #f8f9fa;
+$table-border-color: #dee2e6;
+$status-pending: #ffc107;
+$status-paid: #28a745;
+$status-cancel: #dc3545;
 
 .adminPage {
     background-color: "white";
+    position: relative;
+
+    .adminCont{
+        padding: 12px;
+        padding-left: 64px;
+
+        .dashboard-cards {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+        .card {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: $card-bg;
+            box-shadow: $card-shadow;
+            margin-right: 20px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            }
+
+            p {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .orders-card {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+        }
+
+        .pending-card {
+            background: linear-gradient(135deg, #434343, #4b6cb7);
+            color: #fff;
+        }
+
+        .revenue-card {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #fff;
+        }
+
+        .expenses-card {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #fff;
+        }
+        }
+
+        // Styles for the order status table
+        .order-status-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: $card-bg;
+        box-shadow: $card-shadow;
+        border-radius: 10px;
+        overflow: hidden;
+        
+        table{
+            width: 100%;
+
+            thead {
+                background-color: $table-header-bg;
+                text-align: left;
+    
+                th {
+                padding: 15px;
+                font-weight: 600;
+                border-bottom: 2px solid $table-border-color;
+                }
+            }
+    
+            tbody {
+                tr {
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+    
+                td {
+                    padding: 15px;
+                    border-bottom: 1px solid $table-border-color;
+    
+                    &:first-child {
+                    display: flex;
+                    align-items: center;
+    
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        margin-right: 10px;
+                    }
+                    }
+                }
+                }
+            }
+        }
+
+        // Status Labels
+        .status {
+            border-radius: 12px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+
+            &.pending {
+            background-color: $status-pending;
+            }
+
+            &.paid {
+            background-color: $status-paid;
+            }
+
+            &.cancel {
+            background-color: $status-cancel;
+            }
+        }
+
+        // Search bar
+        .search-bar {
+            padding: 15px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            input {
+            padding: 10px;
+            border: 1px solid $table-border-color;
+            border-radius: 5px;
+            width: 250px;
+            }
+        }
+     }
+
+    }
 }
