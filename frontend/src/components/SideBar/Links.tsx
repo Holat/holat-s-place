@@ -23,14 +23,9 @@ const links = [
     linkUrl: "/orders",
     iconUrl: "/icons/order.svg",
   },
-  {
-    name: "Admin",
-    linkUrl: "/admin",
-    iconUrl: "/icons/admin.svg",
-  },
 ];
 
-export default function Links() {
+export default function Links({ isAdmin }: { isAdmin?: boolean }) {
   const location = useLocation();
   const { cart } = useCart();
 
@@ -52,6 +47,14 @@ export default function Links() {
           />
         );
       })}
+      {isAdmin && (
+        <LinkComp
+          name="Admin"
+          linkUrl="/admin"
+          iconUrl="/icons/admin.svg"
+          currentPath={location.pathname === "/admin"}
+        />
+      )}
     </div>
   );
 }
@@ -63,7 +66,6 @@ export function LinkComp({
   items,
   currentPath,
 }: LinkType) {
-  // console.log(current);
   return (
     <Link
       to={linkUrl}

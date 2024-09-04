@@ -92,3 +92,9 @@ export type AdminD = {
 export type IAAction =
   | { type: "ORIGINS_LOADED"; payload: SelectType[] }
   | { type: "TAGS_LOADED"; payload: SelectType[] };
+
+export type RevDetails = {
+  totalRev: number;
+  count: number;
+  totalPending: number;
+};

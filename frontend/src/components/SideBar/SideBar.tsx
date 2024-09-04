@@ -10,7 +10,7 @@ export default function SideBar() {
         <div>
           <LinkComp name="Holat's Place" linkUrl="/" iconUrl="/logo.png" />
         </div>
-        <Links />
+        <Links isAdmin={user?.isAdmin} />
       </div>
       <div>
         {user ? (

@@ -2,24 +2,32 @@ import { useEffect, useState } from "react";
 import "./adminPage.scss";
 import ItemForm from "./ItemForm";
 import { getAll } from "../../services/orderService";
-import { OrderHistoryType } from "../../types/types";
+import { OrderHistoryType, RevDetails } from "../../types/types";
 import { Title } from "../../components";
+import { getOrderDetails } from "../../services/adminServices";
+import { formatDateToDDMMYYYY } from "../../utils/adminForm";
 
-export const lightTheme = {
-  accent: "#FA6400",
-  accentV: "#f5b583",
-  payed: "#c8f0c8",
-  new: "#a5b7da",
-  failed: "#ff9999",
+const lightTheme = {
+  accentV: "#ffc107",
+  payed: "#28a745",
+  new: "#6c7ae0",
+  failed: "#dc3545",
 };
 
 const AdminPage = () => {
   const [createItem, setCreateItem] = useState<boolean>(false);
   const [orders, setOrder] = useState<OrderHistoryType[] | null>(null);
+  const [details, setDetails] = useState<RevDetails>();
 
   useEffect(() => {
     getAll()
       .then(setOrder)
+      .catch((error) => {
+        console.log(error);
+      });
+
+    getOrderDetails()
+      .then(setDetails)
       .catch((error) => {
         console.log(error);
       });
@@ -31,23 +39,25 @@ const AdminPage = () => {
     <div className="adminPage">
       {createItem && <ItemForm setIsOpen={handleCreateItem} />}
       <div className="adminCont">
-        <button onClick={() => setCreateItem(true)}>Open</button>
-        <div className="dashboard-cards">
-          <div className="card orders-card">
-            <h3>Total Revenue</h3>
-            <p>$20,000</p>
-          </div>
-          <div className="card pending-card">
-            <h3></h3>
-            <p></p>
-          </div>
-          <div className="card revenue-card">
-            <h3></h3>
-            <p></p>
-          </div>
-          <div className="card expenses-card">
-            <h3></h3>
-            <p></p>
+        <div>
+          <button onClick={() => setCreateItem(true)}>Open</button>
+          <div className="dashboard-cards">
+            <div className="card orders-card">
+              <h3>Total Revenue</h3>
+              <p>{details?.totalRev}</p>
+            </div>
+            <div className="card pending-card">
+              <h3>Order Count</h3>
+              <p>{details?.count}</p>
+            </div>
+            <div className="card revenue-card">
+              <h3>Pending</h3>
+              <p>{details?.totalPending}</p>
+            </div>
+            <div className="card expenses-card">
+              <h3></h3>
+              <p></p>
+            </div>
           </div>
         </div>
         <div className="order-status-table">
@@ -61,7 +71,7 @@ const AdminPage = () => {
                 <th>Order Id</th>
                 <th>Quantity</th>
                 <th>Order Status</th>
-                <th>Delivery Time</th>
+                <th>Delivery Date</th>
                 <th>Total</th>
               </tr>
             </thead>
@@ -75,7 +85,7 @@ const AdminPage = () => {
                     <td>{item.totalCount}</td>
                     <td>
                       <span
-                        className="status pending"
+                        className="status"
                         style={{
                           backgroundColor:
                             item.status === "PAYED"
@@ -90,7 +100,7 @@ const AdminPage = () => {
                         {item.status}
                       </span>
                     </td>
-                    <td>{item.createdAt}</td>
+                    <td>{formatDateToDDMMYYYY(item.createdAt)}</td>
                     <td>{item.totalPrice.toFixed(2)}</td>
                   </tr>
                 ))}

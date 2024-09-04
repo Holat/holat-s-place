@@ -105,7 +105,7 @@ const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
       const foodData = { ...data, imageUrl: imgUrl, imgName: filename };
       const success = await createItem(foodData);
 
-      toast.success(success);
+      toast.success("Food Uploaded");
     } catch (error) {
       console.log(error);
       toast.error("Error uploading image or creating item!");

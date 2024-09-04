@@ -1,20 +1,21 @@
 @import "../../app.scss";
-$primary-color: #fa6400; // Use your primary color or modify as needed
+$primary-color: #fa6400;
 $card-bg: #ffffff;
 $card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 $table-header-bg: #f8f9fa;
 $table-border-color: #dee2e6;
-$status-pending: #ffc107;
-$status-paid: #28a745;
-$status-cancel: #dc3545;
 
 .adminPage {
     background-color: "white";
     position: relative;
+    height: 100vh;
 
     .adminCont{
-        padding: 12px;
-        padding-left: 64px;
+        padding: 8px;
+        padding-left: 72px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
 
         .dashboard-cards {
             display: flex;
@@ -66,21 +67,39 @@ $status-cancel: #dc3545;
         }
         }
 
-        // Styles for the order status table
         .order-status-table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: $card-bg;
-        box-shadow: $card-shadow;
-        border-radius: 10px;
-        overflow: hidden;
+            width: 100%;
+            flex-grow: 1;
+            background-color: $card-bg;
+            box-shadow: $card-shadow;
+            border-radius: 10px;
+            overflow: auto;
+
+            &::-webkit-scrollbar {
+                width: 5px; /* Set the width of the scrollbar */
+              }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: #ffffff; 
+                border-radius: 4px;
+              }
+              
+            &::-webkit-scrollbar-track {
+                background-color: #f8f9fa; /* Color of the track (the non-draggable part) */
+              }
+              
         
         table{
             width: 100%;
+            border-collapse: collapse;
 
             thead {
-                background-color: $table-header-bg;
+                background-color:  #6c7ae0;//$table-header-bg;
                 text-align: left;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                color: white;
     
                 th {
                 padding: 15px;
@@ -91,17 +110,25 @@ $status-cancel: #dc3545;
     
             tbody {
                 tr {
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.05);
+
+                    &:nth-child(even){
+                        background-color: #f2f2f2;
+                    }
+
+                    &:not(:last-child){
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    &:hover {
+                        background-color: #ddd;
                 }
     
                 td {
                     padding: 15px;
-                    border-bottom: 1px solid $table-border-color;
     
                     &:first-child {
-                    display: flex;
-                    align-items: center;
+                        display: flex;
+                        align-items: center;
     
                     img {
                         width: 40px;
@@ -122,18 +149,6 @@ $status-cancel: #dc3545;
             font-size: 12px;
             font-weight: 600;
             color: #fff;
-
-            &.pending {
-            background-color: $status-pending;
-            }
-
-            &.paid {
-            background-color: $status-paid;
-            }
-
-            &.cancel {
-            background-color: $status-cancel;
-            }
         }
 
         // Search bar

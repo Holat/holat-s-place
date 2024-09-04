@@ -21,3 +21,12 @@ export const uploadImage = async (file: File, name: string) => {
 export const mapSelectData = (apiData: string[]): SelectOption[] => {
   return apiData.map((item: string) => ({ value: item, label: item }));
 };
+
+export function formatDateToDDMMYYYY(isoDate: string) {
+  const date = new Date(isoDate);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
+}
