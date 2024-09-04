@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { supabase } from "./supabaseClient";
 
 interface SelectOption {
@@ -16,17 +15,11 @@ export const uploadImage = async (file: File) => {
       upsert: true,
     });
 
-  if (error) {
-    console.log(error);
-    toast.error("Error uploading image!");
-    return "";
-  }
-
+  if (error) throw error;
   const { data } = await supabase.storage
     .from("hp.foods")
     .getPublicUrl(filename);
 
-  toast.success("Image uploaded successfully");
   return data.publicUrl ? data.publicUrl : "";
 };
 

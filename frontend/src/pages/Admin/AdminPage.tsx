@@ -73,7 +73,6 @@ const ItemForm = () => {
     }
     const file = imageUrl;
 
-    console.log("r0");
     const validImageTypes = [
       "image/jpeg",
       "image/png",
@@ -87,7 +86,6 @@ const ItemForm = () => {
       return;
     }
 
-    console.log("r1");
     if (file.size > 5242880) {
       setError("imageUrl", { type: "filesize", message: "filesize" });
       setIsLoading(false);
@@ -99,9 +97,8 @@ const ItemForm = () => {
       const imgUrl = res; // Use the returned image URL
 
       const foodData = { ...data, imageUrl: imgUrl };
-      console.log("r2", foodData);
-
       const success = await createItem(foodData);
+
       toast.success(success);
     } catch (error) {
       console.log(error);

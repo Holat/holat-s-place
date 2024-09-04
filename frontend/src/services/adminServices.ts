@@ -2,12 +2,12 @@ import axios from "axios";
 import { ItemCreateType } from "../types/types";
 
 export const createItem = async (item: ItemCreateType) => {
-  const { data } = await axios.post("/adminApi/createItem", item);
+  const { data } = await axios.post("/api/adminApi/createItem", item);
   return data.success;
 };
 
 export const getOrderDetails = async () => {
-  const { data } = await axios.get("/adminApi/revDetails");
+  const { data } = await axios.get("/api/adminApi/revDetails");
   return data;
 };
 

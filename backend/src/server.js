@@ -26,7 +26,7 @@ app.use("/api/user/", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/hook", hookRouter);
 app.use("/api/favourites", favouriteRouter);
-app.use("/adminApi", adminRouter);
+app.use("/api/adminApi", adminRouter);
 
 if (process.env.NODE_ENV !== "dev") {
   const publicFolder = path.join(__dirname, "public");

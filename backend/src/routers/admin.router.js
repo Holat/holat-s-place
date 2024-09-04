@@ -1,10 +1,12 @@
 import { Router } from "express";
 import handler from "express-async-handler";
 import { OrderModel } from "../model/order.model.js";
+import { FoodModel } from "../model/food.model.js";
 import auth from "../middleware/authMiddleware.js";
+import adminAuth from "../middleware/adminAuthMiddleWare.js";
 
 const router = Router();
-router.use(auth);
+router.use([auth, adminAuth]);
 
 router.post(
   "/createItem",
