@@ -61,6 +61,7 @@ export type OrderType = {
 
 export type OrderHistoryType = {
   id: string;
+  name?: string;
   address: string;
   totalPrice: number;
   totalCount: number;

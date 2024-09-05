@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import axios from "axios";
+import { formatNumber } from "../../utils/formatNum";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -38,9 +39,7 @@ const MonthlySalesChart = () => {
         const salesData = response.data;
 
         const labels = salesData.map((item: any) => item.month);
-        const data = salesData.map((item: any) => item.totalSales);
-
-        console.log(salesData)
+        const data = salesData.map((item: any) => item.orderCount);
 
         setChartData({
           labels,
@@ -66,26 +65,63 @@ const MonthlySalesChart = () => {
   return (
     <div className="orderChart">
       <h3>Monthly Sales</h3>
-      <Line
-        data={chartData}
-        options={{
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function (value) {
-                  return "₦" + value; // Adds $ sign to the y-axis labels
+      <div className="chart">
+        <Line
+          data={chartData}
+          options={{
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid:{
+                  color: "rgba(0, 0, 0, 0.6)",
+                  drawTicks: false
                 },
+                border: {
+                    dash: [2,4],
+                    color: "white"
+                },  
+                min: 0,
+                max: 100,
+                offset: true,
+                position: "left",
+                ticks: {
+                  padding: 20,
+                  stepSize: 50,
+                  align: "inner",
+                  font: {
+                    weight: "bold"
+                  },
+                  callback: function(value) {
+                    let nextValue = Number(value) + 50;
+                    return value + " - " + nextValue;
+                  },
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                },
+                border:{
+                  dash: [2,4],
+                  color: "rgba(0, 0, 0, 0.6)"
+                },
+                ticks:{
+                  align: "start",
+                  font: {
+                    weight: "bold"
+                  }
+                }
+            },
+            },
+            plugins: {
+              legend: {
+                display: false
               },
             },
-          },
-          plugins: {
-            legend: {
-              display: false
-            },
-          },
-        }}
-      />
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -139,7 +175,7 @@ export const OrderStatusChart = ({
             cutout: "70%", // Adjust the thickness of the doughnut
           }}
         />
-        <div className="tag">{total}</div>
+        <div className="tag">{formatNumber(total)}</div>
       </div>
       <div className="legend">
         <div>
@@ -152,7 +188,3 @@ export const OrderStatusChart = ({
     </div>
   );
 };
-// borderDash: [8, 4],
-//                 color: "#348632"
-// https://stackoverflow.com/questions/39544767/how-can-i-show-dotted-gridlines-with-chartjs
-// https://www.google.com/search?q=how+to+make+the+graph+grid+lines+in+Line+chartjs+dash&sca_esv=6fd0d93f9f01f957&sca_upv=1&rlz=1C1GCEU_en-GBNG1102NG1102&sxsrf=ADLYWIJ40_6VzcwELKR3lw3O_E_WVTobXA%3A1725550292067&ei=1M7ZZt7mA_br7_UPvJbQmQ0&ved=0ahUKEwjeoM3hj6yIAxX29bsIHTwLNNMQ4dUDCBA&uact=5&oq=how+to+make+the+graph+grid+lines+in+Line+chartjs+dash&gs_lp=Egxnd3Mtd2l6LXNlcnAiNWhvdyB0byBtYWtlIHRoZSBncmFwaCBncmlkIGxpbmVzIGluIExpbmUgY2hhcnRqcyBkYXNoSABQAFgAcAB4AJABAJgBAKABAKoBALgBA8gBAPgBAZgCAKACAJgDAJIHAKAHAA&sclient=gws-wiz-serp

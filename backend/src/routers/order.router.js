@@ -96,12 +96,9 @@ router.get(
   handler(async (req, res) => {
     const status = req.params.status;
     const user = await UserModel.findById(req.user.id);
-    const filter = {};
-
-    if (!user.isAdmin) filter.user = user._id;
     if (status) filter.status = { $regex: new RegExp(status, "i") };
 
-    const orders = await OrderModel.find(filter).sort("-createdAt");
+    const orders = await OrderModel.find({ user: user._id}).sort("-createdAt");
     res.send(orders);
   })
 );

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import "./adminPage.scss";
 import ItemForm from "./ItemForm";
-import { getAll } from "../../services/orderService";
 import { OrderHistoryType, RevDetails } from "../../types/types";
 import { Price } from "../../components";
-import { getOrderDetails } from "../../services/adminServices";
+import { getOrderDetails, getOrders } from "../../services/adminServices";
 import OrderTable from "./OrderTable";
 import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
 
@@ -14,7 +13,7 @@ const AdminPage = () => {
   const [details, setDetails] = useState<RevDetails>();
 
   useEffect(() => {
-    getAll()
+    getOrders()
       .then(setOrder)
       .catch((error) => {
         console.log(error);
@@ -28,13 +27,14 @@ const AdminPage = () => {
   }, []);
 
   const handleCreateItem = (b: boolean) => setCreateItem(b);
+  console.log(orders);
 
   return (
     <div className="adminPage">
       {createItem && <ItemForm setIsOpen={handleCreateItem} />}
       <div className="adminCont">
         <div>
-          <button onClick={() => setCreateItem(true)}>Open</button>
+          {/* <button onClick={() => setCreateItem(true)}>Open</button> */}
           <div className="dashboard-cards">
             <div className="cardCont">
               <div className="card">
@@ -65,6 +65,12 @@ const AdminPage = () => {
           </div>
         </div>
         <OrderTable orders={orders} />
+      </div>
+      <div className="floating-btn">
+        <img
+          src='/icons/setting.svg'
+          alt={'setting'}
+        />
       </div>
     </div>
   );

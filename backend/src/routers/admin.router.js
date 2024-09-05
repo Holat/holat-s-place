@@ -24,6 +24,17 @@ router.post(
 );
 
 router.get(
+  "/orders",
+  handler(async (req, res) => {
+    const orders = await OrderModel.find().populate({
+      path: "user",
+      select: "name"
+    }).sort("-createdAt");
+    res.send(orders);
+  })
+);
+
+router.get(
   "/stats",
   handler(async (req, res) => {
     try {
