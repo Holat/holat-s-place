@@ -34,7 +34,7 @@ router.get(
 
     const count = orders.length;
     const totalRev = getTotal(orders);
-    const totalPending = getTotal(pending);
+    const totalPending = pending.length;
 
     res.send({ count, totalRev, totalPending });
   })
