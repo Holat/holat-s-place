@@ -56,10 +56,10 @@ router.get("/monthly-sales", async (req, res) => {
   try {
     const currentYear = new Date().getFullYear();
 
-    const monthlySales = await Order.aggregate([
+    const monthlySales = await OrderModel.aggregate([
       {
         $match: {
-          status: "paid",
+          status: "PAID",
           createdAt: {
             $gte: new Date(currentYear, 0, 1),
             $lt: new Date(currentYear + 1, 0, 1),
@@ -69,7 +69,7 @@ router.get("/monthly-sales", async (req, res) => {
       {
         $group: {
           _id: { month: { $month: "$createdAt" } },
-          totalSales: { $sum: "$amount" },
+          totalSales: { $sum: "$totalPrice" },
           orderCount: { $sum: 1 },
         },
       },

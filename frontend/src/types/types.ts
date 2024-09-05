@@ -96,6 +96,6 @@ export type IAAction =
 export type RevDetails = {
   totalRevenue: number;
   totalPaidOrders: number;
-  totalPendingOrder: number;
+  totalPendingOrders: number;
   totalOrders: number;
 };

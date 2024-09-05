@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import axios from "axios";
 import {
@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement
 } from "chart.js";
 
 ChartJS.register(
@@ -22,6 +23,7 @@ ChartJS.register(
   Legend,
   ArcElement
 );
+
 
 const MonthlySalesChart = () => {
   const [chartData, setChartData] = useState<any>({
@@ -37,6 +39,8 @@ const MonthlySalesChart = () => {
 
         const labels = salesData.map((item: any) => item.month);
         const data = salesData.map((item: any) => item.totalSales);
+
+        console.log(salesData)
 
         setChartData({
           labels,
@@ -60,8 +64,8 @@ const MonthlySalesChart = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Monthly Sales</h2>
+    <div className="orderChart">
+      <h3>Monthly Sales</h3>
       <Line
         data={chartData}
         options={{
@@ -70,9 +74,14 @@ const MonthlySalesChart = () => {
               beginAtZero: true,
               ticks: {
                 callback: function (value) {
-                  return "$" + value; // Adds $ sign to the y-axis labels
+                  return "₦" + value; // Adds $ sign to the y-axis labels
                 },
               },
+            },
+          },
+          plugins: {
+            legend: {
+              display: false
             },
           },
         }}
@@ -86,17 +95,14 @@ export default MonthlySalesChart;
 export const OrderStatusChart = ({
   pending,
   paid,
+  total
 }: {
-  pending: number;
-  paid: number;
+  pending?: number;
+  paid?: number;
+  total?: number;
 }) => {
-  const [orderData, setOrderData] = useState<any>({
-    labels: [],
-    datasets: [],
-  });
-
   const orderData = {
-    labels: ["Payed", "Pending"],
+    labels: ["Paid", "Pending"],
     datasets: [
       {
         label: "Orders",
@@ -108,26 +114,36 @@ export const OrderStatusChart = ({
   };
 
   return (
-    <div>
-      <h2>Total Orders</h2>
-      <Doughnut
-        data={orderData}
-        options={{
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function (tooltipItem) {
-                  return `${tooltipItem.label}: ${tooltipItem.raw}`;
+    <div className="donutCont">
+      <h3>Total Orders</h3>
+      <div className="donut">
+        <Doughnut
+          data={orderData}
+          options={{
+            responsive: true,
+            aspectRatio: 1,
+            plugins: {
+              legend: {
+                display: false,
+                // position: 'bottom',
+                // align: "start",
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (tooltipItem) {
+                    return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                  },
                 },
               },
             },
-          },
-          cutout: "70%", // Adjust the thickness of the doughnut
-        }}
-      />
+            cutout: "70%", // Adjust the thickness of the doughnut
+          }}
+        />
+        <div className="tag">{total}</div>
+      </div>
       <div className="legend">
         <div>
-          <span style={{ color: "#00C49F" }}>●</span> Payed
+          <span style={{ color: "#00C49F" }}>●</span> Paid
         </div>
         <div>
           <span style={{ color: "#FFBB28" }}>●</span> Pending
@@ -136,3 +152,7 @@ export const OrderStatusChart = ({
     </div>
   );
 };
+// borderDash: [8, 4],
+//                 color: "#348632"
+// https://stackoverflow.com/questions/39544767/how-can-i-show-dotted-gridlines-with-chartjs
+// https://www.google.com/search?q=how+to+make+the+graph+grid+lines+in+Line+chartjs+dash&sca_esv=6fd0d93f9f01f957&sca_upv=1&rlz=1C1GCEU_en-GBNG1102NG1102&sxsrf=ADLYWIJ40_6VzcwELKR3lw3O_E_WVTobXA%3A1725550292067&ei=1M7ZZt7mA_br7_UPvJbQmQ0&ved=0ahUKEwjeoM3hj6yIAxX29bsIHTwLNNMQ4dUDCBA&uact=5&oq=how+to+make+the+graph+grid+lines+in+Line+chartjs+dash&gs_lp=Egxnd3Mtd2l6LXNlcnAiNWhvdyB0byBtYWtlIHRoZSBncmFwaCBncmlkIGxpbmVzIGluIExpbmUgY2hhcnRqcyBkYXNoSABQAFgAcAB4AJABAJgBAKABAKoBALgBA8gBAPgBAZgCAKACAJgDAJIHAKAHAA&sclient=gws-wiz-serp

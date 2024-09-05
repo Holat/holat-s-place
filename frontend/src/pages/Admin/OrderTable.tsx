@@ -29,8 +29,8 @@ const OrderTable = ({ orders }: { orders?: OrderHistoryType[] }) => {
         <tbody>
           {orders &&
             orders.length > 1 &&
-            orders.map((item) => (
-              <tr>
+            orders.map((item, i) => (
+              <tr key={item.id + i}>
                 <td>
                   <span>#{item?.id}</span>
                 </td>
