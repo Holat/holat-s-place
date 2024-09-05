@@ -4,7 +4,7 @@ import { Price, Title } from "../../components";
 
 const lightTheme = {
   accentV: "#ffc107",
-  payed: "#28a745",
+  paid: "#28a745",
   new: "#6c7ae0",
   failed: "#dc3545",
 };
@@ -40,8 +40,8 @@ const OrderTable = ({ orders }: { orders?: OrderHistoryType[] }) => {
                     className="status"
                     style={{
                       backgroundColor:
-                        item.status === "PAYED"
-                          ? lightTheme.payed
+                        item.status === "PAID"
+                          ? lightTheme.paid
                           : item.status === "NEW"
                           ? lightTheme.new
                           : item.status === "FAILED"

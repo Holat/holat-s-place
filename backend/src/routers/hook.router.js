@@ -29,7 +29,7 @@ router.post(
 
     if (order) {
       if (status === "successful" && event === "charge.completed") {
-        order.status = "PAYED";
+        order.status = "PAID";
       } else {
         order.status = "FAILED";
       }

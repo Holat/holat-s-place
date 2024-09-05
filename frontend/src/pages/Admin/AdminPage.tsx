@@ -35,25 +35,27 @@ const AdminPage = () => {
         <div>
           <button onClick={() => setCreateItem(true)}>Open</button>
           <div className="dashboard-cards">
-            <div className="card orders-card">
-              <h3>Total Revenue</h3>
-              <p>
-                <Price price={details?.totalRev || 0} />
-              </p>
-            </div>
-            <div className="card pending-card">
-              <h3>Order Count</h3>
-              <p>{details?.count}</p>
-            </div>
-            <div className="card revenue-card">
-              <h3>Pending</h3>
-              <p>
-                <Price price={details?.totalPending || 0} />
-              </p>
-            </div>
-            <div className="card expenses-card">
-              <h3></h3>
-              <p></p>
+            <div className="cardCont">
+              <div className="card">
+                <h3>Total Revenue</h3>
+                <p>
+                  <Price price={details?.totalRevenue || 0} />
+                </p>
+              </div>
+              <div className="card">
+                <h3>Paid Orders</h3>
+                <p>{details?.totalPaidOrders}</p>
+              </div>
+              <div className="card">
+                <h3>Pending</h3>
+                <p>
+                  <Price price={details?.totalPendingOrders || 0} />
+                </p>
+              </div>
+              <div className="card">
+                <h3></h3>
+                <p></p>
+              </div>
             </div>
           </div>
         </div>

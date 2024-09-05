@@ -7,7 +7,7 @@ export const createItem = async (item: ItemCreateType) => {
 };
 
 export const getOrderDetails = async () => {
-  const { data } = await axios.get("/api/adminApi/revDetails");
+  const { data } = await axios.get("/api/adminApi/stats");
   return data;
 };
 

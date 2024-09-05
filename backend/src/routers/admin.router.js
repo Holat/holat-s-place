@@ -24,19 +24,31 @@ router.post(
 );
 
 router.get(
-  "/revDetails",
+  "/stats",
   handler(async (req, res) => {
-    const orders = await OrderModel.find({ status: "PAYED" });
-    const pending = await OrderModel.find({ status: "PENDING" });
+    try {
+      const totalOrders = await OrderModel.countDocuments();
+      const totalPaidOrders = await OrderModel.countDocuments({
+        status: "PAID",
+      });
+      const totalPendingOrders = await OrderModel.countDocuments({
+        status: "PENDING",
+      });
+      const totalRevenue = await OrderModel.aggregate([
+        { $match: { status: "PAID" } },
+        { $group: { _id: null, totalRevenue: { $sum: "$totalPrice" } } },
+      ]);
 
-    const getTotal = (orders) =>
-      orders.reduce((total, order) => total + order.totalPrice, 0);
-
-    const count = orders.length;
-    const totalRev = getTotal(orders);
-    const totalPending = pending.length;
-
-    res.send({ count, totalRev, totalPending });
+      res.send({
+        totalOrders,
+        totalPaidOrders,
+        totalPendingOrders,
+        totalRevenue: totalRevenue[0].totalRevenue,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Error fetching stats" });
+    }
   })
 );
 
@@ -48,7 +60,7 @@ export default router;
 //     const monthlySales = await Order.aggregate([
 //       {
 //         $match: {
-//           status: 'payed',
+//           status: 'paid',
 //           createdAt: {
 //             $gte: new Date(currentYear, 0, 1),
 //             $lt: new Date(currentYear + 1, 0, 1)
@@ -74,7 +86,7 @@ export default router;
 //       orderCount: item.orderCount
 //     }));
 
-//     res.json(formattedData);
+//     res.send(formattedData);
 //   } catch (err) {
 //     res.status(500).json({ error: 'Something went wrong' });
 //   }

@@ -94,7 +94,8 @@ export type IAAction =
   | { type: "TAGS_LOADED"; payload: SelectType[] };
 
 export type RevDetails = {
-  totalRev: number;
-  count: number;
-  totalPending: number;
+  totalRevenue: number;
+  totalPaidOrders: number;
+  totalPendingOrder: number;
+  totalOrders: number;
 };

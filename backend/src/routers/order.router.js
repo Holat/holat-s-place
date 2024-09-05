@@ -41,7 +41,7 @@ router.put(
 
     order.paymentId = paymentId;
 
-    if (order.status === "PAYED") {
+    if (order.status === "PAID") {
       res.send(order._id);
       return;
     }
