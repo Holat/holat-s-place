@@ -11,6 +11,11 @@ export const getOrderDetails = async () => {
   return data;
 };
 
+export const getMonthlySales = async () => {
+  const { data } = await axios.get("/api/adminApi/monthly-sales");
+  return data;
+};
+
 export const getCountries = async () => {
   const { data } = await axios.get(
     "https://restcountries.com/v3.1/all?fields=name"

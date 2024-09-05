@@ -4,8 +4,9 @@ import ItemForm from "./ItemForm";
 import { getAll } from "../../services/orderService";
 import { OrderHistoryType, RevDetails } from "../../types/types";
 import { Price } from "../../components";
-import { getOrderDetails } from "../../services/adminServices";
+import { getOrderDetails, getMonthlySales } from "../../services/adminServices";
 import OrderTable from "./OrderTable";
+import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
 
 const AdminPage = () => {
   const [createItem, setCreateItem] = useState<boolean>(false);
@@ -48,15 +49,18 @@ const AdminPage = () => {
               </div>
               <div className="card">
                 <h3>Pending</h3>
-                <p>
-                  <Price price={details?.totalPendingOrders || 0} />
-                </p>
+                <p>{details?.totalPendingOrders}</p>
               </div>
               <div className="card">
-                <h3></h3>
-                <p></p>
+                <h3>Total Order</h3>
+                <p>{details?.totalOrder}</p>
               </div>
             </div>
+            <MonthlySalesChart />
+            <OrderStatusChart
+              paid={details?.totalPaidOrders}
+              pending={details?.totalPendingOrder}
+            />
           </div>
         </div>
         <OrderTable orders={orders} />

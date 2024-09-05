@@ -47,49 +47,48 @@ router.get(
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: "Error fetching stats" });
+      res.status(500).send({ message: "Error fetching stats" });
     }
   })
 );
 
+router.get("/monthly-sales", async (req, res) => {
+  try {
+    const currentYear = new Date().getFullYear();
+
+    const monthlySales = await Order.aggregate([
+      {
+        $match: {
+          status: "paid",
+          createdAt: {
+            $gte: new Date(currentYear, 0, 1),
+            $lt: new Date(currentYear + 1, 0, 1),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: "$createdAt" } },
+          totalSales: { $sum: "$amount" },
+          orderCount: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { "_id.month": 1 },
+      },
+    ]);
+
+    // Format the data for easier consumption
+    const formattedData = monthlySales.map((item) => ({
+      month: `${item._id.month}-${currentYear}`,
+      totalSales: item.totalSales,
+      orderCount: item.orderCount,
+    }));
+
+    res.send(formattedData);
+  } catch (err) {
+    res.status(500).send({ error: "Something went wrong" });
+  }
+});
+
 export default router;
-// router.get('/monthly-sales', async (req, res) => {
-//   try {
-//     const currentYear = new Date().getFullYear();
-
-//     const monthlySales = await Order.aggregate([
-//       {
-//         $match: {
-//           status: 'paid',
-//           createdAt: {
-//             $gte: new Date(currentYear, 0, 1),
-//             $lt: new Date(currentYear + 1, 0, 1)
-//           }
-//         }
-//       },
-//       {
-//         $group: {
-//           _id: { month: { $month: '$createdAt' } },
-//           totalSales: { $sum: '$amount' },
-//           orderCount: { $sum: 1 }
-//         }
-//       },
-//       {
-//         $sort: { '_id.month': 1 }  // Sort by month
-//       }
-//     ]);
-
-//     // Format the data for easier consumption
-//     const formattedData = monthlySales.map(item => ({
-//       month: ${currentYear}-${item._id.month},
-//       totalSales: item.totalSales,
-//       orderCount: item.orderCount
-//     }));
-
-//     res.send(formattedData);
-//   } catch (err) {
-//     res.status(500).json({ error: 'Something went wrong' });
-//   }
-// });
-
-// module.exports = router;

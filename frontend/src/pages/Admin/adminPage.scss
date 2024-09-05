@@ -52,6 +52,22 @@ $table-border-color: #dee2e6;
                 }
             }
 
+            .legend {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+
+                h2 {
+                    text-align: center;
+                }
+            }
 
             // .orders-card {
             //     background: linear-gradient(135deg, #ff7e5f, #feb47b);
