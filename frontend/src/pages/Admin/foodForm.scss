@@ -1,0 +1,249 @@
+@import "../../app.scss";
+$form-primary-color: #fa6400;
+$form-background-color: #ffffff;
+$form-border-radius: 8px; // Adjust this for the desired level of roundness
+$form-border-color: #f0f0f0;
+$placeholder-color: #ececec;
+
+.form-container{
+    position: absolute;
+    width: 100% ;
+    height: 100vh;
+    gap: 12px;
+    background-color: rgba(0, 0, 0, 0.278);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 99;
+    padding-block: 16px;
+
+    .header{
+        display: flex;
+        width: 50%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        background-color: $form-background-color;
+        border-radius: $form-border-radius;
+
+        button {
+            border: none;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            background-color: transparent;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            &:hover {
+                opacity: 0.5;
+            }
+        }
+
+        @include tablet {
+            width: 60%;
+        }
+ 
+        @include mobile {
+            width: 80%;
+        }
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 50%;
+        height: 90%;
+        overflow-y: scroll;
+        padding: 20px;
+        background-color: $form-background-color;
+        border-radius: $form-border-radius;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+          }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: #f0f0f0; 
+            border-radius: 4px;
+          }
+          
+        &::-webkit-scrollbar-track {
+            background-color: white; /* Color of the track (the non-draggable part) */
+          }
+
+        @include tablet {
+            width: 60%;
+        }
+
+        @include mobile {
+            width: 80%;
+        }
+    
+        .flex-row-cont{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    
+        .error{
+            text-align: right;
+            color: red;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+    
+        .inputCont{
+            display: flex;
+            flex-direction: column;
+    
+            label{
+                font-size: 16px;
+                font-weight: 500;
+                margin-left: 2px;
+                margin-bottom: 4px;
+            }
+        }
+    
+        .imgCont{
+            position: relative;
+            .image-input {
+                position: relative;
+                width: 200px;
+                height: 120px;
+                background-color: $form-background-color;
+                border-radius: $form-border-radius;
+                border: 2px dashed $form-border-color;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+        
+                input[type="file"] {
+                    display: none;
+                }
+        
+                .preview {
+                    width: 100%;
+                    height: 100%;
+                }
+        
+                .addBtn {
+                    height: 52px;
+                    width: 52px;
+                    border-radius: 50%;
+                    border: none;
+                    background-color: transparent;
+    
+                    
+        
+                    img {
+                        width: 100%;
+                        height: 100%;
+    
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+    
+            .cBtn{
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                transform: translateX(102%);
+                background-color: $form-primary-color;
+                border:none;
+                border-radius:4px;
+                padding: 4px 6px;
+                align-self: flex-start;
+                color: white
+            }
+        }
+    
+        .select-input {
+            .react-select__control {
+                background-color: $form-background-color;
+                border-radius: $form-border-radius;
+                border-color: lighten($form-primary-color, 40%);
+    
+                &:hover, &:focus {
+                    border-color: $form-primary-color;
+                }
+            }
+    
+            .react-select__option{
+                font-size: 12px;
+            }
+    
+            .react-select__placeholder{
+                font-size: 16px;
+                color: $placeholder-color
+            }
+        }
+    
+    
+    
+        .text-input,
+        .description-input {
+            padding: 10px 15px;
+            background-color: $form-background-color;
+            border-radius: $form-border-radius;
+            border: 1px solid lighten($form-primary-color, 40%);
+            transition: border-color 0.3s;
+    
+            &::placeholder{
+                font-size: 16px;
+                color: $placeholder-color;
+            }
+            // -moz-appearance: textfield;
+    
+            &:focus {
+                border-color: $form-primary-color;
+                outline: none;
+            }
+        }
+    
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    
+        .description-input {
+            min-height: 100px;
+            resize: horizontal;
+        }
+    
+        // .text-input {
+        //     // Specific styling for smaller text inputs (e.g., name, price, cooktime)
+        // }
+    
+        .form-submit-button {
+            padding: 10px 20px;
+            background-color: $form-primary-color;
+            border: none;
+            border-radius: $form-border-radius;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: flex-start;
+    
+            &:hover {
+                background-color: darken($form-primary-color, 10%);
+            }
+        }
+    }
+}

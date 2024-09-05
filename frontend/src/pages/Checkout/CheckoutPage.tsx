@@ -21,6 +21,7 @@ export default function CheckoutPage() {
   const { cart, changeQuantity, removeFromCart } = useCart();
   const { user } = useAuth();
   const socket = connectSocket(user?.token);
+  const tx_ref = generateTransactionRef(12);
 
   const [order, setOrder] = useState<OrderType>({
     ...cart,
@@ -49,7 +50,7 @@ export default function CheckoutPage() {
       return;
     }
 
-    await createOrder({ ...order, name: user?.name });
+    await createOrder({ ...order, name: user?.name, tx_ref });
     socket.emit("click", user?.name);
     navigate("/payment");
   };

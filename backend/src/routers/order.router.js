@@ -32,7 +32,6 @@ router.put(
   "/pay",
   handler(async (req, res) => {
     const { paymentId } = req.body;
-    console.log(paymentId);
     const order = await getCurrentUserOrder(req);
 
     if (!order) {
@@ -42,7 +41,7 @@ router.put(
 
     order.paymentId = paymentId;
 
-    if (order.status === "PAYED") {
+    if (order.status === "PAID") {
       res.send(order._id);
       return;
     }

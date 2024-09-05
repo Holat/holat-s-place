@@ -5,6 +5,7 @@ import userRouter from "../src/routers/user.router.js";
 import orderRouter from "../src/routers/order.router.js";
 import hookRouter from "./routers/hook.router.js";
 import favouriteRouter from "./routers/favourite.router.js";
+import adminRouter from "./routers/admin.router.js";
 import { dbconnect } from "./config/database.config.js";
 import { createServer } from "http";
 import socketInit from "./controllers/socket.js";
@@ -22,9 +23,11 @@ socketInit(httpServer);
 
 app.use("/api/foods", foodRouter);
 app.use("/api/user/", userRouter);
+
 app.use("/api/orders", orderRouter);
 app.use("/api/hook", hookRouter);
 app.use("/api/favourites", favouriteRouter);
+app.use("/api/adminApi", adminRouter);
 
 if (process.env.NODE_ENV !== "dev") {
   const publicFolder = path.join(__dirname, "public");

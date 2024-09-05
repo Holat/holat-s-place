@@ -11,6 +11,7 @@ import Input from "./Input/Input";
 import AuthRoute from "./AuthRoute/AuthRoute";
 import OrderItem from "./OrderItem/OrderItem";
 import FlutterBtn from "./FlutterBtn/FlutterBtn";
+import ProtectedRouteAdmin from "./AuthRoute/ProtectedRouteAdmin";
 
 export {
   SideBar,
@@ -25,4 +26,5 @@ export {
   AuthRoute,
   OrderItem,
   FlutterBtn,
+  ProtectedRouteAdmin,
 };

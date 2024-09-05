@@ -14,7 +14,7 @@ type orderHistoryType = {
   items: CartItemType[];
 };
 
-const status = ["", "NEW", "PAYED"];
+const status = ["", "NEW", "PAID"];
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<orderHistoryType[]>();

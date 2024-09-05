@@ -19,7 +19,7 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
 
   const config: FlutterwaveConfig = {
     public_key: `${import.meta.env.VITE_FLUTTERWAVE_KEY}`,
-    tx_ref: `${Date.now()}_PMCK`,
+    tx_ref: order.tx_ref || "flw_tx_ref",
     amount: cart.totalPrice,
     currency: "NGN",
     payment_options: "card,mobilemoney,ussd",

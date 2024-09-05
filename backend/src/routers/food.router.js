@@ -3,7 +3,6 @@ import handler from "express-async-handler";
 import { FoodModel } from "../model/food.model.js";
 
 const router = Router();
-
 router.get(
   "/",
   handler(async (_, res) => {
@@ -81,7 +80,15 @@ router.get(
   "/tag/:tag",
   handler(async (req, res) => {
     const { tag } = req.params;
-    const data = await FoodModel.find({ tags: tag });
+    const data = await FoodModel.find(
+      { tags: tag },
+      {
+        imageUrl: 1,
+        stars: 1,
+        price: 1,
+        name: 1,
+      }
+    );
     res.send(data);
   })
 );
@@ -95,4 +102,19 @@ router.get(
   })
 );
 
+//  {
+//     name: { type: String, required: true },
+//     price: { type: Number, required: true },
+//     tags: { type: [String] },
+//     favorite: { type: Boolean, default: false },
+//     stars: { type: Number, default: 1 },
+//     imageUrl: { type: String, required: true },
+//     origins: { type: [String], required: true },
+//     cookTime: { type: String, required: true },
+//     desc: {
+//       type: String,
+//       default:
+//         "Delicious meal with a perfect blend of flavors to satisfy your taste buds.",
+//     },
+//   },
 export default router;

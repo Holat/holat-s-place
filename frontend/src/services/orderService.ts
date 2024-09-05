@@ -29,7 +29,7 @@ export const pay = async (paymentId: string | number) => {
 //   return data;
 // };
 
-export const getAll = async (state: string) => {
+export const getAll = async (state?: string) => {
   const { data } = await axios.get(`/api/orders/${state ?? ""}`);
   return data;
 };

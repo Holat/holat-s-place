@@ -1,4 +1,4 @@
-import { CartType } from "./cartTypes";
+import { CartType, CartItemType } from "./cartTypes";
 
 export type LinkType = {
   name: string;
@@ -56,4 +56,46 @@ export type OrderType = {
   lat: number;
   lng: number;
   status?: string;
+  tx_ref?: string;
 } & CartType;
+
+export type OrderHistoryType = {
+  id: string;
+  address: string;
+  totalPrice: number;
+  totalCount: number;
+  createdAt: string;
+  status: string;
+  items: CartItemType[];
+};
+
+export type ItemCreateType = {
+  name: string;
+  price: number;
+  tags: string[];
+  imageUrl: File | string;
+  origins: string[];
+  cookTime: number;
+  desc: string;
+};
+
+export type SelectType = {
+  label: "";
+  value: "";
+};
+
+export type AdminD = {
+  origins: SelectType[];
+  tags: SelectType[];
+};
+
+export type IAAction =
+  | { type: "ORIGINS_LOADED"; payload: SelectType[] }
+  | { type: "TAGS_LOADED"; payload: SelectType[] };
+
+export type RevDetails = {
+  totalRevenue: number;
+  totalPaidOrders: number;
+  totalPendingOrder: number;
+  totalOrders: number;
+};

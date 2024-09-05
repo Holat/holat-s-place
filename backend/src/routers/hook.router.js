@@ -21,11 +21,12 @@ router.post(
         return;
       }
       const { event, data } = req.body;
-      const { status, id, customer } = data;
+      const { status, customer, tx_ref } = data;
 
       log("orderLog.txt", `${JSON.stringify(req.body)}`);
       const order = await OrderModel.findOne({
-        paymentId: id
+        tx_ref,
+        status: "PENDING",
       }).populate({
         path: 'user', 
         match: { email: customer.email },
@@ -34,7 +35,7 @@ router.post(
 
       if (order) {
         if (status === "successful" && event === "charge.completed") {
-          order.status = "PAYED";
+          order.status = "PAID";
         } else {
           order.status = "FAILED";
         }
