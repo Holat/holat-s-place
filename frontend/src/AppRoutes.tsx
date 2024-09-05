@@ -9,6 +9,7 @@ import {
   CheckoutPage,
   OrdersPage,
   PaymentPage,
+  NotFoundPage,
   AdminPage,
 } from "./pages";
 import { AuthRoute, ProtectedRouteAdmin } from "./components";
@@ -72,6 +73,7 @@ const AppRoutes = () => {
           </ProtectedRouteAdmin>
         }
       />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

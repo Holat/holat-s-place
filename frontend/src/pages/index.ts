@@ -21,5 +21,6 @@ export {
   TrackPage,
   OrdersPage,
   PaymentPage,
+  NotFoundPage,
   AdminPage,
 };
