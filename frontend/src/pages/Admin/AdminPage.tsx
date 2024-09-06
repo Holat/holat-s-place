@@ -3,11 +3,13 @@ import "./adminPage.scss";
 import ItemForm from "./ItemForm";
 import { OrderHistoryType, RevDetails } from "../../types/types";
 import { Price } from "../../components";
-import { getOrderDetails, getOrders } from "../../services/adminServices";
+import { getOrderDetails, getOrders, setAdmin } from "../../services/adminServices";
 import OrderTable from "./OrderTable";
 import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
+import useFood from "../../hooks/useFood";
 
 const AdminPage = () => {
+  const { tags, origins } = useFood()
   const [createItem, setCreateItem] = useState<boolean>(false);
   const [orders, setOrder] = useState<OrderHistoryType[]>();
   const [details, setDetails] = useState<RevDetails>();
@@ -27,11 +29,9 @@ const AdminPage = () => {
   }, []);
 
   const handleCreateItem = (b: boolean) => setCreateItem(b);
-  console.log(orders);
-
   return (
     <div className="adminPage">
-      {createItem && <ItemForm setIsOpen={handleCreateItem} />}
+      {createItem && <ItemForm setIsOpen={handleCreateItem} apiTags={tags} origins={origins}/>}
       <div className="adminCont">
         <div>
           {/* <button onClick={() => setCreateItem(true)}>Open</button> */}
@@ -67,10 +67,21 @@ const AdminPage = () => {
         <OrderTable orders={orders} />
       </div>
       <div className="floating-btn">
-        <img
-          src='/icons/setting.svg'
-          alt={'setting'}
-        />
+        <div className="img">
+          <img
+            src='/icons/setting.svg'
+            alt={'setting'}
+          />
+        </div>
+        <div className="btnCont"  id="btna1" onClick={() => handleCreateItem(true)}>
+          <img src="/icons/addI.svg" alt="Add image" />
+        </div>
+        <div className="btnCont" id="btna2">
+          <img src="/icons/edit.svg" alt="Add image" style={{ width: '24px', height: '24px', margin: '0 auto'}}/>
+        </div>
+        <div className="btnCont" id="btna3" onClick={async () => await setAdmin('65e970113dcfdb25ad8878b8')}>
+        <img src="/icons/profile.svg" alt="Add image" style={{ width: '40px', height: '40px', margin: '0 auto'}}/>
+        </div>
       </div>
     </div>
   );

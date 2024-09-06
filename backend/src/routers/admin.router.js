@@ -4,6 +4,7 @@ import { OrderModel } from "../model/order.model.js";
 import { FoodModel } from "../model/food.model.js";
 import auth from "../middleware/authMiddleware.js";
 import adminAuth from "../middleware/adminAuthMiddleWare.js";
+import { UserModel } from "../model/user.model.js";
 
 const router = Router();
 router.use([auth, adminAuth]);
@@ -33,6 +34,32 @@ router.get(
     res.send(orders);
   })
 );
+
+router.put(
+  "/updateFood",
+  handler(async(req, res) => {
+    try {
+      const food = FoodModel.find();
+    } catch (error) {
+      res.status(500).send({ message: "An Error occured" });
+    }
+  })
+)
+
+router.put(
+  "/setAdmin",
+  handler(async(req, res) => {
+    try {
+      const { userId } = req.body;
+      const user = await UserModel.findOne({ _id: userId })
+      user.isAdmin = !user.isAdmin;
+      user.save()
+      res.send();
+    } catch (error) {
+      res.status(500).send({ message: "An Error occured" });
+    }
+  })
+)
 
 router.get(
   "/stats",

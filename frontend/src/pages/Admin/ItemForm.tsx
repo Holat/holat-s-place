@@ -1,45 +1,24 @@
 // @ts-nocheck
 import "./foodForm.scss";
-import { useReducer, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   ItemCreateType,
-  IAAction,
-  AdminD,
   SelectType,
   TagTypes,
 } from "../../types/types";
-import { createItem, getCountries } from "../../services/adminServices";
-import { getAllTags } from "../../services/foodService";
-import Select, { GroupBase, OnChangeValue } from "react-select";
+import { createItem } from "../../services/adminServices";
+import Select from "react-select";
 import { uploadImage } from "../../utils/adminForm";
 import FoodImg from "./FoodImg";
 import { toast } from "react-toastify";
 import getFormError from "../../utils/getFormError";
 import { Title } from "../../components";
 
-const ORIGINS_LOADED = "ORIGINS_LOADED";
-const TAGS_LOADED = "TAGS_LOADED";
-const initialState: AdminD = {
-  tags: [],
-  origins: [],
-};
 
-const reducer = (state: AdminD, action: IAAction) => {
-  switch (action.type) {
-    case TAGS_LOADED:
-      return { ...state, tags: action.payload };
-    case ORIGINS_LOADED:
-      return { ...state, origins: action.payload };
-    default:
-      return state;
-  }
-};
-
-const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const ItemForm = ({ setIsOpen,  apiTags, origins }: { setIsOpen: (b: boolean) => void, apiTags: TagTypes[], origins: SelectType[] }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { origins, tags } = state;
+  const [tags, setTags] = useState<SelectType[]>()
   const {
     register,
     handleSubmit,
@@ -51,17 +30,11 @@ const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
   } = useForm<ItemCreateType>();
 
   useEffect(() => {
-    getCountries().then((item) =>
-      dispatch({ type: ORIGINS_LOADED, payload: item })
-    );
-
-    getAllTags().then((items) => {
-      const data = items.map((item: TagTypes) => ({
-        label: item.name,
-        value: item.name,
-      }));
-      dispatch({ type: TAGS_LOADED, payload: data });
-    });
+    const selectTag = apiTags.map((item: TagTypes) => ({
+      label: item.name,
+      value: item.name,
+    }));
+    setTags(selectTag);
   }, []);
 
   const submit = async (data: ItemCreateType) => {
@@ -103,7 +76,7 @@ const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
       const imgUrl = res; // Use the returned image URL
 
       const foodData = { ...data, imageUrl: imgUrl, imgName: filename };
-      const success = await createItem(foodData);
+      await createItem(foodData);
 
       toast.success("Food Uploaded");
     } catch (error) {
@@ -190,7 +163,7 @@ const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
                 placeholder="Tags"
               />
               {errors.tags && (
-                <div className="error">{getFormError(errors.tags)}</div>
+                <div className="error">{getFormError(errors.tags[0])}</div>
               )}
             </div>
           )}
@@ -217,7 +190,7 @@ const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
             required: true,
           }}
           name="origins"
-          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+          render={({ field: { onChange, onBlur, value: formV, name, ref } }) => (
             <div className="inputCont">
               <label>Origins</label>
               <Select
@@ -230,13 +203,13 @@ const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
                 onChange={onChange}
                 isMulti={true}
                 onBlur={onBlur}
-                value={value}
+                value={formV}
                 name={name}
                 ref={ref}
                 placeholder="Origin"
               />
               {errors.origins && (
-                <div className="error">{getFormError(errors.origins)}</div>
+                <div className="error">{getFormError(errors.origins[0])}</div>
               )}
             </div>
           )}
@@ -244,7 +217,6 @@ const ItemForm = ({ setIsOpen }: { setIsOpen: (b: boolean) => void }) => {
 
         <div className="inputCont">
           <textarea
-            type="text"
             placeholder="Description"
             {...register("desc", {
               required: true,

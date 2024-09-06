@@ -288,18 +288,76 @@ $table-border-color: #dee2e6;
     .floating-btn{
         position: absolute;
         bottom: 20px;
-        padding: 5px;
         right: 20px;
-        border-radius: 50%;
         width: 50px;
         height: 50px;
-        aspect-ratio: 1;
-        background-color: $primary-color;
+        background-color: transparent;
         cursor: pointer;
+        transition:.6s;
+        z-index: 50;
 
-        img{
-            width: 100%;
-            height: 100%;
+        &:hover{
+            height:250px;
+
+            > #btna1{
+                bottom: 60px;
+            }
+
+            > #btna2{
+                bottom:120px;
+            }
+
+            > #btna3{
+                bottom:180px;
+            }
+
+            > .img{
+                transform: rotate(180deg);
+            }
+
+            > .btnCont{
+                background-color: white;
+                padding-top: 5px;
+                box-shadow: $card-shadow;
+            }
+
+        }
+
+        .btnCont, .img{
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border-radius: 50%;
+            // padding-top:5px;
+            // padding-bottom:5px;
+            padding: 5px;
+            cursor:pointer;
+            transition:.6s;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .btnCont{
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-self: center;
+            
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .img{
+            background-color: $primary-color;
+            z-index: 10;
+            box-shadow: $card-shadow;
+
+            img{
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

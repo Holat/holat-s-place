@@ -27,9 +27,13 @@ export const getCountries = async () => {
   );
 
   return data
-    ? data.map((country: any) => ({
+    ? data.map((country: {name: {common: string}}) => ({
         value: country.name.common,
         label: country.name.common,
       }))
     : [{ value: "", label: "" }];
 };
+
+export const setAdmin = async (userId: string) => {
+  await axios.put("/api/adminApi/setAdmin", { userId});
+}

@@ -1,7 +1,7 @@
 import { FieldError } from "react-hook-form";
 
-export default function getFormError(error: FieldError) {
-  if (!error.type) return "Check this field for Errors";
+export default function getFormError(error?: FieldError) {
+  if (!error || !error.type ) return "Check this field for Errors";
 
   switch (error.type) {
     case "required":

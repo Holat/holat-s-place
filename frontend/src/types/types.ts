@@ -11,11 +11,13 @@ export type LinkType = {
 export type FoodType = {
   foods: FoodItemType[];
   tags: TagTypes[];
+  origins: SelectType[];
 };
 
 export type IAction =
   | { type: "FOODS_LOADED"; payload: FoodItemType[] }
-  | { type: "TAGS_LOADED"; payload: TagTypes[] };
+  | { type: "TAGS_LOADED"; payload: TagTypes[] } 
+  | { type: "ORIGINS_LOADED"; payload: SelectType[]};
 
 export type FoodItemType = {
   id: number | string;
@@ -81,8 +83,8 @@ export type ItemCreateType = {
 };
 
 export type SelectType = {
-  label: "";
-  value: "";
+  label: string;
+  value: string;
 };
 
 export type AdminD = {
@@ -100,3 +102,10 @@ export type RevDetails = {
   totalPendingOrders: number;
   totalOrders: number;
 };
+
+export type FoodContextType = {
+  foods: FoodItemType[],
+  tags: TagTypes[],
+  origins: SelectType[],
+};
+
