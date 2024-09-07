@@ -81,7 +81,7 @@ const AdminPage = () => {
         <div className="btnCont"  id="btna1" onClick={() => setActiveModal('createItem')}>
           <img src="/icons/addI.svg" alt="Add image" />
         </div>
-        <div className="btnCont" id="btna2">
+        <div className="btnCont" id="btna2" onClick={() => setActiveModal('editFood')}>
           <img src="/icons/edit.svg" alt="Add image" style={{ width: '24px', height: '24px', margin: '0 auto'}}/>
         </div>
         <div className="btnCont" id="btna3" onClick={() => setActiveModal('authorize')}>

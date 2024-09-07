@@ -97,140 +97,142 @@ const ItemForm = ({ closeModal,  apiTags, origins }: { closeModal: () => void, a
           <img src="/icons/close.svg" alt="close" />
         </button>
       </div>
-      <form onSubmit={handleSubmit(submit)} className="form">
-        <div style={{ alignSelf: "flex-start" }}>
-          <FoodImg register={register} setValue={setValue} />
-          {errors.imageUrl && (
-            <div className="error">{getFormError(errors.imageUrl)}</div>
-          )}
-        </div>
-        <div className="flex-row-cont">
-          <div className="inputCont">
-            <label>Name</label>
-            <input
-              type="text"
-              placeholder="Name"
-              {...register("name", {
-                required: true,
-              })}
-              className="text-input"
-            />
-            {errors.name && <div className="error">This field is required</div>}
+      <div className="formCont">
+        <form onSubmit={handleSubmit(submit)} className="form">
+          <div style={{ alignSelf: "flex-start" }}>
+            <FoodImg register={register} setValue={setValue} />
+            {errors.imageUrl && (
+              <div className="error">{getFormError(errors.imageUrl)}</div>
+            )}
           </div>
+          <div className="flex-row-cont">
+            <div className="inputCont">
+              <label>Name</label>
+              <input
+                type="text"
+                placeholder="Name"
+                {...register("name", {
+                  required: true,
+                })}
+                className="text-input"
+              />
+              {errors.name && <div className="error">This field is required</div>}
+            </div>
+            <div className="inputCont">
+              <label>Price</label>
+              <input
+                type="number"
+                step={0.01}
+                placeholder="₦0.00"
+                {...register("price", {
+                  required: true,
+                  valueAsNumber: true,
+                  min: 1,
+                })}
+                className="text-input"
+              />
+              {errors.price && (
+                <div className="error">{getFormError(errors.price)}</div>
+              )}
+            </div>
+          </div>
+          <Controller
+            control={control}
+            name="tags"
+            rules={{
+              required: true,
+              maxLength: 3,
+              minLength: 1,
+            }}
+            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+              <div className="inputCont">
+                <label>Tags</label>
+                <Select
+                  options={tags}
+                  // isLoading={isLoading}
+                  className="select-input"
+                  classNamePrefix="react-select"
+                  onChange={onChange}
+                  isMulti={true}
+                  onBlur={onBlur}
+                  value={value}
+                  name={name}
+                  ref={ref}
+                  placeholder="Tags"
+                />
+                {errors.tags && (
+                  <div className="error">{getFormError(errors.tags[0])}</div>
+                )}
+              </div>
+            )}
+          />
           <div className="inputCont">
-            <label>Price</label>
+            <label>Cook Time</label>
             <input
               type="number"
-              step={0.01}
-              placeholder="₦0.00"
-              {...register("price", {
+              placeholder="Cook Time"
+              {...register("cookTime", {
                 required: true,
                 valueAsNumber: true,
                 min: 1,
               })}
               className="text-input"
             />
-            {errors.price && (
-              <div className="error">{getFormError(errors.price)}</div>
+            {errors.cookTime && (
+              <div className="error">{getFormError(errors.cookTime)}</div>
             )}
           </div>
-        </div>
-        <Controller
-          control={control}
-          name="tags"
-          rules={{
-            required: true,
-            maxLength: 3,
-            minLength: 1,
-          }}
-          render={({ field: { onChange, onBlur, value, name, ref } }) => (
-            <div className="inputCont">
-              <label>Tags</label>
-              <Select
-                options={tags}
-                // isLoading={isLoading}
-                className="select-input"
-                classNamePrefix="react-select"
-                onChange={onChange}
-                isMulti={true}
-                onBlur={onBlur}
-                value={value}
-                name={name}
-                ref={ref}
-                placeholder="Tags"
-              />
-              {errors.tags && (
-                <div className="error">{getFormError(errors.tags[0])}</div>
-              )}
-            </div>
-          )}
-        />
-        <div className="inputCont">
-          <label>Cook Time</label>
-          <input
-            type="number"
-            placeholder="Cook Time"
-            {...register("cookTime", {
+          <Controller
+            control={control}
+            rules={{
               required: true,
-              valueAsNumber: true,
-              min: 1,
-            })}
-            className="text-input"
+            }}
+            name="origins"
+            render={({ field: { onChange, onBlur, value: formV, name, ref } }) => (
+              <div className="inputCont">
+                <label>Origins</label>
+                <Select
+                  options={origins}
+                  // isLoading={isLoading}
+                  // isOptionDisabled={() => selectedOptions.length >= 3}
+                  className="select-input"
+                  classNamePrefix="react-select"
+                  isSearchable={true}
+                  onChange={onChange}
+                  isMulti={true}
+                  onBlur={onBlur}
+                  value={formV}
+                  name={name}
+                  ref={ref}
+                  placeholder="Origin"
+                />
+                {errors.origins && (
+                  <div className="error">{getFormError(errors.origins[0])}</div>
+                )}
+              </div>
+            )}
           />
-          {errors.cookTime && (
-            <div className="error">{getFormError(errors.cookTime)}</div>
-          )}
-        </div>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          name="origins"
-          render={({ field: { onChange, onBlur, value: formV, name, ref } }) => (
-            <div className="inputCont">
-              <label>Origins</label>
-              <Select
-                options={origins}
-                // isLoading={isLoading}
-                // isOptionDisabled={() => selectedOptions.length >= 3}
-                className="select-input"
-                classNamePrefix="react-select"
-                isSearchable={true}
-                onChange={onChange}
-                isMulti={true}
-                onBlur={onBlur}
-                value={formV}
-                name={name}
-                ref={ref}
-                placeholder="Origin"
-              />
-              {errors.origins && (
-                <div className="error">{getFormError(errors.origins[0])}</div>
-              )}
-            </div>
-          )}
-        />
 
-        <div className="inputCont">
-          <textarea
-            placeholder="Description"
-            {...register("desc", {
-              required: true,
-            })}
-            className="text-input description-input"
+          <div className="inputCont">
+            <textarea
+              placeholder="Description"
+              {...register("desc", {
+                required: true,
+              })}
+              className="text-input description-input"
+            />
+            {errors.desc && (
+              <div className="error">{getFormError(errors.desc)}</div>
+            )}
+          </div>
+          <input
+            className="form-submit-button"
+            type="submit"
+            value={isLoading ? "Uploading..." : "Upload"}
+            disabled={isLoading}
           />
-          {errors.desc && (
-            <div className="error">{getFormError(errors.desc)}</div>
-          )}
-        </div>
-        <input
-          className="form-submit-button"
-          type="submit"
-          value={isLoading ? "Uploading..." : "Upload"}
-          disabled={isLoading}
-        />
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
