@@ -7,8 +7,6 @@ import hookRouter from "./routers/hook.router.js";
 import favouriteRouter from "./routers/favourite.router.js";
 import adminRouter from "./routers/admin.router.js";
 import { dbconnect } from "./config/database.config.js";
-import { createServer } from "http";
-import socketInit from "./controllers/socket.js";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 dbconnect();
@@ -18,9 +16,6 @@ const __dirname = dirname(__filename);
 
 const app = express();
 app.use(express.json());
-const httpServer = createServer(app);
-socketInit(httpServer);
-
 app.use("/api/foods", foodRouter);
 app.use("/api/user/", userRouter);
 
@@ -39,6 +34,6 @@ if (process.env.NODE_ENV !== "dev") {
 }
 
 const PORT = process.env.PORT || 5000;
-httpServer.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log("Connection successful, Port =>", PORT);
 });

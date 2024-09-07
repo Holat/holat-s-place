@@ -17,18 +17,9 @@ const OrderTable = ({ orders }: { orders?: OrderHistoryType[] }) => {
         <input type="text" placeholder="Search" />
       </div>
       <table>
-        {/* <thead>
-          <tr>
-            <th>Order Id</th>
-            <th>Quantity</th>
-            <th>Order Status</th>
-            <th>Delivery Date</th>
-            <th>Total</th>
-          </tr>
-        </thead> */}
         <tbody>
           {orders &&
-            orders.length > 1 &&
+            orders.length > 1 ? 
             orders.map((item, i) => (
               <tr key={item.id + i}>
                 <td>
@@ -69,7 +60,7 @@ const OrderTable = ({ orders }: { orders?: OrderHistoryType[] }) => {
                   </div>
                 </td>
               </tr>
-            ))}
+            )) : (<tr><td><h4>Empty</h4></td></tr>)}
         </tbody>
       </table>
     </div>

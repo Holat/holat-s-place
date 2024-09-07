@@ -72,6 +72,7 @@ const MonthlySalesChart = () => {
           data={chartData}
           options={{
             maintainAspectRatio: false,
+            responsive: true,
             scales: {
               y: {
                 beginAtZero: true,

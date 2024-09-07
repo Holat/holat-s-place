@@ -10,12 +10,19 @@ import useFood from "../../hooks/useFood";
 import ItemEdit from "./ItemEdit";
 import AdminGrant from "./AdminGrant";
 
+const dRevDetails : RevDetails = {
+  totalOrders: 0,
+  totalPaidOrders: 0,
+  totalPendingOrders: 0,
+  totalRevenue: 0
+}
+
 
 const AdminPage = () => {
   const { tags, origins } = useFood()
   const [activeModal, setActiveModal] = useState<ModalStateType | null>(null);
   const [orders, setOrder] = useState<OrderHistoryType[]>();
-  const [details, setDetails] = useState<RevDetails>();
+  const [details, setDetails] = useState<RevDetails>(dRevDetails);
 
   useEffect(() => {
     getOrders()
@@ -45,27 +52,27 @@ const AdminPage = () => {
               <div className="card">
                 <h3>Total Revenue</h3>
                 <p>
-                  <Price price={details?.totalRevenue || 0} />
+                  <Price price={details.totalRevenue} />
                 </p>
               </div>
               <div className="card">
                 <h3>Paid Orders</h3>
-                <p>{details?.totalPaidOrders}</p>
+                <p>{details.totalPaidOrders}</p>
               </div>
               <div className="card">
                 <h3>Pending</h3>
-                <p>{details?.totalPendingOrders}</p>
+                <p>{details.totalPendingOrders}</p>
               </div>
               <div className="card">
                 <h3>Total Order</h3>
-                <p>{details?.totalOrders}</p>
+                <p>{details.totalOrders}</p>
               </div>
             </div>
             <MonthlySalesChart />
             <OrderStatusChart
-              paid={details?.totalPaidOrders}
-              pending={details?.totalPendingOrders}
-              total={details?.totalOrders}
+              paid={details.totalPaidOrders}
+              pending={details.totalPendingOrders}
+              total={details.totalOrders}
             />
           </div>
         </div>

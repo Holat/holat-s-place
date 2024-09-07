@@ -15,7 +15,6 @@ const AdminGrant = ({ closeModal }: {closeModal: () => void}) => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const filterUsers = (users?: grantType[]) => {
-      console.log("gotherer", searchQuery)
       if (searchQuery && searchQuery.trim().length > 1){
         return users?.filter((user) =>
           user.name.toLowerCase().includes(searchQuery.toLowerCase()))
