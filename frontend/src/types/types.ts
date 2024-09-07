@@ -8,6 +8,9 @@ export type LinkType = {
   currentPath?: boolean;
 };
 
+
+export type ModalStateType = 'createItem' | 'authorize' | 'editFood';
+
 export type FoodType = {
   foods: FoodItemType[];
   tags: TagTypes[];

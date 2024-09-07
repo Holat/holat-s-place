@@ -6,6 +6,7 @@ import {
   ItemCreateType,
   SelectType,
   TagTypes,
+  ModalStateType
 } from "../../types/types";
 import { createItem } from "../../services/adminServices";
 import Select from "react-select";
@@ -16,7 +17,7 @@ import getFormError from "../../utils/getFormError";
 import { Title } from "../../components";
 
 
-const ItemForm = ({ setIsOpen,  apiTags, origins }: { setIsOpen: (b: boolean) => void, apiTags: TagTypes[], origins: SelectType[] }) => {
+const ItemForm = ({ closeModal,  apiTags, origins }: { closeModal: () => void, apiTags: TagTypes[], origins: SelectType[] }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [tags, setTags] = useState<SelectType[]>()
   const {
@@ -88,15 +89,11 @@ const ItemForm = ({ setIsOpen,  apiTags, origins }: { setIsOpen: (b: boolean) =>
     }
   };
 
-  // const mapSelect = () => {
-  //   return
-  // }
-
   return (
-    <div className="form-container">
+    <div className="modal form-container">
       <div className="header">
         <Title title="Create Item" fontSize="24px" fontWeight={600} />
-        <button onClick={() => setIsOpen(false)}>
+        <button onClick={closeModal}>
           <img src="/icons/close.svg" alt="close" />
         </button>
       </div>

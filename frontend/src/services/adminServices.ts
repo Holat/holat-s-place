@@ -34,6 +34,11 @@ export const getCountries = async () => {
     : [{ value: "", label: "" }];
 };
 
+export const getUsers = async() => {
+  const {data} = await axios.get("/api/adminApi/users");
+  return data;
+}
+
 export const setAdmin = async (userId: string) => {
   await axios.put("/api/adminApi/setAdmin", { userId});
 }

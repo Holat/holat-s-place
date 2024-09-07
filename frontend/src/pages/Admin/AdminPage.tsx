@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import "./adminPage.scss";
 import ItemForm from "./ItemForm";
-import { OrderHistoryType, RevDetails } from "../../types/types";
+import { OrderHistoryType, RevDetails, ModalStateType } from "../../types/types";
 import { Price } from "../../components";
-import { getOrderDetails, getOrders, setAdmin } from "../../services/adminServices";
+import { getOrderDetails, getOrders } from "../../services/adminServices";
 import OrderTable from "./OrderTable";
 import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
 import useFood from "../../hooks/useFood";
+import ItemEdit from "./ItemEdit";
+import AdminGrant from "./AdminGrant";
+
 
 const AdminPage = () => {
   const { tags, origins } = useFood()
-  const [createItem, setCreateItem] = useState<boolean>(false);
+  const [activeModal, setActiveModal] = useState<ModalStateType | null>(null);
   const [orders, setOrder] = useState<OrderHistoryType[]>();
   const [details, setDetails] = useState<RevDetails>();
 
@@ -28,10 +31,12 @@ const AdminPage = () => {
       });
   }, []);
 
-  const handleCreateItem = (b: boolean) => setCreateItem(b);
+  const handleCreateItem = () => setActiveModal(null);
   return (
     <div className="adminPage">
-      {createItem && <ItemForm setIsOpen={handleCreateItem} apiTags={tags} origins={origins}/>}
+      {activeModal === 'createItem' && <ItemForm closeModal={handleCreateItem} apiTags={tags} origins={origins}/>}
+      {activeModal === 'editFood' && <ItemEdit closeModal={handleCreateItem} />}
+      {activeModal === 'authorize' && <AdminGrant closeModal={handleCreateItem}/>}
       <div className="adminCont">
         <div>
           {/* <button onClick={() => setCreateItem(true)}>Open</button> */}
@@ -73,13 +78,13 @@ const AdminPage = () => {
             alt={'setting'}
           />
         </div>
-        <div className="btnCont"  id="btna1" onClick={() => handleCreateItem(true)}>
+        <div className="btnCont"  id="btna1" onClick={() => setActiveModal('createItem')}>
           <img src="/icons/addI.svg" alt="Add image" />
         </div>
         <div className="btnCont" id="btna2">
           <img src="/icons/edit.svg" alt="Add image" style={{ width: '24px', height: '24px', margin: '0 auto'}}/>
         </div>
-        <div className="btnCont" id="btna3" onClick={async () => await setAdmin('65e970113dcfdb25ad8878b8')}>
+        <div className="btnCont" id="btna3" onClick={() => setActiveModal('authorize')}>
         <img src="/icons/profile.svg" alt="Add image" style={{ width: '40px', height: '40px', margin: '0 auto'}}/>
         </div>
       </div>

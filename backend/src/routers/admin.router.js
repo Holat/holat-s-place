@@ -35,6 +35,19 @@ router.get(
   })
 );
 
+router.get(
+  "/users",
+  handler(async(req, res) => {
+    const user = req.user;
+    const users = await UserModel.find({ _id: {$ne: user.id}}, {
+      name: 1,
+      email: 1,
+      isAdmin: 1
+    })
+    res.send(users);
+  })
+)
+
 router.put(
   "/updateFood",
   handler(async(req, res) => {
