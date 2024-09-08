@@ -8,7 +8,6 @@ export type LinkType = {
   currentPath?: boolean;
 };
 
-
 export type ModalStateType = 'createItem' | 'authorize' | 'editFood';
 
 export type FoodType = {
@@ -112,3 +111,7 @@ export type FoodContextType = {
   origins: SelectType[],
 };
 
+export type FormPropType =  { 
+  closeModal: () => void;
+  defaultValues?: ItemCreateType ;
+}

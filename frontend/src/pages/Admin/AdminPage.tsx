@@ -6,7 +6,6 @@ import { Price } from "../../components";
 import { getOrderDetails, getOrders } from "../../services/adminServices";
 import OrderTable from "./OrderTable";
 import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
-import useFood from "../../hooks/useFood";
 import ItemEdit from "./ItemEdit";
 import AdminGrant from "./AdminGrant";
 
@@ -19,7 +18,6 @@ const dRevDetails : RevDetails = {
 
 
 const AdminPage = () => {
-  const { tags, origins } = useFood()
   const [activeModal, setActiveModal] = useState<ModalStateType | null>(null);
   const [orders, setOrder] = useState<OrderHistoryType[]>();
   const [details, setDetails] = useState<RevDetails>(dRevDetails);
@@ -41,7 +39,7 @@ const AdminPage = () => {
   const handleCreateItem = () => setActiveModal(null);
   return (
     <div className="adminPage">
-      {activeModal === 'createItem' && <ItemForm closeModal={handleCreateItem} apiTags={tags} origins={origins}/>}
+      {activeModal === 'createItem' && <ItemForm closeModal={handleCreateItem}/>}
       {activeModal === 'editFood' && <ItemEdit closeModal={handleCreateItem} />}
       {activeModal === 'authorize' && <AdminGrant closeModal={handleCreateItem}/>}
       <div className="adminCont">

@@ -52,7 +52,12 @@ router.put(
   "/updateFood",
   handler(async(req, res) => {
     try {
-      const food = FoodModel.find();
+      const { id, ...updateData } = req.body;
+      
+      await FoodModel.findByIdAndUpdate(id, updateData, {
+        new: true,
+        runValidators: true,
+      });
     } catch (error) {
       res.status(500).send({ message: "An Error occured" });
     }

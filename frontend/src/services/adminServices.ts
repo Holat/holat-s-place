@@ -16,6 +16,11 @@ export const getMonthlySales = async () => {
   return data;
 };
 
+export const updateFoods = async(item: ItemCreateType) => {
+  const { data } = await axios.put("/api/adminApi/updateFood", item);
+  return data;
+}
+
 export const getOrders = async () => {
   const { data } = await axios.get("/api/adminApi/orders");
   return data;

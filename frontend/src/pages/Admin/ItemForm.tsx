@@ -6,18 +6,20 @@ import {
   ItemCreateType,
   SelectType,
   TagTypes,
-  ModalStateType
+  FormPropType
 } from "../../types/types";
-import { createItem } from "../../services/adminServices";
+import { createItem, updateFoods } from "../../services/adminServices";
 import Select from "react-select";
 import { uploadImage } from "../../utils/adminForm";
 import FoodImg from "./FoodImg";
 import { toast } from "react-toastify";
 import getFormError from "../../utils/getFormError";
 import { Title } from "../../components";
+import useFood from "../../hooks/useFood";
 
 
-const ItemForm = ({ closeModal,  apiTags, origins }: { closeModal: () => void, apiTags: TagTypes[], origins: SelectType[] }) => {
+const ItemForm = ({ closeModal, defaultValues }: FormPropType) => {
+  const { tags: apiTags, origins} = useFood();
   const [isLoading, setIsLoading] = useState(false);
   const [tags, setTags] = useState<SelectType[]>()
   const {
@@ -26,9 +28,15 @@ const ItemForm = ({ closeModal,  apiTags, origins }: { closeModal: () => void, a
     control,
     setError,
     setValue,
+    formState: { dirtyFields },
     reset,
     formState: { errors },
   } = useForm<ItemCreateType>();
+
+
+  useEffect(() => {
+    if(defaultValues) reset(defaultValues);
+  }, [defaultValues])
 
   useEffect(() => {
     const selectTag = apiTags.map((item: TagTypes) => ({
@@ -41,43 +49,51 @@ const ItemForm = ({ closeModal,  apiTags, origins }: { closeModal: () => void, a
   const submit = async (data: ItemCreateType) => {
     setIsLoading(true);
     const { imageUrl } = data;
-    if (!(imageUrl instanceof File)) {
-      setError("imageUrl", { type: "filre", message: "Image Required" });
-      setIsLoading(false);
-      return;
-    }
-    const file = imageUrl;
-
-    const validImageTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/gif",
-      "image/bmp",
-      "image/webp",
-    ];
-    if (!validImageTypes.includes(file.type)) {
-      setError("imageUrl", { type: "filetype", message: "filetype" });
-      setIsLoading(false);
-      return;
-    }
-
-    if (file.size > 5242880) {
-      setError("imageUrl", { type: "filesize", message: "filesize" });
-      setIsLoading(false);
-      return;
+    if (dirtyFields.imageUrl){
+      if (!(imageUrl instanceof File)) {
+        setError("imageUrl", { type: "filre", message: "Image Required" });
+        setIsLoading(false);
+        return;
+      }else{
+        const file = imageUrl;
+    
+        const validImageTypes = [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/bmp",
+          "image/webp",
+        ];
+        if (!validImageTypes.includes(file.type)) {
+          setError("imageUrl", { type: "filetype", message: "filetype" });
+          setIsLoading(false);
+          return;
+        }
+    
+        if (file.size > 5242880) {
+          setError("imageUrl", { type: "filesize", message: "filesize" });
+          setIsLoading(false);
+          return;
+        }
+      }
     }
 
     try {
-      const fileExt = imageUrl.name.split(".").pop();
-      const filename = `${data.name
-        .replace(/\s+/g, "")
-        .toLowerCase()}.${fileExt}`;
+      var foodData;
+      if (dirtyFields.imageUrl && imageUrl instanceof File){
+        const fileExt = imageUrl.name.split(".").pop();
+        const filename = `${data.name
+          .replace(/\s+/g, "")
+          .toLowerCase()}.${fileExt}`;
+  
+        const res = await uploadImage(imageUrl, filename);
+        foodData = { ...data, imageUrl: res, imgName: filename };
+      }
 
-      const res = await uploadImage(imageUrl, filename);
-      const imgUrl = res; // Use the returned image URL
+      foodData = { ...data };
 
-      const foodData = { ...data, imageUrl: imgUrl, imgName: filename };
-      await createItem(foodData);
+      if (defaultValues) await updateFoods(foodData);
+      else await createItem(foodData);
 
       toast.success("Food Uploaded");
     } catch (error) {
@@ -228,7 +244,7 @@ const ItemForm = ({ closeModal,  apiTags, origins }: { closeModal: () => void, a
           <input
             className="form-submit-button"
             type="submit"
-            value={isLoading ? "Uploading..." : "Upload"}
+            value={isLoading ? "Uploading..." ? isLoading && defaultValues : "Updare" : "Upload"}
             disabled={isLoading}
           />
         </form>
