@@ -77,9 +77,10 @@ export type OrderHistoryType = {
 export type ItemCreateType = {
   name: string;
   price: number;
-  tags: string[];
+  tags: SelectType[];
   imageUrl: File | string;
-  origins: string[];
+  imgName?: string | null;
+  origins: SelectType[];
   cookTime: number;
   desc: string;
 };
@@ -112,6 +113,6 @@ export type FoodContextType = {
 };
 
 export type FormPropType =  { 
-  closeModal: () => void;
   defaultValues?: ItemCreateType ;
+  formType: 'U' | 'C';
 }

@@ -32,7 +32,10 @@ router.put(
   "/pay",
   handler(async (req, res) => {
     const { paymentId } = req.body;
-    const order = await getCurrentUserOrder(req);
+    const order = await OrderModel.findOne({
+      user: req.user.id,
+      status: {$in: ["NEW", "PAID"]},
+    });
 
     if (!order) {
       res.status(400).send("Order not found");
@@ -40,7 +43,6 @@ router.put(
     }
 
     order.paymentId = paymentId;
-
     if (order.status === "PAID") {
       res.send(order._id);
       return;

@@ -10,6 +10,7 @@ import { LocationType, OrderType } from "../../types/types";
 import { toast } from "react-toastify";
 import { createOrder } from "../../services/orderService";
 import connectSocket from "../../services/socketServices";
+import generateTransactionRef from "../../utils/generatetxref";
 
 type CheckoutType = {
   name: string;
@@ -21,7 +22,7 @@ export default function CheckoutPage() {
   const { cart, changeQuantity, removeFromCart } = useCart();
   const { user } = useAuth();
   const socket = connectSocket(user?.token);
-  const tx_ref = generateTransactionRef(12);
+  const tx_ref = generateTransactionRef(11);
 
   const [order, setOrder] = useState<OrderType>({
     ...cart,

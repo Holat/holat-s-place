@@ -52,9 +52,14 @@ router.put(
   "/updateFood",
   handler(async(req, res) => {
     try {
-      const { id, ...updateData } = req.body;
-      
-      await FoodModel.findByIdAndUpdate(id, updateData, {
+      const item = req.body;
+
+      const mapItems = (items) => items?.map((item) => item.value);
+      const tags = mapItems(item.tags) || [""];
+      const origins = mapItems(item.origins) || [""];
+
+      const data = { ...item, tags, origins }
+      await FoodModel.findByIdAndUpdate(id, data, {
         new: true,
         runValidators: true,
       });
