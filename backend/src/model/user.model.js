@@ -8,7 +8,8 @@ const UserSchema = new Schema(
     address: { type: String, required: true },
     phone: { type: String, required: true, unique: true },
     isAdmin: { type: Boolean, default: false },
-    favourites: [{ type: Schema.Types.ObjectId, ref: 'food' }]
+    favourites: [{ type: Schema.Types.ObjectId, ref: "food" }],
+    isVerif: { type: Boolean, default: false },
   },
   {
     timestamps: true,
