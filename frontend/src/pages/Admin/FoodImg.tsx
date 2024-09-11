@@ -1,17 +1,25 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { ItemCreateType } from "../../types/types";
 
 const FoodImg = ({
   register,
   setValue,
+  imgPreview,
 }: {
   register: UseFormRegister<ItemCreateType>;
   setValue: UseFormSetValue<ItemCreateType>;
+  imgPreview?: string | File,
 }) => {
   const hiddenInputRef = useRef<HTMLInputElement | null>();
   const [preview, setPreview] = useState<string | null>(null);
   const { ref: registerRef, ...rest } = register("imageUrl");
+
+  useEffect(() => {
+    if (typeof imgPreview === 'string'){
+      setPreview(imgPreview)
+    }
+  }, [imgPreview])
 
   const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files;

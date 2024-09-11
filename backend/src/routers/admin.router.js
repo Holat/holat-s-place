@@ -4,6 +4,7 @@ import { OrderModel } from "../model/order.model.js";
 import { FoodModel } from "../model/food.model.js";
 import auth from "../middleware/authMiddleware.js";
 import adminAuth from "../middleware/adminAuthMiddleWare.js";
+import { UserModel } from "../model/user.model.js";
 
 const router = Router();
 router.use([auth, adminAuth]);
@@ -22,6 +23,66 @@ router.post(
     res.send({ success: true });
   })
 );
+
+router.get(
+  "/orders",
+  handler(async (req, res) => {
+    const orders = await OrderModel.find().populate({
+      path: "user",
+      select: "name"
+    }).sort("-createdAt");
+    res.send(orders);
+  })
+);
+
+router.get(
+  "/users",
+  handler(async(req, res) => {
+    const user = req.user;
+    const users = await UserModel.find({ _id: {$ne: user.id}}, {
+      name: 1,
+      email: 1,
+      isAdmin: 1
+    })
+    res.send(users);
+  })
+)
+
+router.put(
+  "/updateFood",
+  handler(async(req, res) => {
+    try {
+      const item = req.body;
+
+      const mapItems = (items) => items?.map((item) => item.value);
+      const tags = mapItems(item.tags) || [""];
+      const origins = mapItems(item.origins) || [""];
+
+      const data = { ...item, tags, origins }
+      await FoodModel.findByIdAndUpdate(id, data, {
+        new: true,
+        runValidators: true,
+      });
+    } catch (error) {
+      res.status(500).send({ message: "An Error occured" });
+    }
+  })
+)
+
+router.put(
+  "/setAdmin",
+  handler(async(req, res) => {
+    try {
+      const { userId } = req.body;
+      const user = await UserModel.findOne({ _id: userId })
+      user.isAdmin = !user.isAdmin;
+      user.save()
+      res.send();
+    } catch (error) {
+      res.status(500).send({ message: "An Error occured" });
+    }
+  })
+)
 
 router.get(
   "/stats",
@@ -47,49 +108,48 @@ router.get(
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: "Error fetching stats" });
+      res.status(500).send({ message: "Error fetching stats" });
     }
   })
 );
 
+router.get("/monthly-sales", async (req, res) => {
+  try {
+    const currentYear = new Date().getFullYear();
+
+    const monthlySales = await OrderModel.aggregate([
+      {
+        $match: {
+          status: "PAID",
+          createdAt: {
+            $gte: new Date(currentYear, 0, 1),
+            $lt: new Date(currentYear + 1, 0, 1),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: "$createdAt" } },
+          totalSales: { $sum: "$totalPrice" },
+          orderCount: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { "_id.month": 1 },
+      },
+    ]);
+
+    // Format the data for easier consumption
+    const formattedData = monthlySales.map((item) => ({
+      month: `${item._id.month}-${currentYear}`,
+      totalSales: item.totalSales,
+      orderCount: item.orderCount,
+    }));
+
+    res.send(formattedData);
+  } catch (err) {
+    res.status(500).send({ error: "Something went wrong" });
+  }
+});
+
 export default router;
-// router.get('/monthly-sales', async (req, res) => {
-//   try {
-//     const currentYear = new Date().getFullYear();
-
-//     const monthlySales = await Order.aggregate([
-//       {
-//         $match: {
-//           status: 'paid',
-//           createdAt: {
-//             $gte: new Date(currentYear, 0, 1),
-//             $lt: new Date(currentYear + 1, 0, 1)
-//           }
-//         }
-//       },
-//       {
-//         $group: {
-//           _id: { month: { $month: '$createdAt' } },
-//           totalSales: { $sum: '$amount' },
-//           orderCount: { $sum: 1 }
-//         }
-//       },
-//       {
-//         $sort: { '_id.month': 1 }  // Sort by month
-//       }
-//     ]);
-
-//     // Format the data for easier consumption
-//     const formattedData = monthlySales.map(item => ({
-//       month: ${currentYear}-${item._id.month},
-//       totalSales: item.totalSales,
-//       orderCount: item.orderCount
-//     }));
-
-//     res.send(formattedData);
-//   } catch (err) {
-//     res.status(500).json({ error: 'Something went wrong' });
-//   }
-// });
-
-// module.exports = router;

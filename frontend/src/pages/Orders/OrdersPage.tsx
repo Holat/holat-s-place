@@ -3,8 +3,6 @@ import "./orders.scss";
 import { getAll } from "../../services/orderService";
 import { Price, Title } from "../../components";
 import { CartItemType } from "../../types/cartTypes";
-import connectSocket from "../../services/socketServices";
-import useAuth from "../../hooks/useAuth";
 
 type orderHistoryType = {
   _id: string;
@@ -14,55 +12,19 @@ type orderHistoryType = {
   items: CartItemType[];
 };
 
-const status = ["", "NEW", "PAID"];
-
 export default function OrdersPage() {
   const [orders, setOrders] = useState<orderHistoryType[]>();
-  const [currentStatus, setCurrentStatus] = useState("");
-  const { user } = useAuth();
-  const socket = connectSocket(user?.token);
 
   useEffect(() => {
-    getAll(currentStatus)
+    getAll()
       .then(setOrders)
       .catch((error) => {
         console.log(error);
       });
-  }, [currentStatus]);
-
-  useEffect(() => {
-    socket.on("orderUpdate", (e: string) => {
-      if (e === "updated") {
-        getAll(currentStatus)
-          .then(setOrders)
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    });
-
-    return () => {
-      socket.off("orderUpdate");
-    };
-  }, [socket, currentStatus]);
+  }, []);
 
   return (
     <div className="ordersPageCont">
-      <div className="btnCont">
-        {status.map((item: string) => (
-          <button
-            key={item}
-            onClick={() => setCurrentStatus(item)}
-            style={{
-              border: item === currentStatus ? "1px solid #FA6400" : "none",
-              backgroundColor: item === currentStatus ? "#ffe9d9" : "",
-            }}
-          >
-            {item.toLowerCase()}
-            {!item && "All"}
-          </button>
-        ))}
-      </div>
       <div className="orderItemsCont">
         {orders?.map((order) => (
           <div className="orderItemCont" key={order._id}>
@@ -99,3 +61,20 @@ export default function OrdersPage() {
     </div>
   );
 }
+
+
+{/* <div className="btnCont">
+{status.map((item: string) => (
+  <button
+    key={item}
+    onClick={() => setCurrentStatus(item)}
+    style={{
+      border: item === currentStatus ? "1px solid #FA6400" : "none",
+      backgroundColor: item === currentStatus ? "#ffe9d9" : "",
+    }}
+  >
+    {item.toLowerCase()}
+    {!item && "All"}
+  </button>
+))}
+</div> */}

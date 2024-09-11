@@ -34,7 +34,7 @@ const OrderSchema = new Schema(
     totalPrice: { type: Number, required: true },
     totalCount: { type: Number, required: true },
     paymentId: { type: String || Number },
-    tx_ref: { type: String },
+    tx_ref: { type: String, required: true },
     items: { type: [OrderItemSchema], required: true },
     status: { type: String, default: "NEW" },
     user: { type: Schema.Types.ObjectId, required: true },

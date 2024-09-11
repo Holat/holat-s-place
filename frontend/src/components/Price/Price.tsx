@@ -1,7 +1,7 @@
 const Price = ({
-  locale,
+  locale = "en-NG",
   price,
-  currency,
+  currency = "NGN",
   showP,
 }: {
   locale?: string;
@@ -16,11 +16,6 @@ const Price = ({
     }).format(price);
 
   return showP ? <span>({formatPrice()})</span> : <span>{formatPrice()}</span>;
-};
-
-Price.defaultProps = {
-  locale: "en-NG",
-  currency: "NGN",
 };
 
 export default Price;

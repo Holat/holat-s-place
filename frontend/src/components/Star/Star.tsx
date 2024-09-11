@@ -1,4 +1,4 @@
-const StarRating = ({ stars, size }: { stars: number; size: number }) => {
+const StarRating = ({ stars, size= 18 }: { stars: number; size: number }) => {
   const styles = {
     width: size + "px",
     height: size + "px",
@@ -25,10 +25,6 @@ const StarRating = ({ stars, size }: { stars: number; size: number }) => {
   };
 
   return <div className="stars">{[1, 2, 3, 4, 5].map(renderStar)}</div>;
-};
-
-StarRating.defaultProps = {
-  size: 18,
 };
 
 export default StarRating;

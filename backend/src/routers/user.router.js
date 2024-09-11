@@ -3,6 +3,7 @@ import auth from "../middleware/authMiddleware.js";
 import jwt from "jsonwebtoken";
 import handler from "express-async-handler";
 import { UserModel } from "../model/user.model.js";
+import { VerifModel } from "../model/verif.model.js";
 import bcrypt from "bcryptjs";
 
 const PASSWORD_HASH_SALT_ROUNDS = 10;
@@ -35,6 +36,29 @@ router.post(
       return;
     }
     res.status(400).send({ success: false });
+  })
+);
+
+router.get(
+  "/verif/:token",
+  handler(async (req, res) => {
+    const token = req.params.token;
+    const MS_PER_MINUTE = 60000;
+    const exprDate = new Date(Date.now() - 15 * MS_PER_MINUTE);
+    if (!token) res.status(400).send("Verification Failed");
+
+    const verif = await VerifModel.findOne({
+      token,
+      // expr: { $gte: exprDate },
+    });
+
+    if (verif?.token) {
+      await UserModel.findByIdAndUpdate(verif.userId, { isVerif: true });
+      await VerifModel.deleteOne({ token });
+      res.redirect(301, "https://fwrs2k-5173.csb.app/");
+    } else {
+      res.redirect(301, "https://fwrs2k-5173.csb.app/");
+    }
   })
 );
 
@@ -153,6 +177,7 @@ const generateTokenResponse = (user, options = {}) => {
     address: user.address,
     phone: user.phone,
     isAdmin: user.isAdmin,
+    isVerif: user.isVerif,
     token,
   };
 };

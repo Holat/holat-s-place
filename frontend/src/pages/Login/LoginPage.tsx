@@ -32,9 +32,11 @@ export default function LoginPage() {
 
   return (
     <div className="loginCont">
-      <div className="form-container">
-        <div className="formCont">
-          <Title title="Sign in" fontSize="32px" fontWeight={700} />
+      <div className="f1">
+        <div className="f2">
+          <div className="header">
+            <Title title="Sign in" fontSize="32px" fontWeight={700} />
+          </div>
           <form onSubmit={handleSubmit(submit)} noValidate name="login">
             <Input
               type="text"
@@ -58,12 +60,12 @@ export default function LoginPage() {
             />
             <input type="submit" value={"Login"} />
           </form>
-        </div>
-        <div className={"register"}>
-          New user? &nbsp;
-          <Link to={`/register${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
-            Register Here
-          </Link>
+          <div className="btnCont">
+            New user? &nbsp;
+            <Link to={`/register${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
+              Register Here
+            </Link>
+          </div>
         </div>
       </div>
       <div className="imgCont">

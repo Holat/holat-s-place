@@ -32,7 +32,10 @@ router.put(
   "/pay",
   handler(async (req, res) => {
     const { paymentId } = req.body;
-    const order = await getCurrentUserOrder(req);
+    const order = await OrderModel.findOne({
+      user: req.user.id,
+      status: {$in: ["NEW", "PAID"]},
+    });
 
     if (!order) {
       res.status(400).send("Order not found");
@@ -40,7 +43,6 @@ router.put(
     }
 
     order.paymentId = paymentId;
-
     if (order.status === "PAID") {
       res.send(order._id);
       return;
@@ -96,12 +98,9 @@ router.get(
   handler(async (req, res) => {
     const status = req.params.status;
     const user = await UserModel.findById(req.user.id);
-    const filter = {};
-
-    if (!user.isAdmin) filter.user = user._id;
     if (status) filter.status = { $regex: new RegExp(status, "i") };
 
-    const orders = await OrderModel.find(filter).sort("-createdAt");
+    const orders = await OrderModel.find({ user: user._id}).sort("-createdAt");
     res.send(orders);
   })
 );
