@@ -14,12 +14,12 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 .adminPage {
     background-color: "white";
     position: relative;
-    height: 100vh;
+    height: 100dvh;
 
     .modal {
         position: absolute;
-        width: 100% ;
-        height: 100vh;
+        width: 100%;
+        height: 100dvh;
         background-color: rgba(0, 0, 0, 0.278);
         display: flex;
         align-items: center;
@@ -28,7 +28,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         z-index: 99;
         padding-block: 16px;
 
-        .createForm{
+        .createForm {
             gap: 12px;
             display: flex;
             flex-direction: column;
@@ -36,7 +36,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             width: 50%;
             height: 100%;
 
-            .header{
+            .header {
                 display: flex;
                 width: 100%;
                 align-items: center;
@@ -45,7 +45,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 background-color: $form-background-color;
                 border-radius: $form-border-radius;
                 box-shadow: $box-shadow;
-        
+
                 button {
                     border: none;
                     width: 28px;
@@ -53,24 +53,24 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                     cursor: pointer;
                     transition: opacity 0.3s ease;
                     background-color: transparent;
-        
+
                     img {
                         width: 100%;
                         height: 100%;
                         object-fit: contain;
                     }
-        
+
                     &:hover {
                         opacity: 0.5;
                     }
                 }
-        
-            }   
+
+            }
 
             @include tablet {
                 width: 60%;
             }
-     
+
             @include mobile {
                 width: 80%;
             }
@@ -99,7 +99,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
             &::-webkit-scrollbar {
                 display: none;
-              }
+            }
 
             .cardCont {
                 display: grid;
@@ -135,46 +135,50 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
                     @include tablet {
                         padding: 12px;
-                        h3{
+
+                        h3 {
                             font-size: 12px;
                         }
+
                         p {
                             font-size: 16px;
                         }
                     }
-             
+
                     @include mobile {
                         padding: 12px;
-                        h3{
+
+                        h3 {
                             font-size: 12px;
                         }
-                        p{
+
+                        p {
                             font-size: 16px;
                         }
                     }
                 }
             }
 
-            .orderChart{
+            .orderChart {
                 flex: 1;
                 background-color: white;
                 box-shadow: $card-shadow;
                 padding: 20px;
                 border-radius: 10px;
                 height: 100%;
-                
 
-                .chart{
+
+                .chart {
                     background-color: transparent;
                     height: 90%;
                 }
 
-                h3{
+                h3 {
                     text-align: left;
                 }
             }
 
-            .donutCont{
+            .donutCont {
                 height: 100%;
                 align-items: start;
                 display: flex;
@@ -183,16 +187,16 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 padding: 20px;
                 border-radius: 10px;
 
-                h3{
+                h3 {
                     margin-bottom: 16px;
                     text-align: left;
                 }
 
-                .donut{
+                .donut {
                     height: 60%;
                     position: relative;
 
-                    .tag{
+                    .tag {
                         position: absolute;
                         top: 50%;
                         right: 50%;
@@ -210,23 +214,23 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                     gap: 10px;
                     margin-top: 4px;
 
-                     div {
-                      display: flex;
-                      align-items: center;
-                      gap: 5px;
-                      font-weight: 700;
-                      font-size: 12px;
+                    div {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        font-weight: 700;
+                        font-size: 12px;
 
-                      span{
-                        font-size: 27px;
-                        margin-bottom: 3px;
-                      }
+                        span {
+                            font-size: 27px;
+                            margin-bottom: 3px;
+                        }
                     }
 
                     h2 {
                         text-align: center;
-                      }
-                  }
+                    }
+                }
             }
 
             // .orders-card {
@@ -324,18 +328,21 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                                     right: 0;
                                     top: 50%;
                                     transform: translateY(-50%);
-                                    width: 1px; /* Width of the "border" */
-                                    height: 50px; /* Height of the "border" */
-                                    background-color: rgba(0, 0, 0, 0.05); /* Color of the "border" */
-                                  }
+                                    width: 1px;
+                                    /* Width of the "border" */
+                                    height: 50px;
+                                    /* Height of the "border" */
+                                    background-color: rgba(0, 0, 0, 0.05);
+                                    /* Color of the "border" */
+                                }
                             }
-                            
-                            .td{
+
+                            .td {
                                 display: flex;
                                 flex-direction: column;
                                 gap: 8px;
 
-                                span{
+                                span {
                                     color: rgba(0, 0, 0, 0.6);
                                     font-size: 12px;
                                     font-weight: 600;
@@ -352,18 +359,21 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 align-items: center;
                 gap: 4px;
 
-                h4{
+                h4 {
                     text-transform: capitalize;
                 }
             }
 
             // Search bar
             .search-bar {
+                width: 100%;
                 padding: 15px;
                 text-align: right;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 8px;
                 position: sticky;
                 top: 0;
                 z-index: 10;
@@ -381,7 +391,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
     }
 
-    .floating-btn{
+    .floating-btn {
         position: absolute;
         bottom: 20px;
         right: 20px;
@@ -389,29 +399,29 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         height: 50px;
         background-color: transparent;
         cursor: pointer;
-        transition:.6s;
+        transition: .6s;
         z-index: 50;
 
-        &:hover{
-            height:250px;
+        &:hover {
+            height: 250px;
 
-            > #btna1{
+            >#btna1 {
                 bottom: 60px;
             }
 
-            > #btna2{
-                bottom:120px;
+            >#btna2 {
+                bottom: 120px;
             }
 
-            > #btna3{
-                bottom:180px;
+            >#btna3 {
+                bottom: 180px;
             }
 
-            > .img{
+            >.img {
                 transform: rotate(180deg);
             }
 
-            > .btnCont{
+            >.btnCont {
                 background-color: white;
                 padding-top: 5px;
                 box-shadow: $card-shadow;
@@ -419,7 +429,8 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
         }
 
-        .btnCont, .img{
+        .btnCont,
+        .img {
             width: 50px;
             height: 50px;
             background-color: transparent;
@@ -427,37 +438,37 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             // padding-top:5px;
             // padding-bottom:5px;
             padding: 5px;
-            cursor:pointer;
-            transition:.6s;
+            cursor: pointer;
+            transition: .6s;
             position: absolute;
             bottom: 0;
         }
 
-        .btnCont{
+        .btnCont {
             z-index: 5;
             display: flex;
             align-items: center;
             justify-self: center;
-            
-            img{
+
+            img {
                 width: 100%;
                 height: 100%;
             }
         }
 
-        .img{
+        .img {
             background-color: $primary-color;
             z-index: 10;
             box-shadow: $card-shadow;
 
-            img{
+            img {
                 width: 100%;
                 height: 100%;
             }
         }
     }
 
-    .gCont{
+    .gCont {
         .modal-content {
             background: white;
             padding: 20px;
@@ -474,7 +485,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
             h2 {
                 margin-bottom: 16px;
-            }    
+            }
 
             input {
                 width: 100%;
@@ -484,13 +495,13 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 border: none;
                 outline: 0.5px solid #00000058;
                 transition: .06s;
-    
-                &:focus{
-                    outline: 1.5px solid  $primary-color;
-                }
-              }
 
-              ul {
+                &:focus {
+                    outline: 1.5px solid $primary-color;
+                }
+            }
+
+            ul {
                 list-style: none;
                 padding: 0;
                 padding-left: 8px;
@@ -503,29 +514,29 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                     justify-content: space-between;
                     align-items: center;
                     margin-bottom: 12px;
-        
-                    p{
+
+                    p {
                         font-size: 12px;
                     }
-                  }
-              }   
-          }
+                }
+            }
+        }
 
-          button {
+        button {
             padding: 8px 12px;
-            background-color:  $primary-color;
+            background-color: $primary-color;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
 
             &:hover {
-                background-color:  $primary-color;
-              }
-          }
+                background-color: $primary-color;
+            }
+        }
     }
 
-    .modal > .itemEdit{
+    .modal>.itemEdit {
         display: flex;
         align-items: start;
         background-color: #fff;
@@ -545,11 +556,11 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 12px;
-    
-                p{
+
+                p {
                     font-size: 12px;
                 }
-              }
-          } 
+            }
+        }
     }
 }
