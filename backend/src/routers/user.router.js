@@ -52,13 +52,13 @@ router.get(
       date: { $lt: exprDate },
     });
 
-    if (verif.token) {
+    if (verif?.token) {
       await UserModel.findByIdAndUpdate(verif.userId, { isVerif: true });
-      await VerifModel.delete({ apitoken });
+      await VerifModel.find({ token: apitoken }).remove();
       res.redirect(200, "https://fwrs2k-5173.csb.app/");
       res.send(200);
     } else {
-      res.status(400).send("Verification Failed");
+      res.status(400).send(exprDate);
     }
   })
 );
