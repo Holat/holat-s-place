@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import generateTransactionRef from "../../utils/generatetxref";
 import { createOrder } from "../../services/orderService";
 import connectSocket from "../../services/socketServices";
-import generateTransactionRef from "../../utils/generatetxref";
 
 type CheckoutType = {
   name: string;

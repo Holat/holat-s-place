@@ -49,17 +49,15 @@ router.get(
 
     const verif = await VerifModel.findOne({
       token,
-      expr: { $gte: exprDate },
+      // expr: { $gte: exprDate },
     });
 
     if (verif?.token) {
       await UserModel.findByIdAndUpdate(verif.userId, { isVerif: true });
       await VerifModel.deleteOne({ token });
-      // await VerifModel.find({ token: token }).remove();
-      res.redirect(200, "https://fwrs2k-5173.csb.app/");
-      res.send(200);
+      res.redirect(301, "https://fwrs2k-5173.csb.app/");
     } else {
-      res.status(400).send("Verification Failed");
+      res.redirect(301, "https://fwrs2k-5173.csb.app/");
     }
   })
 );
