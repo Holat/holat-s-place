@@ -4,67 +4,66 @@
     height: 100vh;
     width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     padding-left: 72px;
     flex: 1;
-    background-image: url("../../assets/login.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    justify-content: center;
 
     @include mobile {
         padding-left: 0;
     }
 
-    .formCont {
-        background-color: rgba(0, 0, 0, 0.4);
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
-        border-radius: 12px;
-        margin-left: 64px;
-        padding: 32px 24px 64px 24px;
+    .form-container {
+        .formCont {
+            background-color: white;
 
-        @include mobile {
-            padding: 16px;
-            margin-left: 42px;
+            @include mobile {
+                padding: 16px;
+                margin-left: 42px;
+            }
+
+            >div {
+                margin-bottom: 16px;
+                color: black;
+            }
+
+            form {
+                gap: 24px;
+                flex-direction: column;
+                display: flex;
+
+                input[type="submit"] {
+                    border: none;
+                    background-color: #fa6400;
+                    padding: 12px;
+                    border-radius: 10px;
+                    color: white;
+                    font-weight: 600;
+                    font-size: 16px;
+                    align-self: center;
+                    width: 50%;
+                    margin-top: 12px;
+                    // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                }
+            }
         }
 
-        >div {
-            margin-bottom: 16px;
+        .register {
             color: white;
-        }
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 12px;
 
-        form {
-            gap: 24px;
-            flex-direction: column;
-            display: flex;
-
-            input[type="submit"] {
-                border: none;
-                background-color: #fa6400;
-                padding: 12px;
-                border-radius: 10px;
-                color: white;
-                font-weight: 600;
-                font-size: 16px;
-                align-self: center;
-                width: 50%;
-                margin-top: 12px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            a {
+                color: #fa6400;
+                text-decoration: underline;
             }
         }
     }
 
-    .register {
-        color: white;
-        font-weight: 600;
-        font-size: 16px;
-        margin-top: 12px;
-
-        a {
-            color: #fa6400;
-            text-decoration: underline;
+    .imgCont {
+        img {
+            width: 100%;
+            height: 100%;
         }
     }
 }
