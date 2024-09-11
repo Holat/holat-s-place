@@ -1,7 +1,7 @@
 @import "../../app.scss";
 
 .loginCont {
-    height: 100vh;
+    height: 100dvh;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -26,6 +26,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
 
         @include mobile {
             background-color: rgba(255, 255, 255, 0.8); // Add slight background color for readability
@@ -39,6 +40,11 @@
             width: 60%;
             height: 60%;
             align-items: center;
+            overflow: auto;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
 
             @include mobile {
                 margin-left: 42px;
@@ -47,7 +53,7 @@
                 padding: 16px;
             }
 
-            .header {
+            .formHeader {
                 margin-bottom: 20px;
                 color: black;
                 text-align: center;

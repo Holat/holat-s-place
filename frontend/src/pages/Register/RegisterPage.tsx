@@ -32,7 +32,9 @@ export default function RegisterPage() {
     <div className="loginCont">
       <div className="f1">
         <div className="f2">
-          <Title title="Register" fontSize="32px" fontWeight={700} />
+          <div className="formHeader">
+            <Title title="Register" fontSize="32px" fontWeight={700} />
+          </div>
           <form onSubmit={handleSubmit(submit)}>
             <div className="name">
               <Input

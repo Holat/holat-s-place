@@ -34,7 +34,7 @@ export default function LoginPage() {
     <div className="loginCont">
       <div className="f1">
         <div className="f2">
-          <div className="header">
+          <div className="formHeader">
             <Title title="Sign in" fontSize="32px" fontWeight={700} />
           </div>
           <form onSubmit={handleSubmit(submit)} noValidate name="login">
