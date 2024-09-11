@@ -1,4 +1,4 @@
-const StarRating = ({ stars, size= 18 }: { stars: number; size: number }) => {
+const StarRating = ({ stars, size = 18 }: { stars: number; size?: number }) => {
   const styles = {
     width: size + "px",
     height: size + "px",

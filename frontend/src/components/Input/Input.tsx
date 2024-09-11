@@ -18,7 +18,6 @@ const Input = React.forwardRef(
   ) => {
     const getErrorMessage = () => {
       if (!error) return;
-      if (error.message) return error.message;
 
       switch (error.type) {
         case "required":
@@ -26,7 +25,7 @@ const Input = React.forwardRef(
         case "minLength":
           return "Field Is Too Short";
         default:
-          return "*";
+          return error.message || " ";
       }
     };
     return (
