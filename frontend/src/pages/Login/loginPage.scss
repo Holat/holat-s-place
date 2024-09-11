@@ -11,6 +11,14 @@
 
     @include mobile {
         padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        background-image: url("/login.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        justify-content: center;
     }
 
     .f1 {
@@ -19,14 +27,24 @@
         align-items: center;
         justify-content: center;
 
+        @include mobile {
+            background-color: rgba(255, 255, 255, 0.8); // Add slight background color for readability
+            padding: 16px;
+            width: 90%;
+            margin: 0 auto;
+            border-radius: 12px;
+        }
+
         .f2 {
             width: 60%;
             height: 60%;
             align-items: center;
 
             @include mobile {
-                padding: 16px;
                 margin-left: 42px;
+                width: 100%;
+                height: auto;
+                padding: 16px;
             }
 
             .header {
@@ -51,7 +69,11 @@
                     font-size: 16px;
                     align-self: center;
                     width: 50%;
-                    margin-top: 8px;;
+                    margin-top: 8px;
+
+                    @include mobile {
+                        width: 100%; // Make the submit button full-width on mobile
+                    }
                 }
             }
 
@@ -60,13 +82,13 @@
                 font-weight: 600;
                 font-size: 12px;
                 margin-top: 10px;
-                text-align:center;
-    
+                text-align: center;
+
                 a {
                     color: #ccc;
                     text-decoration: underline;
-    
-                    &:hover{
+
+                    &:hover {
                         color: #fa6400;
                     }
                 }
@@ -76,6 +98,10 @@
 
     .imgCont {
         height: 100%;
+
+        @include mobile {
+            display: none; // Hide the image element on mobile
+        }
 
         img {
             width: 100%;
