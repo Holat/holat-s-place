@@ -40,25 +40,26 @@ router.post(
 );
 
 router.get(
-  "/verif/:apitoken",
+  "/verif/:token",
   handler(async (req, res) => {
-    const apitoken = req.params.apitoken;
+    const token = req.params.token;
     const MS_PER_MINUTE = 60000;
     const exprDate = new Date(Date.now() - 15 * MS_PER_MINUTE);
-    if (!apitoken) res.status(400).send("Verification Failed");
+    if (!token) res.status(400).send("Verification Failed");
 
     const verif = await VerifModel.findOne({
-      token: apitoken,
-      date: { $lt: exprDate },
+      token,
+      expr: { $gte: exprDate },
     });
 
     if (verif?.token) {
       await UserModel.findByIdAndUpdate(verif.userId, { isVerif: true });
-      await VerifModel.find({ token: apitoken }).remove();
+      await VerifModel.deleteOne({ token });
+      // await VerifModel.find({ token: token }).remove();
       res.redirect(200, "https://fwrs2k-5173.csb.app/");
       res.send(200);
     } else {
-      res.status(400).send(exprDate);
+      res.status(400).send("Verification Failed");
     }
   })
 );
