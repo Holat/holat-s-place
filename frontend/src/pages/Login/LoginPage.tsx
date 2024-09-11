@@ -32,37 +32,42 @@ export default function LoginPage() {
 
   return (
     <div className="loginCont">
-      <div className="formCont">
-        <Title title="Login" fontSize="32px" fontWeight={700} />
-        <form onSubmit={handleSubmit(submit)} noValidate name="login">
-          <Input
-            type="text"
-            label="Email"
-            {...register("email", {
-              required: true,
-              pattern: {
-                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,63}$/i,
-                message: "Email Is Not valid",
-              },
-            })}
-            error={errors.email}
-          />
-          <Input
-            type="password"
-            label="Password"
-            {...register("password", {
-              required: true,
-            })}
-            error={errors.password}
-          />
-          <input type="submit" value={"Login"} />
-        </form>
+      <div className="form-container">
+        <div className="formCont">
+          <Title title="Sign in" fontSize="32px" fontWeight={700} />
+          <form onSubmit={handleSubmit(submit)} noValidate name="login">
+            <Input
+              type="text"
+              label="Email"
+              {...register("email", {
+                required: true,
+                pattern: {
+                  value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,63}$/i,
+                  message: "Email Is Not valid",
+                },
+              })}
+              error={errors.email}
+            />
+            <Input
+              type="password"
+              label="Password"
+              {...register("password", {
+                required: true,
+              })}
+              error={errors.password}
+            />
+            <input type="submit" value={"Login"} />
+          </form>
+        </div>
+        <div className={"register"}>
+          New user? &nbsp;
+          <Link to={`/register${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
+            Register Here
+          </Link>
+        </div>
       </div>
-      <div className={"register"}>
-        New user? &nbsp;
-        <Link to={`/register${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
-          Register Here
-        </Link>
+      <div className="imgCont">
+        <img src="/login.jpg" alt={"login picture"} />
       </div>
     </div>
   );
