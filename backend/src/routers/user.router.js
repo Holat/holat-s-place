@@ -78,7 +78,7 @@ router.put(
   handler(async (req, res) => {
     const token = req.params.token;
     const newPass = req.body.pass;
-    if (!token) req.status(400);
+    if (!token) req.status(400).send();
 
     const verif = await VerifModel.findOne({
       token,
@@ -86,11 +86,11 @@ router.put(
     });
 
     if (verif?.token) {
-      const user = UserModel.findOne({ _id: verif.userId });
-      user.password = await hashedPass(newPass);
+      const user = await UserModel.findOne({ _id: verif.userId });
+      user.password = await hashPass(newPass);
       await user.save();
       await VerifModel.deleteOne({ token });
-      res.status(200);
+      res.status(200).send("Password Changed");
     } else {
       res.send(400);
     }
@@ -206,7 +206,7 @@ router.put(
       return;
     }
 
-    user.password = await hashedPass(newPassword);
+    user.password = await hashPass(newPassword);
     await user.save();
 
     res.send();

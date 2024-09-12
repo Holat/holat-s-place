@@ -4,13 +4,12 @@ import "./loginPage.scss";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
-
 export type FormValues = {
   password: string;
   confirmPassword: string;
 };
 
-export default function ResetPass() {
+export default function LoginPage() {
   const { resetP } = useAuth();
   const {
     register,
@@ -18,8 +17,9 @@ export default function ResetPass() {
     getValues,
     formState: { errors },
   } = useForm<FormValues>();
-    const { token } = useParams();
-  const submit = async ({ password }: FormValues) => if (token) await resetP(token, password);
+  const { token } = useParams();
+  const submit = async ({ password }: FormValues) =>
+    token && (await resetP(token, password));
 
   return (
     <div className="loginCont">
