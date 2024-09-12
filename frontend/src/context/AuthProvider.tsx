@@ -28,6 +28,24 @@ export default function AuthProvider({
     }
   };
 
+  const resetP = async (token: string, pass: string) => {
+    try {
+      const data = await userService.resetPass();
+      toast.success("Password Reset successful");
+    } catch (error) {
+      toast.error("Error resetting password");
+    }
+  };
+
+  const forgotP = async (email: string) => {
+    try {
+      const data = await userService.forgotP(email);
+      toast.success("Email Sent");
+    } catch (error) {
+      toast.error("Try again");
+    }
+  };
+
   const register = async (data: RegisterValues) => {
     try {
       const user = await userService.register(data);
@@ -42,7 +60,7 @@ export default function AuthProvider({
    *
    * @param type n: normal logout | t: token exp logout
    */
-  const logout = (type: "n" | "t") => {
+  const logout = (type?: "n" | "t") => {
     userService.logout();
     setUser(null);
 
@@ -67,13 +85,22 @@ export default function AuthProvider({
 
   const changePassword = async (passwords: ChangePassFormType) => {
     await userService.changePassword(passwords);
-    logout("n");
+    logout();
     toast.success("Password Changed!");
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, register, logout, updateProfile, changePassword }}
+      value={{
+        user,
+        login,
+        register,
+        logout,
+        updateProfile,
+        changePassword,
+        resetP,
+        forgotP,
+      }}
     >
       {children}
     </AuthContext.Provider>

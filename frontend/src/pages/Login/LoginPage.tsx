@@ -11,7 +11,7 @@ export type FormValues = {
 };
 
 export default function LoginPage() {
-  const { user, login } = useAuth();
+  const { user, login, forgotP } = useAuth();
   const {
     register,
     handleSubmit,
@@ -58,6 +58,11 @@ export default function LoginPage() {
               })}
               error={errors.password}
             />
+            <div className="forBtn">
+              <button type="button" onClick={() => forgotP()}>
+                Forgot Password
+              </button>
+            </div>
             <input type="submit" value={"Login"} />
           </form>
           <div className="btnCont">

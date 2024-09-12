@@ -45,6 +45,18 @@ export const updateProfile = async (user: FormDetails) => {
   }
 };
 
+export const resetPass = async (token: string, pass: string) => {
+  const { data } = await axios.put(`/api/user/reset-password/${token}`, {
+    pass,
+  });
+  return data;
+};
+
+export const forgotP = async (email: string) => {
+  const { data } = await axios.post("/api/user/forgot-password", { email });
+  return data;
+};
+
 export const changePassword = async (passwords: ChangePassFormType) => {
   await axios.put("/api/user/changePassword", passwords);
 };

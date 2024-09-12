@@ -80,6 +80,26 @@
                         width: 100%; // Make the submit button full-width on mobile
                     }
                 }
+
+                .forBtn {
+                    button {
+                        background: none;
+                        border: none;
+                        padding: 0;
+                        cursor: pointer;
+                        color: #ccc;
+                        text-decoration: underline;
+
+                        @include mobile {
+                            color: black;
+                        }
+
+                        &:hover {
+                            color: #fa6400;
+                            text-decoration: none;
+                        }
+                    }
+                }
             }
 
             .btnCont {
