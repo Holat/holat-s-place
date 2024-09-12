@@ -21,4 +21,6 @@ export type AuthContextType = {
   logout: (type: "n" | "t") => void;
   updateProfile: (user: FormDetails) => void;
   changePassword: (passwords: ChangePassFormType) => void;
+  resetP: (token: string, pass: string) => void;
+  forgotP: (email: string) => void;
 };

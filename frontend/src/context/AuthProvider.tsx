@@ -17,6 +17,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<UserType | null>(userService.getUser());
+
   const login = async (email: string, password: string) => {
     try {
       const user = await userService.login(email, password);
@@ -30,7 +31,7 @@ export default function AuthProvider({
 
   const resetP = async (token: string, pass: string) => {
     try {
-      const data = await userService.resetPass();
+      await userService.resetPass(token, pass);
       toast.success("Password Reset successful");
     } catch (error) {
       toast.error("Error resetting password");
@@ -39,7 +40,7 @@ export default function AuthProvider({
 
   const forgotP = async (email: string) => {
     try {
-      const data = await userService.forgotP(email);
+      await userService.forgotP(email);
       toast.success("Email Sent");
     } catch (error) {
       toast.error("Try again");

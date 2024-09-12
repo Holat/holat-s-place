@@ -15,6 +15,7 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<FormValues>();
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ export default function LoginPage() {
               error={errors.password}
             />
             <div className="forBtn">
-              <button type="button" onClick={() => forgotP()}>
+              <button type="button" onClick={() => forgotP(getValues("email"))}>
                 Forgot Password
               </button>
             </div>

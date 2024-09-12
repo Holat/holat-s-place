@@ -47,11 +47,11 @@ router.post(
   handler(async (req, res) => {
     const { email } = req.body;
     const dbUser = await UserModel.findOne({ email });
-    if (!dbUser) res.status(400).send("Invalid Email");
+    if (!dbUser || !dbUser._id) res.status(400).send("Invalid Email");
 
     const token = cryptoJs.randomBytes(20).toString("hex");
     const expr = new Date(Date.now() + 15 * 60000).toISOString();
-    const userId = dbUser._id;
+    const userId = dbUser?._id;
     const tokenT = 3;
 
     await VerifModel.create({ token, expr, userId, tokenT });
