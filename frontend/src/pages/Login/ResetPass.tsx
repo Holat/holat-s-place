@@ -10,7 +10,7 @@ export type FormValues = {
   confirmPassword: string;
 };
 
-export default function LoginPage() {
+export default function ResetPass() {
   const { resetP } = useAuth();
   const {
     register,
