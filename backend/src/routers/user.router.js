@@ -89,6 +89,7 @@ router.put(
       const user = UserModel.findOne({ _id: verif.userId });
       user.password = await hashedPass(newPass);
       await user.save();
+      await VerifModel.deleteOne({ token });
       res.status(200);
     } else {
       res.send(400);
