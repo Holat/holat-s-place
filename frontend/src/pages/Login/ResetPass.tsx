@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import { Input, Title } from "../../components";
 import useAuth from "../../hooks/useAuth";
 import "./loginPage.scss";
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 export type FormValues = {
@@ -16,10 +15,11 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<FormValues>();
     const { token } = useParams();
-  const submit = async ({ password }: FormValues) => if (token) await resetP(token, pass);
+  const submit = async ({ password }: FormValues) => if (token) await resetP(token, password);
 
   return (
     <div className="loginCont">
