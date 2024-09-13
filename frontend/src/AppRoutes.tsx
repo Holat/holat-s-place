@@ -25,7 +25,7 @@ const AppRoutes = () => {
       <Route path="/food/:foodId" element={<FoodDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/reset-password/:token" element={<ResetPass />} />
+      <Route path="/passreset/:token" element={<ResetPass />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route
         path="/profile"
