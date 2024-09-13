@@ -17,6 +17,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<UserType | null>(userService.getUser());
+
   const login = async (email: string, password: string) => {
     try {
       const user = await userService.login(email, password);
@@ -25,6 +26,24 @@ export default function AuthProvider({
     } catch (error) {
       const err = error as AxiosError;
       toast.error(typeof err.response?.data === "string" && err.response?.data);
+    }
+  };
+
+  const resetP = async (token: string, pass: string) => {
+    try {
+      await userService.resetPass(token, pass);
+      toast.success("Password Reset successful");
+    } catch (error) {
+      toast.error("Error resetting password");
+    }
+  };
+
+  const forgotP = async (email: string) => {
+    try {
+      await userService.forgotP(email);
+      toast.success("Email Sent");
+    } catch (error) {
+      toast.error("Try again");
     }
   };
 
@@ -42,7 +61,7 @@ export default function AuthProvider({
    *
    * @param type n: normal logout | t: token exp logout
    */
-  const logout = (type: "n" | "t") => {
+  const logout = (type?: "n" | "t") => {
     userService.logout();
     setUser(null);
 
@@ -67,13 +86,22 @@ export default function AuthProvider({
 
   const changePassword = async (passwords: ChangePassFormType) => {
     await userService.changePassword(passwords);
-    logout("n");
+    logout();
     toast.success("Password Changed!");
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, register, logout, updateProfile, changePassword }}
+      value={{
+        user,
+        login,
+        register,
+        logout,
+        updateProfile,
+        changePassword,
+        resetP,
+        forgotP,
+      }}
     >
       {children}
     </AuthContext.Provider>

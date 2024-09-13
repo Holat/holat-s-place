@@ -10,6 +10,7 @@ import OrdersPage from "./Orders/OrdersPage";
 import PaymentPage from "./Payment/PaymentPage";
 import NotFoundPage from "./Home/NotFoundPage";
 import AdminPage from "./Admin/AdminPage";
+import ResetPass from "./Login/ResetPass";
 
 export {
   HomePage,
@@ -24,4 +25,5 @@ export {
   PaymentPage,
   NotFoundPage,
   AdminPage,
+  ResetPass,
 };

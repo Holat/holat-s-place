@@ -4,9 +4,12 @@ import jwt from "jsonwebtoken";
 import handler from "express-async-handler";
 import { UserModel } from "../model/user.model.js";
 import { VerifModel } from "../model/verif.model.js";
+import cryptoJs from "crypto";
 import bcrypt from "bcryptjs";
 
 const PASSWORD_HASH_SALT_ROUNDS = 10;
+const BASE_URL =
+  process.env.RENDER_EXTERNAL_URL || "https://fwrs2k-5173.csb.app";
 const router = Router();
 
 router.post(
@@ -39,6 +42,61 @@ router.post(
   })
 );
 
+router.post(
+  "/forgot-password",
+  handler(async (req, res) => {
+    const { email } = req.body;
+    const dbUser = await UserModel.findOne({ email });
+    if (!dbUser || !dbUser._id) res.status(400).send("Invalid Email");
+
+    const token = cryptoJs.randomBytes(20).toString("hex");
+    const expr = new Date(Date.now() + 15 * 60000).toISOString();
+    const userId = dbUser?._id;
+    const tokenT = 3;
+
+    await VerifModel.create({ token, expr, userId, tokenT });
+    res.send({ success: true });
+  })
+);
+
+router.get(
+  "/reset-password/:token",
+  handler(async (req, res) => {
+    try {
+      const token = req.params.token;
+      const verif = await VerifModel.findOne({ token });
+      if (!verif) res.status(500).send("Invalid rest token");
+      res.redirect(301, `${BASE_URL}/passreset/${token}`);
+    } catch (error) {
+      res.send(500);
+    }
+  })
+);
+
+router.put(
+  "/reset-password/:token",
+  handler(async (req, res) => {
+    const token = req.params.token;
+    const newPass = req.body.pass;
+    if (!token) req.status(400).send();
+
+    const verif = await VerifModel.findOne({
+      token,
+      // expr: { $gte: exprDate },
+    });
+
+    if (verif?.token) {
+      const user = await UserModel.findOne({ _id: verif.userId });
+      user.password = await hashPass(newPass);
+      await user.save();
+      await VerifModel.deleteOne({ token });
+      res.status(200).send("Password Changed");
+    } else {
+      res.send(400);
+    }
+  })
+);
+
 router.get(
   "/verif/:token",
   handler(async (req, res) => {
@@ -55,9 +113,9 @@ router.get(
     if (verif?.token) {
       await UserModel.findByIdAndUpdate(verif.userId, { isVerif: true });
       await VerifModel.deleteOne({ token });
-      res.redirect(301, "https://fwrs2k-5173.csb.app/");
+      res.redirect(301, `${BASE_URL}/`);
     } else {
-      res.redirect(301, "https://fwrs2k-5173.csb.app/");
+      res.redirect(301, `${BASE_URL}/`);
     }
   })
 );
@@ -82,7 +140,7 @@ router.post(
       return;
     }
 
-    const hashedPass = await bcrypt.hash(password, PASSWORD_HASH_SALT_ROUNDS);
+    const hashedPass = await hashPass(password);
     const uName = name ? name : `${firstName} ${lastName}`;
     const newUser = {
       name: uName,
@@ -148,12 +206,15 @@ router.put(
       return;
     }
 
-    user.password = await bcrypt.hash(newPassword, PASSWORD_HASH_SALT_ROUNDS);
+    user.password = await hashPass(newPassword);
     await user.save();
 
     res.send();
   })
 );
+
+const hashPass = async (pass) =>
+  await bcrypt.hash(pass, PASSWORD_HASH_SALT_ROUNDS);
 
 const generateTokenResponse = (user, options = {}) => {
   const isApp = options.isApp || false;

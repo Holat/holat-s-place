@@ -60,7 +60,6 @@
             }
 
             form {
-                gap: 16px;
                 flex-direction: column;
                 display: flex;
 
@@ -72,12 +71,28 @@
                     color: white;
                     font-weight: 600;
                     font-size: 16px;
-                    align-self: center;
-                    width: 50%;
+                    width: 100%;
                     margin-top: 8px;
+                }
 
-                    @include mobile {
-                        width: 100%; // Make the submit button full-width on mobile
+                .forBtn {
+                    button {
+                        align-self: flex-end; 
+                        background: none;
+                        border: none;
+                        padding: 0;
+                        cursor: pointer;
+                        color: #ccc;
+                        text-decoration: underline;
+
+                        @include mobile {
+                            color: black;
+                        }
+
+                        &:hover {
+                            color: #fa6400;
+                            text-decoration: none;
+                        }
                     }
                 }
             }
