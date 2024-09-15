@@ -8,8 +8,7 @@ import cryptoJs from "crypto";
 import bcrypt from "bcryptjs";
 
 const PASSWORD_HASH_SALT_ROUNDS = 10;
-const BASE_URL =
-  process.env.RENDER_EXTERNAL_URL || "https://fwrs2k-5173.csb.app";
+const BASE_URL = process.env.RENDER_EXTERNAL_URL || "http://localhost:5173";
 const router = Router();
 
 router.post(

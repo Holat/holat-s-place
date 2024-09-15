@@ -2,7 +2,7 @@ import { Input, Title } from "../../components";
 import useAuth from "../../hooks/useAuth";
 import "./loginPage.scss";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export type FormValues = {
   password: string;
@@ -11,6 +11,7 @@ export type FormValues = {
 
 export default function LoginPage() {
   const { resetP } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,8 +19,10 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<FormValues>();
   const { token } = useParams();
-  const submit = async ({ password }: FormValues) =>
+  const submit = async ({ password }: FormValues) => {
     token && (await resetP(token, password));
+    navigate("/login");
+  };
 
   return (
     <div className="loginCont">
@@ -49,7 +52,7 @@ export default function LoginPage() {
               })}
               error={errors.confirmPassword}
             />
-            <input type="submit" value={"Login"} />
+            <input type="submit" value={"Change Password"} />
           </form>
           {/* <div className="btnCont">
             New user? &nbsp;
@@ -60,7 +63,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="imgCont">
-        <img src="/login.jpg" alt={"login picture"} />
+        <img src="/login.jpg" alt={"login picture"} loading="lazy" />
       </div>
     </div>
   );

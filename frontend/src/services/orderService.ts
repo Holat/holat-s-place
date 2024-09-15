@@ -15,9 +15,9 @@ export const getCurrentUserOrder = async () => {
   return data;
 };
 
-export const pay = async (paymentId: string | number) => {
+export const pay = async (paymentId: string | number, tx_ref: string) => {
   try {
-    const { data } = await axios.put("/api/orders/pay", { paymentId });
+    const { data } = await axios.put("/api/orders/pay", { paymentId, tx_ref });
     return data;
   } catch (error) {
     console.log(error);

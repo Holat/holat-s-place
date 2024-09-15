@@ -42,7 +42,7 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
     }
 
     const paymentId = response.transaction_id;
-    await pay(paymentId);
+    await pay(paymentId, order.tx_ref || "");
     clearCart();
     closePaymentModal();
     toast.success("Payment Successful");

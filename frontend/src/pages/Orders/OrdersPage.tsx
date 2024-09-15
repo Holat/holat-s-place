@@ -36,7 +36,7 @@ export default function OrdersPage() {
                     transform: `translateX(${i >= 0 && i <= 3 ? i * 25 : 0}%)`,
                     zIndex: -i + 10,
                   }}
-                  key={item.food.id}
+                  key={item.food.id || i}
                 >
                   <img
                     src={`${item.food.imageUrl}`}
@@ -62,8 +62,8 @@ export default function OrdersPage() {
   );
 }
 
-
-{/* <div className="btnCont">
+{
+  /* <div className="btnCont">
 {status.map((item: string) => (
   <button
     key={item}
@@ -77,4 +77,5 @@ export default function OrdersPage() {
     {!item && "All"}
   </button>
 ))}
-</div> */}
+</div> */
+}

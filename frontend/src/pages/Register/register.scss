@@ -1,6 +1,13 @@
 .register {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-wrap: wrap;
+    .f1 {
+        .f2 {
+            width: 80%;
+
+            form {
+                input[type="submit"] {
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
 }

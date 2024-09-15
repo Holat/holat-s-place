@@ -45,30 +45,32 @@ export default function PaymentPage() {
           </div>
         </div>
       </div>
-      <div className="orders">
-        {order &&
-          order.items.map((item) => (
-            <div key={item.food.id} className="order">
-              <div className="titleCont">
-                <div className="imgCont">
-                  <img src={`${item.food.imageUrl}`} alt={item.food.name} />
-                </div>
-                <div>
-                  <Title
-                    title={item.food.name}
-                    fontSize="16px"
-                    fontWeight={600}
-                  />
-                  <div className="mobileP">
-                    <Price price={item.price} /> ({item.quantity})
+      <div className="oC">
+        <div className="orders">
+          {order &&
+            order.items.map((item) => (
+              <div key={item.food.id} className="order">
+                <div className="titleCont">
+                  <div className="imgCont">
+                    <img src={`${item.food.imageUrl}`} alt={item.food.name} />
+                  </div>
+                  <div>
+                    <Title
+                      title={item.food.name}
+                      fontSize="16px"
+                      fontWeight={600}
+                    />
+                    <div className="mobileP">
+                      <Price price={item.price} /> ({item.quantity})
+                    </div>
                   </div>
                 </div>
-              </div>
-              <p>{item.quantity}</p>
+                <p>{item.quantity}</p>
 
-              <Price price={item.price} />
-            </div>
-          ))}
+                <Price price={item.price} />
+              </div>
+            ))}
+        </div>
         <div className="totalCont">
           <div className="order" style={{}}>
             <Title title="Total" fontSize="20px" fontWeight={800} />
