@@ -31,6 +31,8 @@ export default function LoginPage() {
     login(email, password);
   };
 
+  console.log(document.documentElement.scrollWidth > window.innerWidth);
+
   return (
     <div className="loginCont">
       <div className="f1">
