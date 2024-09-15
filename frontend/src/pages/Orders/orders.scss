@@ -3,6 +3,8 @@
 .ordersPageCont {
     margin-left: 72px;
     padding: 16px;
+    height: 100dvh;
+    overflow-y: auto;
 
     @include mobile {
         margin-left: 52px;
@@ -32,8 +34,7 @@
     .orderItemsCont {
         display: flex;
         flex-direction: column;
-        padding-block: 16px;
-        margin-top: 12px;
+        padding-bottom: 16px;
         width: 100%;
         gap: 16px;
 

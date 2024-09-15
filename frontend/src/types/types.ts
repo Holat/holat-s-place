@@ -8,7 +8,7 @@ export type LinkType = {
   currentPath?: boolean;
 };
 
-export type ModalStateType = 'createItem' | 'authorize' | 'editFood';
+export type ModalStateType = "createItem" | "authorize" | "editFood";
 
 export type FoodType = {
   foods: FoodItemType[];
@@ -18,8 +18,8 @@ export type FoodType = {
 
 export type IAction =
   | { type: "FOODS_LOADED"; payload: FoodItemType[] }
-  | { type: "TAGS_LOADED"; payload: TagTypes[] } 
-  | { type: "ORIGINS_LOADED"; payload: SelectType[]};
+  | { type: "TAGS_LOADED"; payload: TagTypes[] }
+  | { type: "ORIGINS_LOADED"; payload: SelectType[] };
 
 export type FoodItemType = {
   id: number | string;
@@ -107,12 +107,18 @@ export type RevDetails = {
 };
 
 export type FoodContextType = {
-  foods: FoodItemType[],
-  tags: TagTypes[],
-  origins: SelectType[],
+  foods: FoodItemType[];
+  tags: TagTypes[];
+  origins: SelectType[];
 };
 
-export type FormPropType =  { 
-  defaultValues?: ItemCreateType ;
-  formType: 'U' | 'C';
-}
+export type FormPropType = {
+  defaultValues?: ItemCreateType;
+  formType: "U" | "C";
+};
+
+export type SalesDataT = {
+  month: string;
+  totalSales: number;
+  orderCount: number;
+};

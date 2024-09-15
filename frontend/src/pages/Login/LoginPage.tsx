@@ -16,6 +16,7 @@ export default function LoginPage() {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { errors },
   } = useForm<FormValues>();
   const navigate = useNavigate();
@@ -29,6 +30,18 @@ export default function LoginPage() {
 
   const submit = async ({ email, password }: FormValues) => {
     login(email, password);
+  };
+
+  const handlefp = () => {
+    const email = getValues("email");
+    if (!email) {
+      setError("email", {
+        type: "reset",
+        message: "Email required to reset password",
+      });
+      return;
+    }
+    forgotP(email);
   };
 
   return (
@@ -60,7 +73,7 @@ export default function LoginPage() {
               error={errors.password}
             />
             <div className="forBtn">
-              <button type="button" onClick={() => forgotP(getValues("email"))}>
+              <button type="button" onClick={handlefp}>
                 Forgot Password
               </button>
             </div>
@@ -75,7 +88,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="imgCont">
-        <img src="/login.jpg" alt={"login picture"} />
+        <img src="/login.jpg" alt={"login picture"} loading="lazy" />
       </div>
     </div>
   );

@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import "./adminPage.scss";
 import ItemForm from "./ItemForm";
-import { OrderHistoryType, RevDetails, ModalStateType } from "../../types/types";
+import {
+  OrderHistoryType,
+  RevDetails,
+  ModalStateType,
+} from "../../types/types";
 import { Price } from "../../components";
 import { getOrderDetails, getOrders } from "../../services/adminServices";
 import OrderTable from "./OrderTable";
 import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
 import ItemEdit from "./ItemEdit";
 import AdminGrant from "./AdminGrant";
+import { toast } from "react-toastify";
 
-const dRevDetails : RevDetails = {
+const dRevDetails: RevDetails = {
   totalOrders: 0,
   totalPaidOrders: 0,
   totalPendingOrders: 0,
-  totalRevenue: 0
-}
-
+  totalRevenue: 0,
+};
 
 const AdminPage = () => {
   const [activeModal, setActiveModal] = useState<ModalStateType | null>(null);
@@ -25,23 +29,27 @@ const AdminPage = () => {
   useEffect(() => {
     getOrders()
       .then(setOrder)
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        toast.error("Something went wrong");
       });
 
     getOrderDetails()
       .then(setDetails)
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        toast.error("Something went wrong");
       });
   }, []);
 
   const handleCreateItem = () => setActiveModal(null);
   return (
     <div className="adminPage">
-      {activeModal === 'createItem' && <ItemForm closeModal={handleCreateItem}/>}
-      {activeModal === 'editFood' && <ItemEdit closeModal={handleCreateItem} />}
-      {activeModal === 'authorize' && <AdminGrant closeModal={handleCreateItem}/>}
+      {activeModal === "createItem" && (
+        <ItemForm closeModal={handleCreateItem} />
+      )}
+      {activeModal === "editFood" && <ItemEdit closeModal={handleCreateItem} />}
+      {activeModal === "authorize" && (
+        <AdminGrant closeModal={handleCreateItem} />
+      )}
       <div className="adminCont">
         <div>
           {/* <button onClick={() => setCreateItem(true)}>Open</button> */}
@@ -78,19 +86,36 @@ const AdminPage = () => {
       </div>
       <div className="floating-btn">
         <div className="img">
-          <img
-            src='/icons/setting.svg'
-            alt={'setting'}
-          />
+          <img src="/icons/setting.svg" alt={"setting"} />
         </div>
-        <div className="btnCont"  id="btna1" onClick={() => setActiveModal('createItem')}>
+        <div
+          className="btnCont"
+          id="btna1"
+          onClick={() => setActiveModal("createItem")}
+        >
           <img src="/icons/addI.svg" alt="Add image" />
         </div>
-        <div className="btnCont" id="btna2" onClick={() => setActiveModal('editFood')}>
-          <img src="/icons/edit.svg" alt="Add image" style={{ width: '24px', height: '24px', margin: '0 auto'}}/>
+        <div
+          className="btnCont"
+          id="btna2"
+          onClick={() => setActiveModal("editFood")}
+        >
+          <img
+            src="/icons/edit.svg"
+            alt="Add image"
+            style={{ width: "24px", height: "24px", margin: "0 auto" }}
+          />
         </div>
-        <div className="btnCont" id="btna3" onClick={() => setActiveModal('authorize')}>
-        <img src="/icons/profile.svg" alt="Add image" style={{ width: '40px', height: '40px', margin: '0 auto'}}/>
+        <div
+          className="btnCont"
+          id="btna3"
+          onClick={() => setActiveModal("authorize")}
+        >
+          <img
+            src="/icons/profile.svg"
+            alt="Add image"
+            style={{ width: "40px", height: "40px", margin: "0 auto" }}
+          />
         </div>
       </div>
     </div>

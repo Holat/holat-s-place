@@ -15,6 +15,20 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     background-color: "white";
     position: relative;
     height: 100dvh;
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #ffffff;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #f8f9fa;
+    }
 
     .modal {
         position: absolute;
@@ -232,30 +246,9 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                     }
                 }
             }
-
-            // .orders-card {
-            //     background: linear-gradient(135deg, #ff7e5f, #feb47b);
-            //     color: #fff;
-            // }
-
-            // .pending-card {
-            //     background: linear-gradient(135deg, #434343, #4b6cb7);
-            //     color: #fff;
-            // }
-
-            // .revenue-card {
-            //     background: linear-gradient(135deg, #4facfe, #00f2fe);
-            //     color: #fff;
-            // }
-
-            // .expenses-card {
-            //     background: linear-gradient(135deg, #43e97b, #38f9d7);
-            //     color: #fff;
-            // }
         }
 
         .order-status-table {
-
             width: 100%;
             flex-grow: 1;
             background-color: $card-bg;
@@ -263,29 +256,11 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             overflow: auto;
 
-            &::-webkit-scrollbar {
-                width: 5px;
-                /* Set the width of the scrollbar */
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background-color: #ffffff;
-                border-radius: 4px;
-            }
-
-            &::-webkit-scrollbar-track {
-                background-color: #f8f9fa;
-                /* Color of the track (the non-draggable part) */
-            }
-
-
             table {
                 width: 100%;
-                // border-collapse: separate;
-                // border-spacing: 0 10px;
 
                 thead {
-                    background-color: #6c7ae0; //$table-header-bg;
+                    background-color: #6c7ae0;
                     text-align: left;
                     position: sticky;
                     top: 0;
@@ -301,21 +276,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
                 tbody {
                     tr {
-
-
-                        // &:nth-child(even) {
-                        //     background-color: #f2f2f2;
-                        //     margin-block: 15px;
-                        // }
-
-                        // &:not(:last-child) {
-                        //     border-bottom: 1px solid #ddd;
-                        // }
-
-                        // &:hover {
-                        //     background-color: #ddd;
-                        // }
-
                         td {
                             padding: 15px;
                             position: relative;
@@ -329,11 +289,8 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                                     top: 50%;
                                     transform: translateY(-50%);
                                     width: 1px;
-                                    /* Width of the "border" */
                                     height: 50px;
-                                    /* Height of the "border" */
                                     background-color: rgba(0, 0, 0, 0.05);
-                                    /* Color of the "border" */
                                 }
                             }
 
@@ -435,8 +392,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             height: 50px;
             background-color: transparent;
             border-radius: 50%;
-            // padding-top:5px;
-            // padding-bottom:5px;
             padding: 5px;
             cursor: pointer;
             transition: .6s;
@@ -537,11 +492,16 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
 
     .modal>.itemEdit {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         align-items: start;
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        height: 100%;
+        width: 80%;
+        margin-left: 32px;
+        overflow: hidden;
 
         ul {
             list-style: none;
@@ -549,16 +509,78 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             padding-left: 8px;
             padding-bottom: 8px;
             margin-block: 8px;
+            height: 100%;
             overflow-y: auto;
+            position: relative;
+
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: #ffffff;
+                border-radius: 4px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: #f8f9fa;
+            }
+
+            .lh {
+                position: sticky;
+                top: 0;
+                background: #fff;
+                display: flex;
+                padding: 12px;
+                justify-content: space-between;
+                align-items: center;
+
+                button {
+                    color: #fff;
+                    border: none;
+                    background-color: $primary-color;
+                    padding: 4px 8px;
+                    font-weight: 500;
+                    border-radius: 6px;
+                }
+            }
 
             li {
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
                 margin-bottom: 12px;
+                gap: 12px;
 
-                p {
-                    font-size: 12px;
+                .det {
+                    flex: 1;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    padding-right: 12px;
+
+                    .hed {
+                        >span {
+                            font-size: 12px;
+                            color: rgba(0, 0, 0, 0.6);
+                        }
+                    }
+
+                    button {
+                        color: #fff;
+                        border: none;
+                        align-self: flex-end;
+                        background-color: $primary-color;
+                        padding: 4px 8px;
+                        font-weight: 500;
+                        border-radius: 6px;
+                    }
+                }
+
+                img {
+                    width: 100px;
+                    aspect-ratio: 3/2;
+                    border-radius: 10px;
                 }
             }
         }

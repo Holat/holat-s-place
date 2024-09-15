@@ -11,7 +11,7 @@ export default defineConfig({
         target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
-        ws: true, // Enable WebSocket proxying
+        //ws: true, // Enable WebSocket proxying
         configure: (proxy) => {
           proxy.on("error", (err) => {
             console.log("proxy error", err);

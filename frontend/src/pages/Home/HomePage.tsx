@@ -6,23 +6,18 @@ import { useParams } from "react-router-dom";
 import { NotFound, OrderBar, SearchBar } from "../../components";
 import useFood from "../../hooks/useFood";
 
-
 function HomePage() {
   const { foods: foodItems, tags } = useFood();
-  const [filteredFood, setFilteredFood ] = useState(foodItems);
+  const [filteredFood, setFilteredFood] = useState(foodItems);
   const [isOpen, setIsOpen] = useState(false);
   const { searchTerm, tag } = useParams();
 
   const toggleOrderBar = () => setIsOpen(!isOpen);
   useEffect(() => {
-    setFilteredFood(foodItems);
-  },[foodItems])
-
-  useEffect(() => {
     if (tag) getAllByTag(tag).then(setFilteredFood);
-    else if(searchTerm) search(searchTerm).then(setFilteredFood);
+    else if (searchTerm) search(searchTerm).then(setFilteredFood);
     else setFilteredFood(foodItems);
-  }, [tag, searchTerm]);
+  }, [tag, searchTerm, foodItems]);
 
   return (
     <div className="homeCont">

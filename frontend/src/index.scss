@@ -4,9 +4,11 @@
   margin: 0;
 }
 
+html,
 body {
   font-family: 'Montserrat', sans-serif;
   width: 100%;
+  overflow: hidden;
   // overflow-y: scroll;
 }
 

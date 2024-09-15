@@ -27,30 +27,35 @@ router.post(
 router.get(
   "/orders",
   handler(async (req, res) => {
-    const orders = await OrderModel.find().populate({
-      path: "user",
-      select: "name"
-    }).sort("-createdAt");
+    const orders = await OrderModel.find()
+      .populate({
+        path: "user",
+        select: "name",
+      })
+      .sort("-createdAt");
     res.send(orders);
   })
 );
 
 router.get(
   "/users",
-  handler(async(req, res) => {
+  handler(async (req, res) => {
     const user = req.user;
-    const users = await UserModel.find({ _id: {$ne: user.id}}, {
-      name: 1,
-      email: 1,
-      isAdmin: 1
-    })
+    const users = await UserModel.find(
+      { _id: { $ne: user.id } },
+      {
+        name: 1,
+        email: 1,
+        isAdmin: 1,
+      }
+    );
     res.send(users);
   })
-)
+);
 
 router.put(
   "/updateFood",
-  handler(async(req, res) => {
+  handler(async (req, res) => {
     try {
       const item = req.body;
 
@@ -58,31 +63,32 @@ router.put(
       const tags = mapItems(item.tags) || [""];
       const origins = mapItems(item.origins) || [""];
 
-      const data = { ...item, tags, origins }
-      await FoodModel.findByIdAndUpdate(id, data, {
+      const data = { ...item, tags, origins };
+      await FoodModel.findByIdAndUpdate(item._id, data, {
         new: true,
         runValidators: true,
       });
+      res.status(200).send();
     } catch (error) {
       res.status(500).send({ message: "An Error occured" });
     }
   })
-)
+);
 
 router.put(
   "/setAdmin",
-  handler(async(req, res) => {
+  handler(async (req, res) => {
     try {
       const { userId } = req.body;
-      const user = await UserModel.findOne({ _id: userId })
+      const user = await UserModel.findOne({ _id: userId });
       user.isAdmin = !user.isAdmin;
-      user.save()
+      user.save();
       res.send();
     } catch (error) {
       res.status(500).send({ message: "An Error occured" });
     }
   })
-)
+);
 
 router.get(
   "/stats",
@@ -107,7 +113,6 @@ router.get(
         totalRevenue: totalRevenue[0].totalRevenue,
       });
     } catch (err) {
-      console.error(err);
       res.status(500).send({ message: "Error fetching stats" });
     }
   })

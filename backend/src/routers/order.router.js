@@ -31,27 +31,38 @@ router.post(
 router.put(
   "/pay",
   handler(async (req, res) => {
-    const { paymentId } = req.body;
-    const order = await OrderModel.findOne({
-      user: req.user.id,
-      status: {$in: ["NEW", "PAID"]},
-    });
+    try {
+      const { paymentId, tx_ref } = req.body;
 
-    if (!order) {
-      res.status(400).send("Order not found");
-      return;
-    }
+      if (!paymentId) {
+        res.status(400).send("Payment ID is required");
+        return;
+      }
 
-    order.paymentId = paymentId;
-    if (order.status === "PAID") {
+      const order = await OrderModel.findOne({
+        user: req.user.id,
+        tx_ref,
+        status: { $in: ["NEW", "PAID"] },
+      });
+
+      if (!order) {
+        res.status(404).send("Order not found");
+        return;
+      }
+
+      order.paymentId = paymentId;
+      if (order.status === "PAID") {
+        res.send(order._id);
+        return;
+      }
+
+      order.status = "PENDING";
+      await order.save();
+
       res.send(order._id);
-      return;
+    } catch (error) {
+      res.status(500).send("Error making payment");
     }
-
-    order.status = "PENDING";
-    await order.save();
-
-    res.send(order._id);
   })
 );
 
@@ -59,7 +70,6 @@ router.get(
   "/currentUserOrder",
   handler(async (req, res) => {
     const order = await getCurrentUserOrder(req);
-
     if (order) res.send(order);
     else res.status(400).send();
   })
@@ -100,7 +110,7 @@ router.get(
     const user = await UserModel.findById(req.user.id);
     if (status) filter.status = { $regex: new RegExp(status, "i") };
 
-    const orders = await OrderModel.find({ user: user._id}).sort("-createdAt");
+    const orders = await OrderModel.find({ user: user._id }).sort("-createdAt");
     res.send(orders);
   })
 );

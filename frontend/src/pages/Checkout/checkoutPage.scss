@@ -5,7 +5,8 @@
     padding-left: 76px;
     padding: 16px 16px 0 76px;
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
+    overflow-y: scroll;
 
     @include mobile {
         padding-left: 60px;
@@ -44,8 +45,8 @@
     .content {
         display: grid;
         grid-template-areas:
-            'map right'
             'form right'
+            'map right'
             'footer footer'
         ;
         gap: 12px;
@@ -118,6 +119,8 @@
         }
 
         .btnCont {
+            position: sticky;
+            bottom: 0;
             width: 100%;
             background-color: #f0f0f0;
             grid-area: footer;

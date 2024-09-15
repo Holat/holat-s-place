@@ -29,7 +29,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="loginCont">
+    <div className="loginCont register">
       <div className="f1">
         <div className="f2">
           <div className="formHeader">
@@ -50,28 +50,30 @@ export default function RegisterPage() {
                 error={errors.lastName}
               />
             </div>
-            <Input
-              type="text"
-              label="Email"
-              {...register("email", {
-                required: true,
-                pattern: {
-                  value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,63}$/i,
-                  message: "Email Is Not Valid",
-                },
-              })}
-              error={errors.email}
-            />
-            <Input
-              type="tel"
-              label="Mobile number"
-              {...register("mobileNumber", {
-                required: true,
-                minLength: 6,
-                maxLength: 12,
-              })}
-              error={errors.mobileNumber}
-            />
+            <div className="name">
+              <Input
+                type="text"
+                label="Email"
+                {...register("email", {
+                  required: true,
+                  pattern: {
+                    value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,63}$/i,
+                    message: "Email Is Not Valid",
+                  },
+                })}
+                error={errors.email}
+              />
+              <Input
+                type="tel"
+                label="Mobile number"
+                {...register("mobileNumber", {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 12,
+                })}
+                error={errors.mobileNumber}
+              />
+            </div>
             <Input
               type="address"
               label="Address"
@@ -112,7 +114,7 @@ export default function RegisterPage() {
         </div>
       </div>
       <div className="imgCont">
-        <img src="/login.jpg" alt={"login picture"} />
+        <img src="/login.jpg" alt={"login picture"} loading="lazy" />
       </div>
     </div>
   );
