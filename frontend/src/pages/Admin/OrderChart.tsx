@@ -12,8 +12,11 @@ import {
   Tooltip,
   Legend,
   ArcElement,
-  Filler
+  Filler,
+  ChartData,
 } from "chart.js";
+import { toast } from "react-toastify";
+import { SalesDataT } from "../../types/types";
 
 ChartJS.register(
   CategoryScale,
@@ -23,13 +26,14 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement, 
+  ArcElement,
   Filler
 );
 
+type ChartDataT = ChartData<"line", number[], string>;
 
 const MonthlySalesChart = () => {
-  const [chartData, setChartData] = useState<any>({
+  const [chartData, setChartData] = useState<ChartDataT>({
     labels: [],
     datasets: [],
   });
@@ -40,8 +44,8 @@ const MonthlySalesChart = () => {
         const response = await axios.get("/api/adminApi/monthly-sales");
         const salesData = response.data;
 
-        const labels = salesData.map((item: any) => item.month);
-        const data = salesData.map((item: any) => item.orderCount);
+        const labels = salesData.map((item: SalesDataT) => item.month);
+        const data = salesData.map((item: SalesDataT) => item.orderCount);
 
         setChartData({
           labels,
@@ -57,7 +61,7 @@ const MonthlySalesChart = () => {
           ],
         });
       } catch (error) {
-        console.error("Error fetching sales data:", error);
+        toast.error("Something went wrong");
       }
     };
 
@@ -76,14 +80,14 @@ const MonthlySalesChart = () => {
             scales: {
               y: {
                 beginAtZero: true,
-                grid:{
+                grid: {
                   color: "rgba(0, 0, 0, 0.6)",
-                  drawTicks: false
+                  drawTicks: false,
                 },
                 border: {
-                    dash: [2,4],
-                    color: "white"
-                },  
+                  dash: [2, 4],
+                  color: "white",
+                },
                 min: 0,
                 max: 100,
                 offset: true,
@@ -93,33 +97,33 @@ const MonthlySalesChart = () => {
                   stepSize: 50,
                   align: "inner",
                   font: {
-                    weight: "bold"
+                    weight: "bold",
                   },
-                  callback: function(value) {
-                    let nextValue = Number(value) + 50;
+                  callback: function (value) {
+                    const nextValue = Number(value) + 50;
                     return value + " - " + nextValue;
                   },
-                }
+                },
               },
               x: {
                 grid: {
-                  display: false
+                  display: false,
                 },
-                border:{
-                  dash: [2,4],
-                  color: "rgba(0, 0, 0, 0.6)"
+                border: {
+                  dash: [2, 4],
+                  color: "rgba(0, 0, 0, 0.6)",
                 },
-                ticks:{
+                ticks: {
                   align: "start",
                   font: {
-                    weight: "bold"
-                  }
-                }
-            },
+                    weight: "bold",
+                  },
+                },
+              },
             },
             plugins: {
               legend: {
-                display: false
+                display: false,
               },
             },
           }}
@@ -134,7 +138,7 @@ export default MonthlySalesChart;
 export const OrderStatusChart = ({
   pending,
   paid,
-  total
+  total,
 }: {
   pending?: number;
   paid?: number;

@@ -2,12 +2,8 @@ import axios from "axios";
 import { OrderType } from "../types/types";
 
 export const createOrder = async (order: OrderType & { name?: string }) => {
-  try {
-    const { data } = await axios.post("/api/orders/create ", order);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const { data } = await axios.post("/api/orders/create ", order);
+  return data;
 };
 
 export const getCurrentUserOrder = async () => {
@@ -16,12 +12,8 @@ export const getCurrentUserOrder = async () => {
 };
 
 export const pay = async (paymentId: string | number, tx_ref: string) => {
-  try {
-    const { data } = await axios.put("/api/orders/pay", { paymentId, tx_ref });
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const { data } = await axios.put("/api/orders/pay", { paymentId, tx_ref });
+  return data;
 };
 
 // export const trackOrderById = async (orderId: string) => {

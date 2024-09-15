@@ -113,7 +113,6 @@ router.get(
         totalRevenue: totalRevenue[0].totalRevenue,
       });
     } catch (err) {
-      console.error(err);
       res.status(500).send({ message: "Error fetching stats" });
     }
   })

@@ -3,6 +3,7 @@ import "./orders.scss";
 import { getAll } from "../../services/orderService";
 import { Price, Title } from "../../components";
 import { CartItemType } from "../../types/cartTypes";
+import { toast } from "react-toastify";
 
 type orderHistoryType = {
   _id: string;
@@ -18,8 +19,8 @@ export default function OrdersPage() {
   useEffect(() => {
     getAll()
       .then(setOrders)
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        toast.error("Something went wrong");
       });
   }, []);
 

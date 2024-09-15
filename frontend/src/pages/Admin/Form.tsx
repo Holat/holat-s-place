@@ -84,7 +84,6 @@ const Form = ({ defaultValues, formType }: FormPropType) => {
 
         const res = await uploadImage(imageUrl, filename);
         foodData = { ...data, imageUrl: res, imgName: filename };
-        console.log("r1");
       }
 
       if (formType === "U") await updateFoods(foodData);
@@ -92,7 +91,6 @@ const Form = ({ defaultValues, formType }: FormPropType) => {
 
       toast.success("Food Uploaded");
     } catch (error) {
-      console.log(error);
       toast.error("Error uploading image or creating item!");
     } finally {
       reset();

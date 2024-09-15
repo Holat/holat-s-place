@@ -39,14 +39,11 @@ router.put(
         return;
       }
 
-      // Find the order for the current user with a status of "NEW" or "PAID"
       const order = await OrderModel.findOne({
         user: req.user.id,
         tx_ref,
         status: { $in: ["NEW", "PAID"] },
       });
-
-      console.log(order, paymentId);
 
       if (!order) {
         res.status(404).send("Order not found");
@@ -64,8 +61,7 @@ router.put(
 
       res.send(order._id);
     } catch (error) {
-      console.error("Error processing payment:", error);
-      res.status(500).send("Internal server error");
+      res.status(500).send("Error making payment");
     }
   })
 );
@@ -74,9 +70,6 @@ router.get(
   "/currentUserOrder",
   handler(async (req, res) => {
     const order = await getCurrentUserOrder(req);
-
-    console.log(order);
-
     if (order) res.send(order);
     else res.status(400).send();
   })

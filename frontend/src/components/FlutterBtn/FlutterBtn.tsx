@@ -36,24 +36,28 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
   };
 
   const handlePayment = async (response: FlutterWaveResponse) => {
-    if (response.status === "failed") {
-      toast.error("Payment Failed");
-      navigate("/payment");
-    }
+    try {
+      if (response.status === "failed") {
+        toast.error("Payment Failed");
+        navigate("/payment");
+      }
 
-    const paymentId = response.transaction_id;
-    await pay(paymentId, order.tx_ref || "");
-    clearCart();
-    closePaymentModal();
-    toast.success("Payment Successful");
-    navigate("/orders");
+      const paymentId = response.transaction_id;
+      await pay(paymentId, order.tx_ref || "");
+      clearCart();
+      closePaymentModal();
+      toast.success("Payment Successful");
+      navigate("/orders");
+    } catch (error) {
+      toast.error("Error making payment");
+    }
   };
 
   const fwConfig = {
     ...config,
     callback: handlePayment,
     onClose: () => {
-      console.log("closed");
+      toast.error("Payment cancelled");
     },
   };
 
