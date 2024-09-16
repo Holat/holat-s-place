@@ -66,6 +66,22 @@ router.put(
   })
 );
 
+router.put(
+  "/cancel/:id",
+  handler(async (req, res) => {
+    const id = req.params.id;
+
+    const order = await OrderModel.findById(id);
+
+    if (order) {
+      order.status = "CANCELLED";
+      await order.save();
+    }
+
+    res.send("deleted");
+  })
+);
+
 router.get(
   "/currentUserOrder",
   handler(async (req, res) => {

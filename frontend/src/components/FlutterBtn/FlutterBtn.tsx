@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { OrderType } from "../../types/types";
 import { Price } from "../../components";
 import { toast } from "react-toastify";
-import { pay } from "../../services/orderService";
+import { cancel, pay } from "../../services/orderService";
 
 export default function FlutterBtn({ order }: { order: OrderType }) {
   const navigate = useNavigate();
@@ -42,22 +42,33 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
         navigate("/payment");
       }
 
+      console.log(response);
+
       const paymentId = response.transaction_id;
       await pay(paymentId, order.tx_ref || "");
       clearCart();
-      closePaymentModal();
       toast.success("Payment Successful");
       navigate("/orders");
     } catch (error) {
       toast.error("Error making payment");
     }
+    closePaymentModal();
   };
 
   const fwConfig = {
     ...config,
     callback: handlePayment,
-    onClose: () => {
-      toast.error("Payment cancelled");
+    onClose: async () => {
+      cancel(order._id || "")
+        .then(() => {
+          toast.error("Payment cancelled");
+        })
+        .catch(() => {
+          toast.error("Error cancelling order");
+        })
+        .finally(() => {
+          navigate("/checkout");
+        });
     },
   };
 

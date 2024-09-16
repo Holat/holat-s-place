@@ -21,7 +21,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (!user) return;
-    returnUrl ? navigate(returnUrl) : navigate("/");
+    returnUrl ? navigate(`/login?returnUrl=${returnUrl}`) : navigate("/");
   }, [navigate, returnUrl, user]);
 
   const submit = async (data: RegisterValues) => {

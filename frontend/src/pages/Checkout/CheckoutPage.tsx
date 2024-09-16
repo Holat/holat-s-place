@@ -49,7 +49,8 @@ export default function CheckoutPage() {
       return;
     }
     createOrder({ ...order, name: user?.name, tx_ref }).catch(() => {
-      toast.error("Error creating order");
+      toast.error("Error placing order");
+      navigate("/checkout");
     });
     navigate("/payment");
   };

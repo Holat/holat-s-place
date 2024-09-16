@@ -18,8 +18,7 @@ const OrderTable = ({ orders }: { orders?: OrderHistoryType[] }) => {
       </div>
       <table>
         <tbody>
-          {orders &&
-            orders.length > 1 ? 
+          {orders && orders.length > 1 ? (
             orders.map((item, i) => (
               <tr key={item.id + i}>
                 <td>
@@ -47,7 +46,8 @@ const OrderTable = ({ orders }: { orders?: OrderHistoryType[] }) => {
                               ? lightTheme.paid
                               : item.status === "NEW"
                               ? lightTheme.new
-                              : item.status === "FAILED"
+                              : item.status === "FAILED" ||
+                                item.status === "CANCELLED"
                               ? lightTheme.failed
                               : lightTheme.accentV,
                           width: "12px",
@@ -56,11 +56,18 @@ const OrderTable = ({ orders }: { orders?: OrderHistoryType[] }) => {
                         }}
                       />
                     </div>
-                    <span >Online Payment</span>
+                    <span>Online Payment</span>
                   </div>
                 </td>
               </tr>
-            )) : (<tr><td><h4>Empty</h4></td></tr>)}
+            ))
+          ) : (
+            <tr>
+              <td>
+                <h4>Empty</h4>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

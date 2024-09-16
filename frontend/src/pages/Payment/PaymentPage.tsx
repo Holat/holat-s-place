@@ -12,7 +12,6 @@ export default function PaymentPage() {
   }, []);
 
   if (!order) return;
-
   return (
     <div className="paymentCont">
       <div className="header">
