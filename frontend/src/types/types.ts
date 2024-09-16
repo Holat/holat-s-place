@@ -55,6 +55,7 @@ export type LocationType = {
 };
 
 export type OrderType = {
+  _id?: string | " ";
   name?: string;
   address?: string;
   lat: number;

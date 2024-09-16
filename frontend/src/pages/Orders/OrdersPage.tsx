@@ -20,7 +20,7 @@ export default function OrdersPage() {
     getAll()
       .then(setOrders)
       .catch(() => {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong", { toastId: "swwe" });
       });
   }, []);
 

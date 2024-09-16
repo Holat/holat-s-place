@@ -30,13 +30,13 @@ const AdminPage = () => {
     getOrders()
       .then(setOrder)
       .catch(() => {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong", { toastId: "swwe" });
       });
 
     getOrderDetails()
       .then(setDetails)
       .catch(() => {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong", { toastId: "swwe" });
       });
   }, []);
 
