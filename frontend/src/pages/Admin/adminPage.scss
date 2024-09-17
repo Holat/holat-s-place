@@ -337,12 +337,29 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 background-color: white;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
-                input {
-                    padding: 10px;
-                    border: 1px solid $table-border-color;
-                    border-radius: 5px;
-                    width: 250px;
+                .searchBox{
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    
+                    input {
+                        padding: 10px;
+                        border: 1px solid $table-border-color;
+                        border-radius: 5px;
+                        width: 250px;
+                    }
+
+                    button{
+                        border: none;
+                        background-color: transparent;
+
+                        img{
+                            width: 25px;
+                            height: 25px;
+                        }
+                    }
                 }
+
             }
         }
 
