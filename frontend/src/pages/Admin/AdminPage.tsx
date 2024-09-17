@@ -13,6 +13,7 @@ import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
 import ItemEdit from "./ItemEdit";
 import AdminGrant from "./AdminGrant";
 import { toast } from "react-toastify";
+import { settingIcon, addIIcon, profileIcon, editIcon } from "../../assets/icons";
 
 const dRevDetails: RevDetails = {
   totalOrders: 0,
@@ -86,14 +87,14 @@ const AdminPage = () => {
       </div>
       <div className="floating-btn">
         <div className="img">
-          <img src="/icons/setting.svg" alt={"setting"} />
+          <img src={ settingIcon } alt={"setting"} />
         </div>
         <div
           className="btnCont"
           id="btna1"
           onClick={() => setActiveModal("createItem")}
         >
-          <img src="/icons/addI.svg" alt="Add image" />
+          <img src={ addIIcon } alt="Add image" />
         </div>
         <div
           className="btnCont"
@@ -101,7 +102,7 @@ const AdminPage = () => {
           onClick={() => setActiveModal("editFood")}
         >
           <img
-            src="/icons/edit.svg"
+            src={ editIcon }
             alt="Add image"
             style={{ width: "24px", height: "24px", margin: "0 auto" }}
           />
@@ -112,7 +113,7 @@ const AdminPage = () => {
           onClick={() => setActiveModal("authorize")}
         >
           <img
-            src="/icons/profile.svg"
+            src={ profileIcon }
             alt="Add image"
             style={{ width: "40px", height: "40px", margin: "0 auto" }}
           />

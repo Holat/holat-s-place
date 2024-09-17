@@ -5,6 +5,7 @@ import { Input, Title } from "../../components";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { RegisterValues } from "../../types/logTypes";
 import useAuth from "../../hooks/useAuth";
+import loginImg from "../../assets/images/login.jpg";
 
 export default function RegisterPage() {
   const {
@@ -114,7 +115,7 @@ export default function RegisterPage() {
         </div>
       </div>
       <div className="imgCont">
-        <img src="/login.jpg" alt={"login picture"} loading="lazy" />
+        <img src={ loginImg } alt={"login picture"} loading="lazy" />
       </div>
     </div>
   );

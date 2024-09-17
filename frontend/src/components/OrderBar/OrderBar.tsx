@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart";
 import { NotFound, OrderItem } from "..";
 import useAuth from "../../hooks/useAuth";
+import { closeIcon } from "../../assets/icons";
 
 export default function OrderBar({
   isOpen,
@@ -26,7 +27,7 @@ export default function OrderBar({
       <div className="orderHeader">
         <Title title="Cart Items" fontSize="24px" fontWeight={600} />
         <button onClick={toggleOrderBar}>
-          <img src="/icons/close.svg" alt="close" />
+          <img src={ closeIcon } alt="close" />
         </button>
       </div>
       <div className="details">

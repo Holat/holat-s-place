@@ -1,6 +1,7 @@
 import "./orderItem.scss";
 import { Title, Price } from "..";
 import { CartItemType } from "../../types/cartTypes";
+import { deleteIcon } from "../../assets/icons";
 
 export default function OrderItem({
   item,
@@ -53,7 +54,7 @@ export default function OrderItem({
             <button
               onClick={() => removeFromCart && removeFromCart(item.food.id)}
             >
-              <img src="/icons/delete.svg" alt="delete" />
+              <img src={ deleteIcon } alt="delete" />
             </button>
           )}
         </div>

@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import "./loginPage.scss";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import loginImg from "../../assets/images/login.jpg";
 
 export type FormValues = {
   password: string;
@@ -63,7 +64,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="imgCont">
-        <img src="/login.jpg" alt={"login picture"} loading="lazy" />
+        <img src={ loginImg } alt={"login picture"} loading="lazy" />
       </div>
     </div>
   );
