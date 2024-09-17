@@ -1,7 +1,7 @@
 import { OrderHistoryType } from "../../types/types";
 import { formatDateToDDMMYYYY } from "../../utils/adminForm";
 import { Price, Title } from "../../components";
-import { refreshIcon } from "../../icons"
+import { refreshIcon } from "../../assets/icons";
 import useOrderFilter from "../../hooks/useOrderFilter";
 
 const lightTheme = {
@@ -11,16 +11,22 @@ const lightTheme = {
   failed: "#dc3545",
 };
 
-const OrderTable = ({ orders, refresh }: { orders?: OrderHistoryType[], refresh: () => void }) => {
-  const {  
+const OrderTable = ({
+  orders,
+  refresh,
+}: {
+  orders?: OrderHistoryType[];
+  refresh: () => void;
+}) => {
+  const {
     selectedStatus,
     setSelectedStatus,
     startDate,
     setStartDate,
     endDate,
     setEndDate,
-    filteredOrders
-  } = useOrderFilter(order);
+    // filteredOrders,
+  } = useOrderFilter(orders);
 
   return (
     <div className="order-status-table">
@@ -32,21 +38,29 @@ const OrderTable = ({ orders, refresh }: { orders?: OrderHistoryType[], refresh:
           </button>
           <input type="text" placeholder="Search" />
           <div className="filter">
-            {
-              order && 
-              (
-                <>
-                  <input type="date" value={ startDate ? startDate.toISOString().split("T")[0] : ''} onChange={(e) => setStartDate(new Date(e.target.value))}/>
-                  <input type="date" value={ endDate ? endDate.toISOString().split("T")[0] : ''} onChange={(e) => setEndDate(new Date(e.target.value))}/>
-                  <select name="" id="" value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-                    <option value="">All Statuses</option>
-                    <option value="PAID">Paid</option>
-                    <option value="FAILED">Failed</option>
-                    <option value="CANCELLED">Cancelled</option>
-                  </select>
-                </>
-              )
-            }
+            {orders && (
+              <>
+                <input
+                  type="date"
+                  value={startDate ? startDate.toISOString().split("T")[0] : ""}
+                  onChange={(e) => setStartDate(new Date(e.target.value))}
+                />
+                <input
+                  type="date"
+                  value={endDate ? endDate.toISOString().split("T")[0] : ""}
+                  onChange={(e) => setEndDate(new Date(e.target.value))}
+                />
+                <select
+                  value={selectedStatus || ""}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                >
+                  <option value="">All Statuses</option>
+                  <option value="PAID">Paid</option>
+                  <option value="FAILED">Failed</option>
+                  <option value="CANCELLED">Cancelled</option>
+                </select>
+              </>
+            )}
           </div>
         </div>
       </div>

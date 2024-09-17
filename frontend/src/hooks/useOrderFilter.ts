@@ -1,15 +1,17 @@
-import { OrderHistoryType } from  "../../types/types";
-import { useState, useEffect } from 'react';
+import { OrderHistoryType } from "../types/types";
+import { useState, useEffect } from "react";
 
-const useOrderFilter = (orders: OrderHistoryType[]) => {
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [filteredOrders, setFilteredOrders] = useState([]);
+const useOrderFilter = (orders?: OrderHistoryType[]) => {
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [startDate, setStartDate] = useState<number | null>(null);
+  const [endDate, setEndDate] = useState<number | null>(null);
+  const [filteredOrders, setFilteredOrders] = useState<
+    OrderHistoryType[] | null
+  >();
 
   useEffect(() => {
     const filterOrders = () => {
-      const filtered = orders.filter((order) => {
+      const filtered = orders?.filter((order) => {
         const orderDate = new Date(order.createdAt);
         if (startDate === null && endDate === null) {
           return selectedStatus === null || order.status === selectedStatus;
@@ -30,7 +32,7 @@ const useOrderFilter = (orders: OrderHistoryType[]) => {
       });
       setFilteredOrders(filtered);
     };
-    filterOrders();    
+    filterOrders();
   }, [orders, selectedStatus, startDate, endDate]);
 
   return {
