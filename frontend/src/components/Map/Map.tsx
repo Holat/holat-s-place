@@ -19,6 +19,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { LocationType } from "../../types/types";
+import { locateIcon } from "../../assets/icons"
 
 interface UserPosition {
   lat: number;
@@ -57,7 +58,7 @@ export default function Map({
       </div>
       {/* onClick={handleLocateUser} */}
       <button className="locateBtn" title="locate">
-        <img src="/icons/locate.svg" alt="locate" />
+        <img src={ locateIcon } alt="locate" />
       </button>
       <APIProvider
         apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}

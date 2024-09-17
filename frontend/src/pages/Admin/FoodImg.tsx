@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { ItemCreateType } from "../../types/types";
+import { addImgIcon } from "../../assets/icons";
 
 const FoodImg = ({
   register,
@@ -54,7 +55,7 @@ const FoodImg = ({
           <img src={preview} alt="Item Image" className="preview" />
         ) : (
           <button type="button" className="addBtn" onClick={onUpload}>
-            <img src="/icons/addImg.svg" alt="Add image" />
+            <img src={ addImgIcon } alt="Add image" />
           </button>
         )}
       </div>

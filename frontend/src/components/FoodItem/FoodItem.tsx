@@ -5,6 +5,7 @@ import Price from "../Price/Price";
 import StarRating from "../Star/Star";
 import { Link } from "react-router-dom";
 import useCart from "../../hooks/useCart";
+import { addIcon, favIcon } from "../../assets/icons"
 
 export default function FoodItem({ food }: { food: FoodItemType }) {
   const { addToCart } = useCart();
@@ -21,13 +22,13 @@ export default function FoodItem({ food }: { food: FoodItemType }) {
           <img src={`${food.imageUrl}`} alt={food.name} loading="lazy" />
           <button className="favorite">
             {food.favorite ? (
-              <img src="/fav.svg" alt="fav" />
+              <img src={ favIcon } alt="fav" />
             ) : (
-              <img src="/fav.svg" alt="noFav" />
+              <img src={ favIcon } alt="noFav" />
             )}
           </button>
           <button className="favorite" id="add" onClick={handleAddClick}>
-            <img src="/icons/add.svg" alt="" />
+            <img src={ addIcon } alt="" />
           </button>
         </div>
         <div className="details">

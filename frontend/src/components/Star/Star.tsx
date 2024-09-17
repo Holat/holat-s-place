@@ -1,3 +1,5 @@
+import { starEmpty, starFull, starHalf } from "../../assets/icons";
+
 const StarRating = ({ stars, size = 18 }: { stars: number; size?: number }) => {
   const styles = {
     width: size + "px",
@@ -9,15 +11,17 @@ const StarRating = ({ stars, size = 18 }: { stars: number; size?: number }) => {
     const halfNumber = number - 0.5;
     const starType =
       stars >= number
-        ? "star-full"
+        ? "full"
         : stars >= halfNumber
-        ? "star-half"
-        : "star-empty";
+        ? "half"
+        : "empty";
 
+    
+    const url = starType === "full" ? starFull : starType === "half" ? starHalf : starEmpty;
     return (
       <img
         key={number}
-        src={`/${starType}.svg`}
+        src={url}
         alt={starType}
         style={styles}
       />

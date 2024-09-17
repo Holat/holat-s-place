@@ -1,27 +1,34 @@
 import useCart from "../../hooks/useCart";
 import { LinkType } from "../../types/types";
 import { Link, useLocation } from "react-router-dom";
+import {
+  homeIcon,
+  profileIcon,
+  cartIcon,
+  orderIcon,
+  adminIcon,
+} from "../../assets/icons";
 
 const links = [
   {
     name: "Home",
     linkUrl: "/",
-    iconUrl: "/icons/home.svg",
+    iconUrl: homeIcon,
   },
   {
     name: "Profile",
     linkUrl: "/profile",
-    iconUrl: "/icons/profile.svg",
+    iconUrl: profileIcon,
   },
   {
     name: "Cart",
     linkUrl: "/cart",
-    iconUrl: "/icons/cart.svg",
+    iconUrl: cartIcon,
   },
   {
     name: "Orders",
     linkUrl: "/orders",
-    iconUrl: "/icons/order.svg",
+    iconUrl: orderIcon,
   },
 ];
 
@@ -51,7 +58,7 @@ export default function Links({ isAdmin }: { isAdmin?: boolean }) {
         <LinkComp
           name="Admin"
           linkUrl="/admin"
-          iconUrl="/icons/admin.svg"
+          iconUrl={adminIcon}
           currentPath={location.pathname === "/admin"}
         />
       )}

@@ -5,6 +5,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
+import { lensIcon, filterIcon, cartIcon } from "../../assets/icons";
+import iconImg from "../../assets/images/icon.jpeg";
 
 export default function SearchBar({
   tags,
@@ -38,7 +40,7 @@ export default function SearchBar({
       <div className="searchContainer">
         <div className="filterCont">
           <div className="inputCont">
-            <img src="/icons/lens.svg" alt="search" />
+            <img src={ lensIcon } alt="search" />
             <input
               value={inputSearchTerm}
               type="text"
@@ -48,7 +50,7 @@ export default function SearchBar({
             />
             <button onClick={search}>
               <p className="dtxt">Search</p>
-              <img src="/icons/lens.svg" alt="search" />
+              <img src={ lensIcon } alt="search" />
             </button>
           </div>
           <button
@@ -59,7 +61,7 @@ export default function SearchBar({
               display: tags ? "block" : "none",
             }}
           >
-            <img src="/icons/filter.svg" alt="filter" />
+            <img src={ filterIcon } alt="filter" />
             <div className={`tags ${isOpen ? "isOpen" : ""}`}>
               <div
                 className="mClBtn"
@@ -107,7 +109,7 @@ export default function SearchBar({
             fontWeight={600}
           />
           <div className="img">
-            <img src="/icon.jpeg" alt="profile picture" />
+            <img src={ iconImg } alt="profile picture" />
           </div>
           <div className="cart">
             <button onClick={toggleOrderBar} id="pctbtn">
@@ -116,7 +118,7 @@ export default function SearchBar({
                   <p>{totalCount}</p>
                 </div>
               )}
-              <img src="/icons/cart.svg" alt="cart" />
+              <img src={ cartIcon } alt="cart" />
             </button>
             <button onClick={() => navigate("/cart")} id="mpbtn">
               {totalCount > 0 && (
@@ -124,7 +126,7 @@ export default function SearchBar({
                   <p>{totalCount}</p>
                 </div>
               )}
-              <img src="/icons/cart.svg" alt="cart" />
+              <img src={ cartIcon } alt="cart" />
             </button>
           </div>
         </div>
