@@ -342,7 +342,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                     align-items: center;
                     gap: 16px;
                     
-                    input {
+                    input, select {
                         padding: 10px;
                         border: 1px solid $table-border-color;
                         border-radius: 5px;

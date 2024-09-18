@@ -12,6 +12,12 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
   const stripTime = (date: Date) =>
     new Date(date.getDate(), date.getMonth(), date.getDate());
 
+  const reset = () => {
+    setStartDate(null);
+    setEndDate(null);
+    setSelectedStatus(null);
+  }
+
   useEffect(() => {
     const filterOrders = () => {
       let filtered = orders || [];
@@ -61,6 +67,7 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
     endDate,
     setEndDate,
     filteredOrders,
+    reset,
   };
 };
 

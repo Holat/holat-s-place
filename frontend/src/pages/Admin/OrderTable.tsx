@@ -37,19 +37,19 @@ const OrderTable = ({
           <button onClick={refresh}>
             <img src={refreshIcon} alt="refresg" />
           </button>
-          <input type="text" placeholder="Search" />
+          {/* <input type="text" placeholder="Search" /> */}
           <div className="filter">
             {orders && (
               <>
                 <input
                   type="date"
                   value={startDate ? startDate.toISOString().split("T")[0] : ""}
-                  onChange={(e) => setStartDate(new Date(e.target.value))}
+                  onChange={(e) => e.target.value ? setStartDate(new Date(e.target.value)) : null}
                 />
                 <input
                   type="date"
                   value={endDate ? endDate.toISOString().split("T")[0] : ""}
-                  onChange={(e) => setEndDate(new Date(e.target.value))}
+                  onChange={(e) => e.target.value ? setEndDate(new Date(e.target.value)) : null}
                 />
                 <select
                   value={selectedStatus || ""}
