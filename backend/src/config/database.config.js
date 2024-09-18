@@ -13,8 +13,7 @@ export const dbconnect = async () => {
   const uri =
     process.env.NODE_ENV === "dev"
       ? "mongodb://127.0.0.1:27017/holatsPlace"
-      : "mongodb+srv://Holat:9F7NKFU5oG6gnktw@cluster1.x5ks8va.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
-  // : process.env.MONGO_URI;
+      : process.env.MONGO_URI;
   try {
     await connect(uri);
     await seedFoods();
