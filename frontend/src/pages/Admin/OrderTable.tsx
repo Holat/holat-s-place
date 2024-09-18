@@ -44,18 +44,18 @@ const OrderTable = ({
                 <input
                   type="date"
                   value={startDate ? startDate.toISOString().split("T")[0] : ""}
-                  onChange={(e) =>
-                    e.target.value
-                      ? setStartDate(new Date(e.target.value))
-                      : null
-                  }
+                  onChange={(e) => {
+                    const value = e.target.value ? new Date(e.target.value) : null
+                    setStartDate(value);
+                  }}
                 />
                 <input
                   type="date"
                   value={endDate ? endDate.toISOString().split("T")[0] : ""}
-                  onChange={(e) =>
-                    e.target.value ? setEndDate(new Date(e.target.value)) : null
-                  }
+                  onChange={(e) =>{
+                    const value = e.target.value ? new Date(e.target.value) : null
+                    setEndDate(value);
+                  }}
                 />
                 <select
                   value={selectedStatus || ""}

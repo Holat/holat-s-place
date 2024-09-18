@@ -310,7 +310,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 }
             }
 
-            // Status Labels
             .status {
                 display: flex;
                 align-items: center;
@@ -321,7 +320,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 }
             }
 
-            // Search bar
             .search-bar {
                 width: 100%;
                 padding: 15px;
@@ -352,6 +350,12 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                             border: 1px solid $table-border-color;
                             border-radius: 5px;
                             width: 130px;
+                        }
+
+                        input[type="button"]{
+                            background-color: $primary-color;
+                            border: none;
+                            font-weight: 600;
                         }
                     }
                     

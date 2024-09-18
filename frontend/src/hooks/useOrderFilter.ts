@@ -11,7 +11,8 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
 
   const stripTime = (date: Date) =>
     new Date(date.getDate(), date.getMonth(), date.getDate());
-
+  const trimUpperS = (s: string) => s.trim().toUpperCase();
+  
   const reset = () => {
     setStartDate(null);
     setEndDate(null);
@@ -33,7 +34,7 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
 
       if (selectedStatus && !(adjustedStartDate || adjustedEndDate))
         filtered = filtered.filter(
-          (order: OrderHistoryType) => order.status === selectedStatus
+          (order: OrderHistoryType) => trimUpperS(order.status) === trimUpperS(selectedStatus)
         );
       else if (!selectedStatus && (adjustedStartDate || adjustedEndDate)) {
         filtered = filtered.filter((order: OrderHistoryType) => {
@@ -47,7 +48,7 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
       } else if (selectedStatus && (adjustedStartDate || adjustedEndDate)) {
         filtered = filtered.filter((order: OrderHistoryType) => {
           const orderDate = stripTime(new Date(order.createdAt));
-          const statusMatch = order.status === selectedStatus;
+          const statusMatch = trimUpperS(order.status) === trimUpperS(selectedStatus);
           const dateMatch =
             (!adjustedStartDate || orderDate >= adjustedStartDate) &&
             (!adjustedEndDate || orderDate <= adjustedEndDate);
