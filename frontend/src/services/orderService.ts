@@ -18,7 +18,7 @@ export const pay = async (paymentId: string | number, tx_ref: string) => {
 
 export const cancel = async (id: string) => {
   const { data } = await axios.put(`/api/orders/cancel/${id}`);
-  console.log(id, data);
+  return data;
 };
 
 // export const trackOrderById = async (orderId: string) => {

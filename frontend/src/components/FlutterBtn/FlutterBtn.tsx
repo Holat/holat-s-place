@@ -41,9 +41,6 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
         toast.error("Payment Failed");
         navigate("/payment");
       }
-
-      console.log(response);
-
       const paymentId = response.transaction_id;
       await pay(paymentId, order.tx_ref || "");
       clearCart();
