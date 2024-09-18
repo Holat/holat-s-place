@@ -14,33 +14,41 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
 
   useEffect(() => {
     const filterOrders = () => {
-        let filtered = orders || [];
-        let adjustedStartDate = startDate;
-        let adjustedEndDate = endDate;
+      let filtered = orders || [];
+      let adjustedStartDate = startDate;
+      let adjustedEndDate = endDate;
 
-        if(startDate && !endDate) adjustedEndDate = startDate;
-        if(!startDate && endDate) adjustedStartDate = endDate;
-        adjustedStartDate = adjustedStartDate ? stripTime(adjustedStartDate) : null;
-        adjustedEndDate = adjustedEndDate ? stripTime(adjustedEndDate) : null;
-        
-        if ( selectedStatus && !(adjustedStartDate || adjustedEndDate)) filtered = filtered.filter((order: OrderHistoryType) => order.status === selectedStatus);
-        else if( !selectedStatus && ( adjustedStartDate || adjustedEndDate)){
-          filtered = filtered.filter((order: OrderHistoryType) => {
-            const orderDate = stripTime(new Date(order.createdAt));
-            if(adjustedStartDate && adjustedEndDate) return orderDate >= adjustedStartDate && orderDate <= adjustedEndDate;
-            return true;
-          })
-        }else if (selectedStatus && (adjustedStartDate || adjustedEndDate)){
-          filtered = filtered.filter((order: OrderHistoryType) => {
-            const orderDate = stripTime(new Date(order.createdAt));
-            const statusMatch = order.status === selectedStatus;
-            const dateMatch = 
-                ( !adjustedStartDate || orderDate >= adjustedStartDate) &&
-                (!adjustedEndDate || orderDate <= adjustedEndDate);
-            return statusMatch && dateMatch
-          })
-        }
-        setFilteredOrders(filtered);
+      if (startDate && !endDate) adjustedEndDate = startDate;
+      if (!startDate && endDate) adjustedStartDate = endDate;
+      adjustedStartDate = adjustedStartDate
+        ? stripTime(adjustedStartDate)
+        : null;
+      adjustedEndDate = adjustedEndDate ? stripTime(adjustedEndDate) : null;
+
+      if (selectedStatus && !(adjustedStartDate || adjustedEndDate))
+        filtered = filtered.filter(
+          (order: OrderHistoryType) => order.status === selectedStatus
+        );
+      else if (!selectedStatus && (adjustedStartDate || adjustedEndDate)) {
+        filtered = filtered.filter((order: OrderHistoryType) => {
+          const orderDate = stripTime(new Date(order.createdAt));
+          if (adjustedStartDate && adjustedEndDate)
+            return (
+              orderDate >= adjustedStartDate && orderDate <= adjustedEndDate
+            );
+          return true;
+        });
+      } else if (selectedStatus && (adjustedStartDate || adjustedEndDate)) {
+        filtered = filtered.filter((order: OrderHistoryType) => {
+          const orderDate = stripTime(new Date(order.createdAt));
+          const statusMatch = order.status === selectedStatus;
+          const dateMatch =
+            (!adjustedStartDate || orderDate >= adjustedStartDate) &&
+            (!adjustedEndDate || orderDate <= adjustedEndDate);
+          return statusMatch && dateMatch;
+        });
+      }
+      setFilteredOrders(filtered);
     };
     filterOrders();
   }, [orders, selectedStatus, startDate, endDate]);

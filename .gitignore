@@ -27,3 +27,4 @@ dist-ssr
 *.sw?
 backend/src/logs/log.js
 backend/src/logs/orderLog.txt
+frontend/.env

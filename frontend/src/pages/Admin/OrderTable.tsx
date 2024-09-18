@@ -25,9 +25,10 @@ const OrderTable = ({
     setStartDate,
     endDate,
     setEndDate,
-    // filteredOrders,
+    filteredOrders,
   } = useOrderFilter(orders);
 
+  console.log(orders);
   return (
     <div className="order-status-table">
       <div className="search-bar">
@@ -56,6 +57,7 @@ const OrderTable = ({
                 >
                   <option value="">All Statuses</option>
                   <option value="PAID">Paid</option>
+                  <option value="PENDING">Pending</option>
                   <option value="FAILED">Failed</option>
                   <option value="CANCELLED">Cancelled</option>
                 </select>
@@ -66,8 +68,8 @@ const OrderTable = ({
       </div>
       <table>
         <tbody>
-          {orders && orders.length > 1 ? (
-            orders.map((item, i) => (
+          {filteredOrders && filteredOrders.length > 1 ? (
+            filteredOrders.map((item, i) => (
               <tr key={item.id + i}>
                 <td>
                   <div className="td">
