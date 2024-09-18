@@ -26,9 +26,9 @@ const OrderTable = ({
     endDate,
     setEndDate,
     filteredOrders,
+    reset,
   } = useOrderFilter(orders);
 
-  console.log(orders);
   return (
     <div className="order-status-table">
       <div className="search-bar">
@@ -44,12 +44,18 @@ const OrderTable = ({
                 <input
                   type="date"
                   value={startDate ? startDate.toISOString().split("T")[0] : ""}
-                  onChange={(e) => e.target.value ? setStartDate(new Date(e.target.value)) : null}
+                  onChange={(e) =>
+                    e.target.value
+                      ? setStartDate(new Date(e.target.value))
+                      : null
+                  }
                 />
                 <input
                   type="date"
                   value={endDate ? endDate.toISOString().split("T")[0] : ""}
-                  onChange={(e) => e.target.value ? setEndDate(new Date(e.target.value)) : null}
+                  onChange={(e) =>
+                    e.target.value ? setEndDate(new Date(e.target.value)) : null
+                  }
                 />
                 <select
                   value={selectedStatus || ""}
@@ -61,6 +67,7 @@ const OrderTable = ({
                   <option value="FAILED">Failed</option>
                   <option value="CANCELLED">Cancelled</option>
                 </select>
+                <input type="button" value={"Clear"} onClick={reset} />
               </>
             )}
           </div>

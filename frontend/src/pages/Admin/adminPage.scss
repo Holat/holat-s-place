@@ -340,15 +340,21 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 .searchBox{
                     display: flex;
                     align-items: center;
-                    gap: 16px;
-                    
-                    input, select {
-                        padding: 10px;
-                        border: 1px solid $table-border-color;
-                        border-radius: 5px;
-                        width: 250px;
-                    }
+                    gap: 8px;
 
+                    .filter{
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+
+                        input, select {
+                            padding: 10px;
+                            border: 1px solid $table-border-color;
+                            border-radius: 5px;
+                            width: 130px;
+                        }
+                    }
+                    
                     button{
                         border: none;
                         background-color: transparent;
