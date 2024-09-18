@@ -32,7 +32,7 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
         : null;
       adjustedEndDate = adjustedEndDate ? stripTime(adjustedEndDate) : null;
 
-      if (selectedStatus && !(adjustedStartDate || adjustedEndDate))
+      if (selectedStatus && !adjustedStartDate && !adjustedEndDate)
         filtered = filtered.filter(
           (order: OrderHistoryType) => trimUpperS(order.status) === trimUpperS(selectedStatus)
         );
