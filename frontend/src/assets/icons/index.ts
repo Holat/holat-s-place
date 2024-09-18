@@ -21,6 +21,7 @@ import favIcon from "./fav.svg";
 import starEmpty from "./star-empty.svg";
 import starFull from "./star-full.svg";
 import starHalf from "./star-half.svg";
+import refreshIcon from "./refresh.svg"
 
 export {
   addIcon,
@@ -46,4 +47,5 @@ export {
   starEmpty,
   starFull,
   starHalf,
+  refreshIcon
 };

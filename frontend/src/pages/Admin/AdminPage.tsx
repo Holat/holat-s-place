@@ -27,13 +27,16 @@ const AdminPage = () => {
   const [orders, setOrder] = useState<OrderHistoryType[]>();
   const [details, setDetails] = useState<RevDetails>(dRevDetails);
 
-  useEffect(() => {
+  const fetchOrder = async () => {
     getOrders()
       .then(setOrder)
       .catch(() => {
         toast.error("Something went wrong", { toastId: "swwe" });
       });
+  }
 
+  useEffect(() => {
+    fetchOrder();
     getOrderDetails()
       .then(setDetails)
       .catch(() => {
@@ -83,7 +86,7 @@ const AdminPage = () => {
             />
           </div>
         </div>
-        <OrderTable orders={orders} />
+        <OrderTable orders={orders} refresh={fetchOrder}/>
       </div>
       <div className="floating-btn">
         <div className="img">

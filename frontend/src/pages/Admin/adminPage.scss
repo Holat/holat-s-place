@@ -310,7 +310,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 }
             }
 
-            // Status Labels
             .status {
                 display: flex;
                 align-items: center;
@@ -321,7 +320,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 }
             }
 
-            // Search bar
             .search-bar {
                 width: 100%;
                 padding: 15px;
@@ -337,12 +335,41 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 background-color: white;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
-                input {
-                    padding: 10px;
-                    border: 1px solid $table-border-color;
-                    border-radius: 5px;
-                    width: 250px;
+                .searchBox{
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    .filter{
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+
+                        input, select {
+                            padding: 10px;
+                            border: 1px solid $table-border-color;
+                            border-radius: 5px;
+                            width: 130px;
+                        }
+
+                        input[type="button"]{
+                            background-color: $primary-color;
+                            border: none;
+                            font-weight: 600;
+                        }
+                    }
+                    
+                    button{
+                        border: none;
+                        background-color: transparent;
+
+                        img{
+                            width: 25px;
+                            height: 25px;
+                        }
+                    }
                 }
+
             }
         }
 
