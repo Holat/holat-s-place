@@ -31,12 +31,9 @@ const OrderTable = ({
 
   return (
     <div className="order-status-table">
-      <div className="search-bar">
+      <div className="tsearch-bar">
         <Title title="Orders" fontWeight={600} fontSize="20px" />
         <div className="searchBox">
-          <button onClick={refresh}>
-            <img src={refreshIcon} alt="refresg" />
-          </button>
           {/* <input type="text" placeholder="Search" /> */}
           <div className="filter">
             {orders && (
@@ -45,15 +42,19 @@ const OrderTable = ({
                   type="date"
                   value={startDate ? startDate.toISOString().split("T")[0] : ""}
                   onChange={(e) => {
-                    const value = e.target.value ? new Date(e.target.value) : null
+                    const value = e.target.value
+                      ? new Date(e.target.value)
+                      : null;
                     setStartDate(value);
                   }}
                 />
                 <input
                   type="date"
                   value={endDate ? endDate.toISOString().split("T")[0] : ""}
-                  onChange={(e) =>{
-                    const value = e.target.value ? new Date(e.target.value) : null
+                  onChange={(e) => {
+                    const value = e.target.value
+                      ? new Date(e.target.value)
+                      : null;
                     setEndDate(value);
                   }}
                 />
@@ -61,7 +62,7 @@ const OrderTable = ({
                   value={selectedStatus || ""}
                   onChange={(e) => setSelectedStatus(e.target.value)}
                 >
-                  <option value="">All Statuses</option>
+                  <option value="">All</option>
                   <option value="PAID">Paid</option>
                   <option value="PENDING">Pending</option>
                   <option value="FAILED">Failed</option>
@@ -71,11 +72,14 @@ const OrderTable = ({
               </>
             )}
           </div>
+          <button onClick={refresh}>
+            <img src={refreshIcon} alt="refresh" />
+          </button>
         </div>
       </div>
       <table>
         <tbody>
-          {filteredOrders && filteredOrders.length > 1 ? (
+          {filteredOrders && filteredOrders.length > 0 ? (
             filteredOrders.map((item, i) => (
               <tr key={item.id + i}>
                 <td>

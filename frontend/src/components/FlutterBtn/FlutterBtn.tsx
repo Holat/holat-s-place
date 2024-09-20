@@ -1,4 +1,4 @@
-import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
+import { closePaymentModal, useFlutterwave } from "flutterwave-react-v3";
 import {
   FlutterWaveResponse,
   FlutterwaveConfig,
@@ -10,12 +10,15 @@ import { OrderType } from "../../types/types";
 import { Price } from "../../components";
 import { toast } from "react-toastify";
 import { cancel, pay } from "../../services/orderService";
+import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function FlutterBtn({ order }: { order: OrderType }) {
   const navigate = useNavigate();
   const { clearCart } = useCart();
   const { user } = useAuth();
   const { cart } = useCart();
+  const [loading, setLoading] = useState(false);
 
   const config: FlutterwaveConfig = {
     public_key: `${import.meta.env.VITE_FLUTTERWAVE_KEY}`,
@@ -52,26 +55,35 @@ export default function FlutterBtn({ order }: { order: OrderType }) {
     closePaymentModal();
   };
 
-  const fwConfig = {
-    ...config,
-    callback: handlePayment,
-    onClose: async () => {
-      cancel(order._id || "")
-        .then(() => {
-          toast.error("Payment cancelled");
-        })
-        .catch(() => {
-          toast.error("Error cancelling order");
-        })
-        .finally(() => {
-          navigate("/checkout");
-        });
-    },
+  const handleFlutterPayment = useFlutterwave(config);
+  const handleBtnClick = () => {
+    setLoading(true);
+    handleFlutterPayment({
+      callback: handlePayment,
+      onClose: async () =>
+        cancel(order._id || "")
+          .then(() => toast.error("Error cancelling order"))
+          .catch(() => toast("Error cancelling order"))
+          .finally(() => navigate("/checkout")),
+    });
   };
 
   return (
-    <FlutterWaveButton className="flutterBtn" {...fwConfig}>
-      Pay <Price price={order?.totalPrice} showP />
-    </FlutterWaveButton>
+    <button className="flutterBtn" type="button" onClick={handleBtnClick}>
+      {loading ? (
+        <ThreeDots
+          visible={true}
+          height="16"
+          width="40"
+          color="#ffffff"
+          radius="9"
+          ariaLabel="three-dots-loading"
+        />
+      ) : (
+        <>
+          Pay <Price price={order?.totalPrice} showP />
+        </>
+      )}
+    </button>
   );
 }

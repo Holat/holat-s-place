@@ -12,12 +12,12 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
   const stripTime = (date: Date) =>
     new Date(date.getDate(), date.getMonth(), date.getDate());
   const trimUpperS = (s: string) => s.trim().toUpperCase();
-  
+
   const reset = () => {
     setStartDate(null);
     setEndDate(null);
     setSelectedStatus(null);
-  }
+  };
 
   useEffect(() => {
     const filterOrders = () => {
@@ -25,7 +25,7 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
       let adjustedStartDate = startDate;
       let adjustedEndDate = endDate;
 
-      if (startDate && !endDate) adjustedEndDate = startDate;
+      if (startDate && !endDate) adjustedEndDate = startDate; // change to current date
       if (!startDate && endDate) adjustedStartDate = endDate;
       adjustedStartDate = adjustedStartDate
         ? stripTime(adjustedStartDate)
@@ -34,7 +34,8 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
 
       if (selectedStatus && !adjustedStartDate && !adjustedEndDate)
         filtered = filtered.filter(
-          (order: OrderHistoryType) => trimUpperS(order.status) === trimUpperS(selectedStatus)
+          (order: OrderHistoryType) =>
+            trimUpperS(order.status) === trimUpperS(selectedStatus)
         );
       else if (!selectedStatus && (adjustedStartDate || adjustedEndDate)) {
         filtered = filtered.filter((order: OrderHistoryType) => {
@@ -48,7 +49,8 @@ const useOrderFilter = (orders?: OrderHistoryType[]) => {
       } else if (selectedStatus && (adjustedStartDate || adjustedEndDate)) {
         filtered = filtered.filter((order: OrderHistoryType) => {
           const orderDate = stripTime(new Date(order.createdAt));
-          const statusMatch = trimUpperS(order.status) === trimUpperS(selectedStatus);
+          const statusMatch =
+            trimUpperS(order.status) === trimUpperS(selectedStatus);
           const dateMatch =
             (!adjustedStartDate || orderDate >= adjustedStartDate) &&
             (!adjustedEndDate || orderDate <= adjustedEndDate);

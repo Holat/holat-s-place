@@ -19,7 +19,7 @@ export default function PaymentPage() {
         <div className="infoCont">
           <div className="profile">
             <div className="img">
-              <img src={ iconImg } alt="profile picture" />
+              <img src={iconImg} alt="profile picture" />
             </div>
             <Title title={order?.name} fontSize="20px" fontWeight={800} />
           </div>

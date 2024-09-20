@@ -250,11 +250,11 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
         .order-status-table {
             width: 100%;
-            flex-grow: 1;
             background-color: $card-bg;
             box-shadow: $card-shadow;
             border-radius: 10px;
             overflow: auto;
+            position: relative;
 
             table {
                 width: 100%;
@@ -320,7 +320,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 }
             }
 
-            .search-bar {
+            .tsearch-bar {
                 width: 100%;
                 padding: 15px;
                 text-align: right;
@@ -331,40 +331,43 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 gap: 8px;
                 position: sticky;
                 top: 0;
+                left: 0;
                 z-index: 10;
                 background-color: white;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
-                .searchBox{
+                .searchBox {
                     display: flex;
                     align-items: center;
                     gap: 8px;
 
-                    .filter{
+                    .filter {
                         display: flex;
                         align-items: center;
+                        flex-wrap: wrap;
                         gap: 8px;
 
-                        input, select {
+                        input,
+                        select {
                             padding: 10px;
                             border: 1px solid $table-border-color;
                             border-radius: 5px;
                             width: 130px;
                         }
 
-                        input[type="button"]{
+                        input[type="button"] {
                             background-color: $primary-color;
                             border: none;
                             font-weight: 600;
                             color: white;
                         }
                     }
-                    
-                    button{
+
+                    button {
                         border: none;
                         background-color: transparent;
 
-                        img{
+                        img {
                             width: 25px;
                             height: 25px;
                         }

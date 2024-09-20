@@ -48,11 +48,15 @@ export default function CheckoutPage() {
       });
       return;
     }
-    createOrder({ ...order, name: user?.name, tx_ref }).catch(() => {
-      toast.error("Error placing order");
-      navigate("/checkout");
-    });
-    navigate("/payment");
+
+    createOrder({ ...order, name: user?.name, tx_ref })
+      .then(() => {
+        navigate("/payment");
+      })
+      .catch(() => {
+        toast.error("Error placing order");
+        navigate("/checkout");
+      });
   };
 
   return (
