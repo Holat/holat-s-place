@@ -123,7 +123,7 @@ const OrderTable = ({
               </tr>
             ))
           ) : (
-            <tr>
+            <tr className="flexCont empty">
               <td>
                 <h4>Empty</h4>
               </td>

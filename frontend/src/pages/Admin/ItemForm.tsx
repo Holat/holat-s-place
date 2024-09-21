@@ -2,18 +2,17 @@ import { Title } from "../../components";
 import Form from "./Form";
 import { closeIcon } from "../../assets/icons";
 
-
-const ItemForm = ({ closeModal } : {closeModal: () => void}) => {
+const ItemForm = ({ closeModal }: { closeModal: () => void }) => {
   return (
-    <div className="modal">
+    <div className="flexCont modal">
       <div className="createForm">
         <div className="header">
           <Title title="Create Item" fontSize="24px" fontWeight={600} />
           <button onClick={closeModal}>
-            <img src={ closeIcon } alt="close" />
+            <img src={closeIcon} alt="close" />
           </button>
         </div>
-        <Form formType="C"/>
+        <Form formType="C" />
       </div>
     </div>
   );

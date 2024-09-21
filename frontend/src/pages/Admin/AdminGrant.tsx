@@ -52,7 +52,7 @@ const AdminGrant = ({ closeModal }: { closeModal: () => void }) => {
   };
 
   return (
-    <div className="modal gCont">
+    <div className="flexCont modal gCont">
       <div className="modal-content">
         <h2>Search Users</h2>
         <input

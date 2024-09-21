@@ -101,6 +101,9 @@ router.get(
       const totalPendingOrders = await OrderModel.countDocuments({
         status: "PENDING",
       });
+      const totalCancelledOrders = await OrderModel.countDocuments({
+        status: "CANCELLED",
+      });
       const totalRevenue = await OrderModel.aggregate([
         { $match: { status: "PAID" } },
         { $group: { _id: null, totalRevenue: { $sum: "$totalPrice" } } },
@@ -110,6 +113,7 @@ router.get(
         totalOrders,
         totalPaidOrders,
         totalPendingOrders,
+        totalCancelledOrders,
         totalRevenue: totalRevenue[0].totalRevenue,
       });
     } catch (err) {
