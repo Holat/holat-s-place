@@ -139,18 +139,20 @@ export const OrderStatusChart = ({
   pending,
   paid,
   total,
+  cancelled,
 }: {
   pending?: number;
   paid?: number;
   total?: number;
+  cancelled?: number;
 }) => {
   const orderData = {
-    labels: ["Paid", "Pending"],
+    labels: ["Paid", "Pending", "Cancelled"],
     datasets: [
       {
         label: "Orders",
-        data: [paid || 0, pending || 0],
-        backgroundColor: ["#00C49F", "#FFBB28"],
+        data: [paid || 0, pending || 0, cancelled || 0],
+        backgroundColor: ["#00C49F", "#FFBB28", "#dc3545"],
         hoverOffset: 4,
       },
     ],

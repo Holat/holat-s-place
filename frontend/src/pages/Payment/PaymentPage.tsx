@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FlutterBtn, Price, Title } from "../../components";
 import { getCurrentUserOrder } from "../../services/orderService";
 import { OrderType } from "../../types/types";
+import iconImg from "../../assets/images/icon.jpeg";
 
 export default function PaymentPage() {
   const [order, setOrder] = useState<OrderType>();
@@ -18,7 +19,7 @@ export default function PaymentPage() {
         <div className="infoCont">
           <div className="profile">
             <div className="img">
-              <img src="/icon.jpeg" alt="profile picture" />
+              <img src={iconImg} alt="profile picture" />
             </div>
             <Title title={order?.name} fontSize="20px" fontWeight={800} />
           </div>

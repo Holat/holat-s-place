@@ -2,6 +2,7 @@ import { useState } from "react";
 import useFood from "../../hooks/useFood";
 import Form from "./Form";
 import { Price } from "../../components";
+import { ItemCreateType } from "../../types/types";
 
 const placeHolder = {
   name: "",
@@ -9,17 +10,16 @@ const placeHolder = {
   cookTime: 0,
   imageUrl: "",
   desc: "",
-  tags: [{ value: "", label: "" }],
-  origins: [{ value: "", label: "" }],
 };
 const ItemEdit = ({ closeModal }: { closeModal: () => void }) => {
   const { foods } = useFood();
-  const [defaultValues, setDefaultValues] = useState(placeHolder);
+  const [defaultValues, setDefaultValues] =
+    useState<ItemCreateType>(placeHolder);
   const mapData = (data: string[]) =>
     data.map((item) => ({ value: item, label: item }));
 
   return (
-    <div className="modal">
+    <div className="flexCont modal">
       <div className="itemEdit">
         <Form defaultValues={defaultValues} formType="U" />
         <ul>

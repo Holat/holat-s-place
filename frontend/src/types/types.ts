@@ -78,17 +78,17 @@ export type OrderHistoryType = {
 export type ItemCreateType = {
   name: string;
   price: number;
-  tags: SelectType[];
+  tags?: SelectType[];
   imageUrl: File | string;
   imgName?: string | null;
-  origins: SelectType[];
+  origins?: SelectType[];
   cookTime: number;
   desc: string;
 };
 
 export type SelectType = {
-  label: string;
-  value: string;
+  label: string | null;
+  value: string | null;
 };
 
 export type AdminD = {
@@ -104,6 +104,7 @@ export type RevDetails = {
   totalRevenue: number;
   totalPaidOrders: number;
   totalPendingOrders: number;
+  totalCancelledOrders: number;
   totalOrders: number;
 };
 

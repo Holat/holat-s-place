@@ -87,7 +87,7 @@ router.get(
   handler(async (req, res) => {
     const order = await getCurrentUserOrder(req);
     if (order) res.send(order);
-    else res.status(400).send();
+    else res.status(400).send("order not found");
   })
 );
 
@@ -131,7 +131,7 @@ router.get(
   })
 );
 
-const getCurrentUserOrder = async (req, _) =>
+const getCurrentUserOrder = async (req) =>
   await OrderModel.findOne({
     user: req.user.id,
     status: "NEW",

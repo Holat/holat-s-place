@@ -1,16 +1,13 @@
 $form-primary-color: #fa6400;
 $form-background-color: #ffffff;
-$form-border-radius: 8px; // Adjust this for the desired level of roundness
+$form-border-radius: 8px;
 $form-border-color: #f0f0f0;
 $placeholder-color: #ececec;
-$box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-
 
 .formCont {
     width: 100%;
     height: 100%;
     background-color: $form-background-color;
-    // box-shadow: $box-shadow;
     border-radius: $form-border-radius;
     overflow: hidden;
 
@@ -38,10 +35,7 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 
         &::-webkit-scrollbar-track {
             background-color: white;
-            /* Color of the track (the non-draggable part) */
         }
-
-
 
         .flex-row-cont {
             display: flex;
@@ -101,8 +95,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                     border: none;
                     background-color: transparent;
 
-
-
                     img {
                         width: 100%;
                         height: 100%;
@@ -150,8 +142,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             }
         }
 
-
-
         .text-input,
         .description-input {
             padding: 10px 15px;
@@ -164,8 +154,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 font-size: 16px;
                 color: $placeholder-color;
             }
-
-            // -moz-appearance: textfield;
 
             &:focus {
                 border-color: $form-primary-color;
@@ -183,10 +171,6 @@ $box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             min-height: 100px;
             resize: horizontal;
         }
-
-        // .text-input {
-        //     // Specific styling for smaller text inputs (e.g., name, price, cooktime)
-        // }
 
         .form-submit-button {
             padding: 10px 20px;

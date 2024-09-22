@@ -13,12 +13,18 @@ import MonthlySalesChart, { OrderStatusChart } from "./OrderChart";
 import ItemEdit from "./ItemEdit";
 import AdminGrant from "./AdminGrant";
 import { toast } from "react-toastify";
-import { settingIcon, addIIcon, profileIcon, editIcon } from "../../assets/icons";
+import {
+  settingIcon,
+  addIIcon,
+  profileIcon,
+  editIcon,
+} from "../../assets/icons";
 
 const dRevDetails: RevDetails = {
   totalOrders: 0,
   totalPaidOrders: 0,
   totalPendingOrders: 0,
+  totalCancelledOrders: 0,
   totalRevenue: 0,
 };
 
@@ -33,7 +39,7 @@ const AdminPage = () => {
       .catch(() => {
         toast.error("Something went wrong", { toastId: "swwe" });
       });
-  }
+  };
 
   useEffect(() => {
     fetchOrder();
@@ -82,22 +88,23 @@ const AdminPage = () => {
             <OrderStatusChart
               paid={details.totalPaidOrders}
               pending={details.totalPendingOrders}
+              cancelled={details.totalCancelledOrders}
               total={details.totalOrders}
             />
           </div>
         </div>
-        <OrderTable orders={orders} refresh={fetchOrder}/>
+        <OrderTable orders={orders} refresh={fetchOrder} />
       </div>
       <div className="floating-btn">
         <div className="img">
-          <img src={ settingIcon } alt={"setting"} />
+          <img src={settingIcon} alt={"setting"} />
         </div>
         <div
           className="btnCont"
           id="btna1"
           onClick={() => setActiveModal("createItem")}
         >
-          <img src={ addIIcon } alt="Add image" />
+          <img src={addIIcon} alt="Add image" />
         </div>
         <div
           className="btnCont"
@@ -105,7 +112,7 @@ const AdminPage = () => {
           onClick={() => setActiveModal("editFood")}
         >
           <img
-            src={ editIcon }
+            src={editIcon}
             alt="Add image"
             style={{ width: "24px", height: "24px", margin: "0 auto" }}
           />
@@ -116,7 +123,7 @@ const AdminPage = () => {
           onClick={() => setActiveModal("authorize")}
         >
           <img
-            src={ profileIcon }
+            src={profileIcon}
             alt="Add image"
             style={{ width: "40px", height: "40px", margin: "0 auto" }}
           />
